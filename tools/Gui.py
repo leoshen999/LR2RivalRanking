@@ -77,7 +77,7 @@ class MainWindow(QtGui.QTextEdit):
 		event.accept()
 	def updateLog(self,string):
 		
-		self.lines[self.line_n]=string.replace(' ','&nbsp;').replace('\n','<br>')
+		self.lines[self.line_n]=string.replace(' ','&nbsp;').replace(u'　','&nbsp;&nbsp;').replace('\n','<br>')
 		self.line_n=(self.line_n+1)%150
 		self.setHtml(  ''.join(self.lines[self.line_n:])+''.join(self.lines[:self.line_n])  )
 		sb = self.verticalScrollBar()

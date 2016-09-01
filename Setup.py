@@ -7,6 +7,7 @@ sys.argv.append( 'py2exe' )
 
 CLOUD_PNG = open('cloud.png','rb').read()
 CONSOLASHIGH_TTF = open('ConsolasHigh.ttf','rb').read()
+SUPPORTEDUNICODE_TXT = open('SupportedUnicode.txt','r').read()
 
 
 setup(
@@ -15,7 +16,8 @@ setup(
 				'script': "LR2RivalRanking.py",
 				'other_resources': [
 					(u'CLOUD_PNG', 1, CLOUD_PNG),
-					(u'CONSOLASHIGH_TTF', 2, CONSOLASHIGH_TTF)
+					(u'CONSOLASHIGH_TTF', 2, CONSOLASHIGH_TTF),
+					(u'SUPPORTEDUNICODE_TXT', 3, SUPPORTEDUNICODE_TXT)
 				],
 				'uac_info': "requireAdministrator",
 	}],
