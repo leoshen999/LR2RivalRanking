@@ -1,5 +1,4 @@
 # LR2RivalRanking
-***
 
 ## Pre-built Executable Ver 1.2
 Latest prebuilt executable version:  ```ver 1.2```.  
