@@ -1,8 +1,8 @@
 # LR2RivalRanking
 
-## Pre-built Executable Ver 1.2
-Latest prebuilt executable version:  ```ver 1.2```.  
-The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/raw/master/LR2RivalRanking.zip).
+## Pre-built Executable
+Latest released executable version:  ```v1.2.1```.  
+The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.2.1/LR2RivalRanking.v1.2.1.zip).
 
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
@@ -50,8 +50,6 @@ The rivals can be registered on the LR2IR website:
 http://www.dream-pro.info/~lavalse/LR2IR/search.cgi
 
 ## History
-Latest version: ```ver 1.2.1```
-
 Please refer to ```CHANGELOG``` for more information.
 
 ## TODO
