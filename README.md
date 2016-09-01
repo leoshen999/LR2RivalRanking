@@ -55,10 +55,15 @@ Latest version: ```ver 1.2```
 Please refer to ```CHANGELOG``` for more information.
 
 ## TODO
-* To write ```CHANGELOG```
+* Write ```CHANGELOG```
+* Say something when the program starts
+* Modify text color of Rank and Clear
+* Add some comment to strange codes
+* Beautify README.md for readability
+* Add more exception handler
 
 ## Credits
-Author: Leo Shen (LR2ID: 121168)
+Author: Leo Shen (LR2IR: [121168 うまい焼鴨](http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168))
 
 Part of the code is copied from GNQG's lr2irproxy.  
 (https://github.com/GNQG/lr2irproxy)   
