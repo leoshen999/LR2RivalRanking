@@ -1,4 +1,11 @@
-# LR2RivalRanking
+LR2RivalRanking
+=====
+
+## Pre-built Executable Ver 1.2
+Latest prebuilt executable version:  ```ver 1.2```.  
+The download link is [HERE](https://github.com/leoshen999/LR2RivalRanking/raw/master/LR2RivalRanking.zip).
+
+It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
 ## Overview
 This application is a plug-in of Lunatic Rave 2.
