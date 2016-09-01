@@ -1,0 +1,27 @@
+# Change Log
+### v1.2.1 - [2016-09-01]
+* Solve fullwidth space disappear problem.  
+* Detect Consolas supported character set.
+
+### v1.2
+* Renew all the code structure
+* First release on Github
+
+### v1.1.3
+* Fix system path is not in ```C:\``` problem
+* Fix text misalignment
+* Truncate the too-long title
+
+### v1.1.2
+* Sort ranking result
+* Widget height is changable now
+
+### v1.1.1
+* Fix layout misalign of bold font
+
+### v1.1
+* Interface beautification: change to black theme
+* Show detailed information for functions
+
+### v1.0
+* First release of LR2 Rival Ranking

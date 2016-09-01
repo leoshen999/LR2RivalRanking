@@ -31,7 +31,7 @@ class MainWindow(QtGui.QTextEdit):
 		# self.setWindowIcon(QtGui.QIcon( 'cloud.png' ))
 		
 		self.setReadOnly(True)
-		self.setWindowTitle(' LR2 Rival Ranking | ver '+version)
+		self.setWindowTitle(' LR2 Rival Ranking | v'+version)
 		self.setWindowFlags(QtCore.Qt.CustomizeWindowHint | QtCore.Qt.WindowCloseButtonHint)
 		
 		self.resize(260,400)
