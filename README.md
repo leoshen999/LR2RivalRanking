@@ -1,8 +1,9 @@
 # LR2RivalRanking
+***
 
 ## Pre-built Executable Ver 1.2
 Latest prebuilt executable version:  ```ver 1.2```.  
-The download link is [__HERE__](https://github.com/leoshen999/LR2RivalRanking/raw/master/LR2RivalRanking.zip).
+The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/raw/master/LR2RivalRanking.zip).
 
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
