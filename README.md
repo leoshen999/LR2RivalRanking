@@ -1,9 +1,8 @@
-LR2RivalRanking
-=====
+# LR2RivalRanking
 
 ## Pre-built Executable Ver 1.2
 Latest prebuilt executable version:  ```ver 1.2```.  
-The download link is [HERE](https://github.com/leoshen999/LR2RivalRanking/raw/master/LR2RivalRanking.zip).
+The download link is [__HERE__](https://github.com/leoshen999/LR2RivalRanking/raw/master/LR2RivalRanking.zip).
 
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
@@ -56,6 +55,7 @@ Latest version: ```ver 1.2```
 Please refer to ```CHANGELOG``` for more information.
 
 ## TODO
+* To write ```CHANGELOG```
 
 ## Credits
 Author: Leo Shen (LR2ID: 121168)
