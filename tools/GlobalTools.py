@@ -82,8 +82,8 @@ def printHelloMessage():
 		
 		logger.write( '-- Welcome to LR2 Rival Ranking --\n' )
 		logger.write( ' The database contains:           \n' )
-		logger.write( '                  <font\tstyle="color:LightGray">%8d</font> rivals \n'%rn )
-		logger.write( '                  <font\tstyle="color:LightGray">%8d</font> scores \n'%sn )
+		logger.write( '                   <font\tstyle="color:LightGray">%8d</font> rivals\n'%rn )
+		logger.write( '                   <font\tstyle="color:LightGray">%8d</font> scores\n'%sn )
 		logger.write( '----- LR2RR is ready to work -----\n' )
 		logger.write( '\n' )
 		
