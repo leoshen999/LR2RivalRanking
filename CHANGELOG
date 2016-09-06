@@ -1,4 +1,9 @@
 # Change Log
+### v1.2.2 - [2016-09-06]
+* Add some hello message on app starts
+* Running the program from the .py is supported now
+* Add more comments in the scripts
+
 ### v1.2.1 - [2016-09-01]
 * Solve fullwidth space disappear problem.  
 * Detect Consolas supported character set.

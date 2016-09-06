@@ -11,13 +11,14 @@ from tools import Database
 
 from tools import GlobalTools
 
-version='1.2.1'
+version='v1.2.2'
 
 if __name__ == '__main__':
 	
+	# init database
 	Database.init()
 	
-	# Modify hosts to redirect http request
+	# modify hosts to redirect http request
 	original_hosts=''
 	file=open( os.environ['SystemRoot']+'\\System32\\drivers\\etc\\hosts','r')
 	lines=file.read().split('\n')
@@ -32,15 +33,17 @@ if __name__ == '__main__':
 	file.write(original_hosts+'\n127.0.0.1 www.dream-pro.info')
 	file.close()
 	
-	# Build up Qt GUI display
+	# build up Qt GUI display
 	app = QtGui.QApplication(sys.argv)
 	mainWindow = Gui.MainWindow(original_hosts,version)
 	mainWindow.show()
 	
-	# Start another thread for HTTPServer
+	# start another thread for HTTPServer
 	thr=threading.Thread(target=Server.startServer)
 	thr.daemon=True
 	thr.start()
 	
+	# say sth when the app starts
+	GlobalTools.printHelloMessage()
 	
 	sys.exit(app.exec_())

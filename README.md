@@ -1,8 +1,8 @@
 # LR2RivalRanking
 
 ## Pre-built Executable
-Latest released executable version:  ```v1.2.1```.  
-The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.2.1/LR2RivalRanking.v1.2.1.zip).
+Latest released executable version:  ```v1.2.2```.  
+The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.2.2/LR2RivalRanking.v1.2.2.zip).
 
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
@@ -25,6 +25,11 @@ The following tools or packages are needed to compile the python script:
 
 After installing all of above, just simply run:
 ```python
+python LR2RivalRanking.py
+```
+
+Or if you want to build a portable executable, please run:
+```python
 python Setup.py
 ```
 A single executable file ```LR2RivalRanking.exe``` will be located in the generated ```dist\``` folder.
@@ -33,7 +38,7 @@ The program is only tested on Windows 7 and 8.
 I'm not sure whether other platforms are well-supported or not.
 
 ## Usage
-run ```LR2RivalRanking.exe``` with administrator privilege *before* LR2.
+run ```LR2RivalRanking.py``` or ```LR2RivalRanking.exe``` with administrator privilege *before* LR2.
 
 If LR2 has been started before LR2RivalRanking, please close LR2 first.  
 (LR2RR needs to take the login procedure of LR2 to get the rival list of current player.)
@@ -53,10 +58,11 @@ http://www.dream-pro.info/~lavalse/LR2IR/search.cgi
 Please refer to ```CHANGELOG``` for more information.
 
 ## TODO
-* Say something when the program starts
 * Modify text color of Rank and Clear
 * Add more exception handler
-* Consider about using other GUI layout
+* Consider about using other GUI layout (QTextBrowser?)
+* Add the github link in the app
+* Add some user configurations
 
 ## Credits
 Author: Leo Shen (LR2IR: [121168 うまい焼鴨](http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168))

@@ -15,8 +15,10 @@ class MainWindow(QtGui.QTextEdit):
 		self.original_hosts=original_hosts
 		
 		self.fontDB = QtGui.QFontDatabase()
-		self.fontDB.addApplicationFontFromData(StringIO( win32api.LoadResource(0, u'CONSOLASHIGH_TTF', 2)).getvalue())
-		# self.fontDB.addApplicationFont('ConsolasHigh.ttf')
+		if GlobalTools.is_exe():
+			self.fontDB.addApplicationFontFromData(StringIO( win32api.LoadResource(0, u'CONSOLASHIGH_TTF', 2)).getvalue())
+		else:
+			self.fontDB.addApplicationFont('ConsolasHigh.ttf')
 		self.setStyleSheet('''
 			font-size: 10pt;
 			font-family: ConsolasHigh,"MS Gothic";
@@ -25,13 +27,15 @@ class MainWindow(QtGui.QTextEdit):
 		''')
 		
 		
-		img=QtGui.QPixmap()
-		img.loadFromData(StringIO( win32api.LoadResource(0, u'CLOUD_PNG', 1)).getvalue())
-		self.setWindowIcon(QtGui.QIcon( img ))
-		# self.setWindowIcon(QtGui.QIcon( 'cloud.png' ))
+		if GlobalTools.is_exe():
+			img=QtGui.QPixmap()
+			img.loadFromData(StringIO( win32api.LoadResource(0, u'CLOUD_PNG', 1)).getvalue())
+			self.setWindowIcon(QtGui.QIcon( img ))
+		else:
+			self.setWindowIcon(QtGui.QIcon( 'cloud.png' ))
 		
 		self.setReadOnly(True)
-		self.setWindowTitle(' LR2 Rival Ranking | v'+version)
+		self.setWindowTitle(' LR2 Rival Ranking | '+version)
 		self.setWindowFlags(QtCore.Qt.CustomizeWindowHint | QtCore.Qt.WindowCloseButtonHint)
 		
 		self.resize(260,400)

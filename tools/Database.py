@@ -17,6 +17,10 @@ def init():
 	if not os.path.exists(dir_path):
 		os.makedirs(dir_path)
 	path = '%sdata.db' % dir_path
+	
+	rn=0
+	sn=0
+	
 	with lock:
 		conn = sqlite3.connect(path)
 		conn.row_factory = sqlite3.Row
@@ -47,4 +51,13 @@ def init():
 		except:
 			conn.rollback()
 			sys.exit()
+		cur.execute('''
+			SELECT COUNT(*) AS cnt FROM rivals
+		''')
+		rn=cur.fetchall()[0]['cnt']
+		cur.execute('''
+			SELECT COUNT(*) AS cnt FROM scores
+		''')
+		sn=cur.fetchall()[0]['cnt']
 		conn.close()
+	return rn,sn
