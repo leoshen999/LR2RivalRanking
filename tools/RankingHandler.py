@@ -9,7 +9,7 @@ import time
 import lxml.html
 import lxml.etree
 
-
+# a simple fake response for the result of getrankingxml.cgi
 class SimpleHTTPResponse():
 	def __init__(self):
 		self.msg = HTTPMessage(StringIO())
@@ -27,13 +27,15 @@ def generateRivalRanking(q_dict):
 	with Database.lock:
 		GlobalTools.logger.write( '----- Generate rival ranking -----\n' )
 		
+		# only handle the len==32 songmd5, or use default ranking in case
 		songmd5=q_dict['songmd5'][0]
 		if not len(songmd5)==32:
-			GlobalTools.logger.write( ' Unsupported md5: score not saved \n' )
+			GlobalTools.logger.write( '         Unsupported md5          \n' )
 			GlobalTools.logger.write( '----------------------------------\n' )
 			GlobalTools.logger.write( '\n' )
 			return '',''
 		
+		# get song title and artist
 		sock = DPISocket.DPISocket('GET','/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=%s' % (songmd5) )
 		res, body = sock.sendAndReceive()
 		root=lxml.html.fromstring(body)
@@ -60,6 +62,7 @@ def generateRivalRanking(q_dict):
 				artist=GlobalTools.strTruncateTo34(artist)
 			GlobalTools.logger.write( leftPad+'<font\tstyle="color:LightGray">'+artist+'</font>'+rightPad+'\n' )
 		
+		# create a fake response
 		res=SimpleHTTPResponse()
 		res.msg['content-type'] = 'text/plain'
 		
@@ -86,12 +89,15 @@ def generateRivalRanking(q_dict):
 		
 		conn.close()
 		
+		# sort the result for a better display
 		scores=sorted(played+notplayed, key=(lambda score: (score['pg']*2+score['gr'])), reverse=True)
 		
+		# create a fake xml body
 		body='#<?xml version="1.0" encoding="shift_jis"?>\n'
 		body+='<ranking>\n'
 		for score in scores:
 			
+			# write the rival's score to log
 			clear=''
 			if score['clear']==0:
 				clear='NO'
@@ -105,7 +111,6 @@ def generateRivalRanking(q_dict):
 				clear='<font\tstyle="color:WhiteSmoke">HC</font>'
 			else:
 				clear='<font\tstyle="color:Violet">FC</font>'
-			
 			ex=score['pg']*2+score['gr']
 			total=score['notes']*2
 			rank=''
@@ -119,22 +124,20 @@ def generateRivalRanking(q_dict):
 			elif ex*9>=total*3 : rank='  D'
 			elif ex*9>=total*2 : rank='  E'
 			else : rank='  F'
-			
 			if clear=='NO' : rate=0.0
 			else: rate=float(ex)/float(total)*100.0
-			
 			leftPad=''
 			width=GlobalTools.strWidth(score['name'])
 			if width<10:
 				leftPad=' '*(10-width)
 			score_message=' | %s %s %6.2f%% %5d'%(clear,rank,rate,ex)
-			
 			if score['active']==1 :
 				name='<font\tstyle="color:LightGray">'+score['name']+'</font>'
 			else :
 				name='<font\tstyle="color:Khaki">'+score['name']+'</font>'
 			GlobalTools.logger.write( ' '+name+leftPad+score_message+'\n' )
 			
+			# append to result xml
 			body+='\t<score>\n'
 			body+='\t\t<name>%s</name>\n' % score['name']
 			body+='\t\t<id>%d</id>\n' % score['id']
@@ -145,6 +148,8 @@ def generateRivalRanking(q_dict):
 			body+='\t\t<gr>%d</gr>\n' % score['gr']
 			body+='\t\t<minbp>%d</minbp>\n' % score['minbp']
 			body+='\t</score>\n'
+			
+			
 		body+='</ranking>\n'
 		body+='<lastupdate>%s</lastupdate>' % time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(int(time.time())))
 		body=body.encode('cp932')

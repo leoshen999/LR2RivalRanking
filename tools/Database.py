@@ -3,6 +3,8 @@ import sqlite3
 import threading
 import sys
 import os
+
+# the lock is necessary for python sqlite with multithreads
 lock = threading.Lock()
 
 path=''
@@ -10,6 +12,7 @@ path=''
 def init():
 	global path
 	
+	# create a database with two tables if not exists
 	dir_path = '%s\\LR2RR\\' %  os.environ['APPDATA'] 
 	if not os.path.exists(dir_path):
 		os.makedirs(dir_path)

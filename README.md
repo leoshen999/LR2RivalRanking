@@ -55,10 +55,8 @@ Please refer to ```CHANGELOG``` for more information.
 ## TODO
 * Say something when the program starts
 * Modify text color of Rank and Clear
-* Add some comment to strange codes
-* Beautify README.md for readability
 * Add more exception handler
-* Consider about using another GUI instead of QT
+* Consider about using other GUI layout
 
 ## Credits
 Author: Leo Shen (LR2IR: [121168 うまい焼鴨](http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168))

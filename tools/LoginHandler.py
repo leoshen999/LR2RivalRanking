@@ -17,6 +17,8 @@ def updateRivalList(q_dict):
 		pid=''
 		rids=[]
 		
+		# parse the rival id list from the personal page of current player
+		# if id not exists, the rival list should be empty
 		if('id' in q_dict):
 			pid = q_dict['id'][0]
 			rids.append(pid)
@@ -33,6 +35,8 @@ def updateRivalList(q_dict):
 		conn = sqlite3.connect(Database.path)
 		conn.row_factory = sqlite3.Row
 		cur = conn.cursor()
+		
+		# reset all players in database to inactive
 		try:
 			cur.execute('''
 				UPDATE rivals SET active=0
@@ -50,6 +54,7 @@ def updateRivalList(q_dict):
 		for rid in rids:
 			cnt=cnt+1
 			
+			# get the player scores from getplayerxml.cgi and update database
 			cur.execute('''
 				SELECT lastupdate FROM rivals WHERE id=?
 			''',(rid,))
@@ -62,7 +67,7 @@ def updateRivalList(q_dict):
 			sock=DPISocket.DPISocket('GET','/~lavalse/LR2IR/2/getplayerxml.cgi?id=%s&lastupdate=%d' % (rid,lastupdate))
 			res,body=sock.sendAndReceive()
 			
-			
+			# create the correct format of xml for parsing (the original one is not really an xml)
 			body=body[1:]
 			doctype_end = body.find('>')+1
 			body = body[:doctype_end] + '<dummyroot>' + body[doctype_end:] + '</dummyroot>'
@@ -72,6 +77,7 @@ def updateRivalList(q_dict):
 			name_tree=et.xpath('/dummyroot/rivalname')
 			name=name_tree[0].text
 			
+			# write the rival information to log
 			cnt_message=''
 			if(len(rids)<10):
 				cnt_message=' %d/%d' %(cnt,len(rids))
@@ -81,16 +87,13 @@ def updateRivalList(q_dict):
 				cnt_message=' %3d/%3d' %(cnt,len(rids))
 			else:
 				cnt_message=' %4d/%4d' %(cnt,len(rids))
-			
 			active=1
-			
 			id_message=''
 			if rid == pid:
 				id_message= ' <font\tstyle="color:Khaki">%06d %s</font>' % (int(rid),name)
 				active=2
 			else: 
 				id_message= ' <font\tstyle="color:LightGray">%06d %s</font>' % (int(rid),name)
-			
 			update_message=''
 			leftPad=''
 			if not len(scores)==0:
@@ -103,10 +106,9 @@ def updateRivalList(q_dict):
 				width=len(cnt_message)+8+GlobalTools.strWidth(name)
 				if width<34:
 					leftPad=' '*(34-width)
-			
 			GlobalTools.logger.write( cnt_message+id_message+leftPad+update_message+'\n' )
 			
-			
+			# update database for all scores
 			try:
 				for score in scores:
 					if 'hash' not in score or not score['hash'] or not len(score['hash'])==32 : continue

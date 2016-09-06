@@ -62,7 +62,7 @@ class MainWindow(QtGui.QTextEdit):
 			}
 		''')
 		
-		
+		# to keep the log contents
 		self.line_n=0
 		self.lines=['']*150
 		
@@ -71,13 +71,18 @@ class MainWindow(QtGui.QTextEdit):
 		
 		
 	def closeEvent(self, event):
+		# recover original hosts contents
 		file=open( os.environ['SystemRoot']+'\\System32\\drivers\\etc\\hosts','w')
 		file.write(self.original_hosts)
 		file.close()
 		event.accept()
 	def updateLog(self,string):
+		# write sth to log
 		
+		# handle whitespace and \n
 		self.lines[self.line_n]=string.replace(' ','&nbsp;').replace(u'　','&nbsp;&nbsp;').replace('\n','<br>')
+		
+		# only keep the latest 150 messages
 		self.line_n=(self.line_n+1)%150
 		self.setHtml(  ''.join(self.lines[self.line_n:])+''.join(self.lines[:self.line_n])  )
 		sb = self.verticalScrollBar()

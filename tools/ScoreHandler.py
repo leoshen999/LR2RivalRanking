@@ -11,13 +11,15 @@ def updateScore(q_dict):
 	with Database.lock:
 		GlobalTools.logger.write( '---------- Update score ----------\n' )
 		
+		# only handle the len==32 songmd5, or the score is not saved
 		songmd5=q_dict['songmd5'][0]
 		if not len(songmd5)==32:
-			GlobalTools.logger.write( ' Unsupported md5: score not saved \n' )
+			GlobalTools.logger.write( '         Unsupported md5          \n' )
 			GlobalTools.logger.write( '----------------------------------\n' )
 			GlobalTools.logger.write( '\n' )
 			return
 		
+		# get song title and artist
 		sock = DPISocket.DPISocket('GET','/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=%s' % (songmd5) )
 		res, body = sock.sendAndReceive()
 		root=lxml.html.fromstring(body)
@@ -44,6 +46,7 @@ def updateScore(q_dict):
 				artist=GlobalTools.strTruncateTo34(artist)
 			GlobalTools.logger.write( leftPad+'<font\tstyle="color:LightGray">'+artist+'</font>'+rightPad+'\n' )
 		
+		# write the score to database
 		conn = sqlite3.connect(Database.path)
 		conn.row_factory = sqlite3.Row
 		cur = conn.cursor()
@@ -59,6 +62,7 @@ def updateScore(q_dict):
 			GlobalTools.logger.write( '\n' )
 			return
 		
+		# write the score to log
 		clear=''
 		rank=''
 		ex=''
@@ -76,7 +80,6 @@ def updateScore(q_dict):
 			clear='<font\tstyle="color:WhiteSmoke">HARD CLEAR</font>'
 		else:
 			clear='<font\tstyle="color:Violet">FULL COMBO</font>'
-		
 		ex=int(q_dict['pg'][0])*2+int(q_dict['gr'][0])
 		total=int(q_dict['totalnotes'][0])*2
 		if clear=='NOT PLAYED' : rank='  F'
@@ -90,12 +93,9 @@ def updateScore(q_dict):
 		elif ex*9>=total*2 : rank='  E'
 		else : rank='  F'
 		ex='%5d'%(ex)
-		
 		if clear=='NOT PLAYED' : rate=0.0
 		else: rate=float(ex)/float(total)*100.0
 		rate='%6.2f%%'%(rate)
-		
-		
 		GlobalTools.logger.write('  '+clear+' | '+rank+' '+rate+' '+ex+'  \n')
 		
 		conn.close()
