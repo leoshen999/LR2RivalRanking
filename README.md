@@ -63,6 +63,7 @@ Please refer to ```CHANGELOG``` for more information.
 * Consider about using other GUI layout (QTextBrowser?)
 * Add the github link in the app
 * Add some user configurations
+* Try to update all records in Ir/ folder
 
 ## Credits
 Author: Leo Shen (LR2IR: [121168 うまい焼鴨](http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168))
