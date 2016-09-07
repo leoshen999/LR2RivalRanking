@@ -64,6 +64,7 @@ Please refer to ```CHANGELOG``` for more information.
 * Add the github link in the app
 * Add some user configurations
 * Try to update all records in Ir/ folder
+* Use QTextBrowser to display hypertext
 
 ## Credits
 Author: Leo Shen (LR2IR: [121168 うまい焼鴨](http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168))
