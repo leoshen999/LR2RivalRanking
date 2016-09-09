@@ -9,14 +9,12 @@ from tools import Gui
 from tools import Server
 from tools import Database
 
-from tools import GlobalTools
-
-version='v1.2.2'
+version='v1.3'
 
 if __name__ == '__main__':
 	
 	# init database
-	Database.init()
+	Database.init(version)
 	
 	# modify hosts to redirect http request
 	original_hosts=''
@@ -42,8 +40,5 @@ if __name__ == '__main__':
 	thr=threading.Thread(target=Server.startServer)
 	thr.daemon=True
 	thr.start()
-	
-	# say sth when the app starts
-	GlobalTools.printHelloMessage()
 	
 	sys.exit(app.exec_())

@@ -9,7 +9,7 @@ lock = threading.Lock()
 
 path=''
 
-def init():
+def init(version):
 	global path
 	
 	# create a database with two tables if not exists
@@ -17,9 +17,6 @@ def init():
 	if not os.path.exists(dir_path):
 		os.makedirs(dir_path)
 	path = '%sdata.db' % dir_path
-	
-	rn=0
-	sn=0
 	
 	with lock:
 		conn = sqlite3.connect(path)
@@ -47,17 +44,20 @@ def init():
 					minbp INTEGER NOT NULL,
 					UNIQUE(hash, id)
 				)''')
+			cur.execute('''
+				CREATE TABLE IF NOT EXISTS
+				misc(
+					key TEXT NOT NULL UNIQUE,
+					value TEXT
+				)''')
+			cur.execute('''
+				REPLACE INTO misc VALUES('version',?)
+			''',(version,))
+			cur.execute('''
+				INSERT OR IGNORE INTO misc VALUES('lr2exepath','')
+			''')
 			conn.commit()
 		except:
 			conn.rollback()
 			sys.exit()
-		cur.execute('''
-			SELECT COUNT(*) AS cnt FROM rivals
-		''')
-		rn=cur.fetchall()[0]['cnt']
-		cur.execute('''
-			SELECT COUNT(*) AS cnt FROM scores
-		''')
-		sn=cur.fetchall()[0]['cnt']
 		conn.close()
-	return rn,sn

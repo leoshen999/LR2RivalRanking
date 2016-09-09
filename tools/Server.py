@@ -1,15 +1,11 @@
 #coding: utf-8
-
 import threading
 from urlparse import urlparse, parse_qs
 from SocketServer import ThreadingMixIn
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
 import DPISocket
-import RankingHandler
-import LoginHandler
-import ScoreHandler
-import GlobalTools
+import LR2RequestHandler
 
 class LR2RRServer(BaseHTTPRequestHandler):
 	def do_all(self):
@@ -22,11 +18,11 @@ class LR2RRServer(BaseHTTPRequestHandler):
 		
 		# getrankingxml.cgi: the result should be replaced with following:
 		if parsed_path.path == '/~lavalse/LR2IR/2/getrankingxml.cgi':
-			result, resultBody = RankingHandler.generateRivalRanking(parse_qs(self.req_body))
+			result, resultBody = LR2RequestHandler.handleRanking(parse_qs(self.req_body))
 		
 		# login.cgi: the rival list and scores should be updated
 		if parsed_path.path == '/~lavalse/LR2IR/2/login.cgi':
-			thr=threading.Thread(target=LoginHandler.updateRivalList,args=(parse_qs(self.req_body),))
+			thr=threading.Thread(target=LR2RequestHandler.handleLogin,args=(parse_qs(self.req_body),))
 			thr.daemon=True
 			thr.start()
 		
@@ -44,7 +40,7 @@ class LR2RRServer(BaseHTTPRequestHandler):
 		
 		# score.cgi: update the database with the sent score
 		if parsed_path.path == '/~lavalse/LR2IR/2/score.cgi':
-			ScoreHandler.updateScore(parse_qs(self.req_body))
+			LR2RequestHandler.handleScore(parse_qs(self.req_body))
 		
 		# return the result to client
 		print result.status,result.reason

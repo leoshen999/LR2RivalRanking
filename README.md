@@ -1,8 +1,8 @@
 # LR2RivalRanking
 
 ## Pre-built Executable
-Latest released executable version:  ```v1.2.2```.  
-The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.2.2/LR2RivalRanking.v1.2.2.zip).
+Latest released executable version:  ```v1.3```.  
+The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.3/LR2RivalRanking.v1.3.zip).
 
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
@@ -43,6 +43,9 @@ run ```LR2RivalRanking.py``` or ```LR2RivalRanking.exe``` with administrator pri
 If LR2 has been started before LR2RivalRanking, please close LR2 first.  
 (LR2RR needs to take the login procedure of LR2 to get the rival list of current player.)
 
+Special function keys: **F1** - **F4**  
+For more detail, the usage guide will be shown when the app starts.
+
 The rival data is saved in ```%APPDATA%\LR2RR```.  
 You can delete this folder if you want to clean the prvious saved data.
 
@@ -61,10 +64,7 @@ Please refer to ```CHANGELOG``` for more information.
 * Modify text color of Rank and Clear
 * Add more exception handler
 * Consider about using other GUI layout (QTextBrowser?)
-* Add the github link in the app
 * Add some user configurations
-* Try to update all records in Ir/ folder
-* Use QTextBrowser to display hypertext
 
 ## Credits
 Author: Leo Shen (LR2IR: [121168 うまい焼鴨](http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168))

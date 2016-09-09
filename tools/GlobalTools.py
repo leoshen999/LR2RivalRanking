@@ -56,16 +56,19 @@ def strTruncateTo34(str):
 
 # global logger: redirect message to QT
 class Logger(QtCore.QObject):
-	signal = QtCore.pyqtSignal(object)
+	signalWrite = QtCore.pyqtSignal(object,object)
+	signalClear = QtCore.pyqtSignal()
 	def write(self,string):
-		self.signal.emit(string)
-	def flush(self):
-		pass
+		self.signalWrite.emit(string,True)
+	def writeCurrentLine(self,string):
+		self.signalWrite.emit(string,False)
+	def clear(self):
+		self.signalClear.emit()
 logger=Logger()
 
 
-# say something~
-def printHelloMessage():
+# function: view database status
+def printDatabaseStatus():
 	with Database.lock:
 		conn = sqlite3.connect(Database.path)
 		conn.row_factory = sqlite3.Row
@@ -78,13 +81,40 @@ def printHelloMessage():
 			SELECT COUNT(*) AS cnt FROM scores
 		''')
 		sn=cur.fetchall()[0]['cnt']
+		cur.execute('''
+			SELECT id,name FROM rivals WHERE active=2
+		''')
+		players=cur.fetchall()
 		conn.close()
 		
-		logger.write( '-- Welcome to LR2 Rival Ranking --\n' )
+		logger.write( '-------- Database status ---------\n' )
 		logger.write( ' The database contains:           \n' )
 		logger.write( '                   <font\tstyle="color:LightGray">%8d</font> rivals\n'%rn )
 		logger.write( '                   <font\tstyle="color:LightGray">%8d</font> scores\n'%sn )
-		logger.write( '----- LR2RR is ready to work -----\n' )
+		logger.write( ' Current player:                  \n' )
+		if not players:
+			logger.write( '                              None\n' )
+		for player in players:
+			playerMessage='<font\tstyle="color:Khaki">%6d %s</font>'%(player['id'],player['name'])
+			leftPad=''
+			width=7+strWidth(player['name'])
+			if width<34 : leftPad=' '*(34-width)
+			logger.write( leftPad+playerMessage+'\n' )
+		logger.write( '----------------------------------\n' )
+		logger.write( '\n' )
+		
+		
+
+def printHelloMessage():
+	with Database.lock:
+		
+		logger.clear()
+		logger.write( '--- LR2 Rival Ranking commands ---\n' )
+		logger.write( '  <font\tstyle="color:LightGray">F1</font> - About LR2 Rival Ranking    \n' )
+		logger.write( '  <font\tstyle="color:LightGray">F2</font> - Modify Ir/ data in LR2     \n' )
+		logger.write( '  <font\tstyle="color:LightGray">F3</font> - View database status       \n' )
+		logger.write( '  <font\tstyle="color:LightGray">F4</font> - Reset log                  \n' )
+		logger.write( '----------------------------------\n' )
 		logger.write( '\n' )
 		
 		
