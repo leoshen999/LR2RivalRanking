@@ -61,10 +61,10 @@ http://www.dream-pro.info/~lavalse/LR2IR/search.cgi
 Please refer to ```CHANGELOG``` for more information.
 
 ## TODO
-* Modify text color of Rank and Clear
 * Add more exception handler
-* Consider about using other GUI layout (QTextBrowser?)
 * Add some user configurations
+* Add rival recommended song list
+* Add score comparison over difficulty table
 
 ## Credits
 Author: Leo Shen (LR2IR: [121168 うまい焼鴨](http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168))
