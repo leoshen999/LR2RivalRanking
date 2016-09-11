@@ -73,10 +73,11 @@ def updateRival(pid,rids,toPrint=True):
 			else:
 				cntMessage=' %4d/%4d' %(cnt,len(rids))
 			
+			url='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid='+rid
 			if active==2:
-				idMessage= ' <font\tstyle="color:Khaki">%06d %s</font>' % (int(rid),name)
+				idMessage= ' <a\thref="'+url+'"\tstyle="color:Khaki;text-decoration:none">%06d %s</a>' % (int(rid),name)
 			else: 
-				idMessage= ' <font\tstyle="color:LightGray">%06d %s</font>' % (int(rid),name)
+				idMessage= ' <a\thref="'+url+'"\tstyle="color:LightGray;text-decoration:none">%06d %s</a>' % (int(rid),name)
 			
 			if not len(scores)==0:
 				updateMessage='<font\tstyle="color:DodgerBlue">+%d</font>' %(len(scores))

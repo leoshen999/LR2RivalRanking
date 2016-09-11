@@ -114,9 +114,9 @@ class ModifyIRWindow(QtGui.QDialog):
 		thr=threading.Thread(target=IRFolderHandler.modifyIRFolder,args=(id,path))
 		thr.daemon=True
 		thr.start()
-class MainWindow(QtGui.QTextEdit):
+class MainWindow(QtGui.QTextBrowser):
 	def __init__(self,original_hosts,version):
-		QtGui.QTextEdit.__init__(self)
+		QtGui.QTextBrowser.__init__(self)
 		
 		self.original_hosts=original_hosts
 		
@@ -143,7 +143,7 @@ class MainWindow(QtGui.QTextEdit):
 		self.setReadOnly(True)
 		self.setWindowTitle(' LR2 Rival Ranking')
 		self.setWindowFlags(QtCore.Qt.CustomizeWindowHint | QtCore.Qt.WindowCloseButtonHint | QtCore.Qt.WindowMinimizeButtonHint)
-		
+		self.setOpenExternalLinks(True)
 		self.resize(260,400)
 		self.setFixedWidth(260)
 		self.setMinimumHeight(400)
