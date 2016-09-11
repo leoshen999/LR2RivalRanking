@@ -39,6 +39,7 @@ def printTitleAndArtist(hash):
 			rightPad=' '*(34-width-len(leftPad))
 		else:
 			title=GlobalTools.strTruncateTo34(title)
+		title=GlobalTools.convertHTMLEntities(title)
 		GlobalTools.logger.write( leftPad+'<a\thref="'+full_url+'"\tstyle="color:LightGray;text-decoration:none">'+title+'</a>'+rightPad+'\n' )
 	if root.find('.//h2') is not None :
 		artist=root.find('.//h2').text
@@ -50,4 +51,5 @@ def printTitleAndArtist(hash):
 			rightPad=' '*(34-width-len(leftPad))
 		else:
 			artist=GlobalTools.strTruncateTo34(artist)
+		artist=GlobalTools.convertHTMLEntities(artist)
 		GlobalTools.logger.write( leftPad+'<a\thref="'+full_url+'"\tstyle="color:LightGray;text-decoration:none">'+artist+'</a>'+rightPad+'\n' )

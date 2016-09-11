@@ -22,6 +22,11 @@ else:
 		supportedUnicode.append(int(str,16))
 	file.close()
 
+# convert special entities for html
+# not sure if there's other entity to handle?
+def convertHTMLEntities(str):
+	return str.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('\"','&quot;')
+
 # Define the width of a character
 def strWidth(str):
 	width=0

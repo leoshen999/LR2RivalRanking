@@ -43,7 +43,6 @@ class LR2RRServer(BaseHTTPRequestHandler):
 			LR2RequestHandler.handleScore(parse_qs(self.req_body))
 		
 		# return the result to client
-		print result.status,result.reason
 		self.send_response(result.status,result.reason)
 		
 		if 'connection' in result.msg.keys():

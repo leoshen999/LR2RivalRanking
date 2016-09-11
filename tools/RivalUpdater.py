@@ -74,10 +74,11 @@ def updateRival(pid,rids,toPrint=True):
 				cntMessage=' %4d/%4d' %(cnt,len(rids))
 			
 			url='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid='+rid
+			name2=GlobalTools.convertHTMLEntities(name)
 			if active==2:
-				idMessage= ' <a\thref="'+url+'"\tstyle="color:Khaki;text-decoration:none">%06d %s</a>' % (int(rid),name)
+				idMessage= ' <a\thref="'+url+'"\tstyle="color:Khaki;text-decoration:none">%06d %s</a>' % (int(rid),name2)
 			else: 
-				idMessage= ' <a\thref="'+url+'"\tstyle="color:LightGray;text-decoration:none">%06d %s</a>' % (int(rid),name)
+				idMessage= ' <a\thref="'+url+'"\tstyle="color:LightGray;text-decoration:none">%06d %s</a>' % (int(rid),name2)
 			
 			if not len(scores)==0:
 				updateMessage='<font\tstyle="color:DodgerBlue">+%d</font>' %(len(scores))

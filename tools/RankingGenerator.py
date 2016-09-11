@@ -75,10 +75,11 @@ def generateRanking(hash,toPrint=True):
 			rateMessage='%6.2f%%'%(rate)
 			
 			url='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid='+str(score['id'])
+			name2=GlobalTools.convertHTMLEntities(score['name'])
 			if score['active']==1 :
-				nameMessage='<a\thref="'+url+'"\tstyle="color:LightGray;text-decoration:none">'+score['name']+'</a>'
+				nameMessage='<a\thref="'+url+'"\tstyle="color:LightGray;text-decoration:none">'+name2+'</a>'
 			else :
-				nameMessage='<a\thref="'+url+'"\tstyle="color:Khaki;text-decoration:none">'+score['name']+'</a>'
+				nameMessage='<a\thref="'+url+'"\tstyle="color:Khaki;text-decoration:none">'+name2+'</a>'
 			
 			width=GlobalTools.strWidth(score['name'])
 			if width<10:
