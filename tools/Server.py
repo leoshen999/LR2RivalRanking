@@ -20,12 +20,6 @@ class LR2RRServer(BaseHTTPRequestHandler):
 		if parsed_path.path == '/~lavalse/LR2IR/2/getrankingxml.cgi':
 			result, resultBody = LR2RequestHandler.handleRanking(parse_qs(self.req_body))
 		
-		# login.cgi: the rival list and scores should be updated
-		if parsed_path.path == '/~lavalse/LR2IR/2/login.cgi':
-			thr=threading.Thread(target=LR2RequestHandler.handleLogin,args=(parse_qs(self.req_body),))
-			thr.daemon=True
-			thr.start()
-		
 		# send the original request to LR2IR for unhandled request type
 		if result == '':
 			sock = DPISocket.DPISocket(self.command,self.path,self.request_version)
@@ -33,10 +27,9 @@ class LR2RRServer(BaseHTTPRequestHandler):
 			sock.setBody(self.req_body)
 			result, resultBody = sock.sendAndReceive()
 		
-		# login.cgi: LR2IR status should be set to #OK for faster loading of ranking
+		# login.cgi: the rival list and scores should be updated
 		if parsed_path.path == '/~lavalse/LR2IR/2/login.cgi':
-			if resultBody[0:3] in ['#B1','#B2','#B3'] :
-				resultBody='#OK'+resultBody[3:]
+			resultBody=LR2RequestHandler.handleLogin(resultBody)
 		
 		# score.cgi: update the database with the sent score
 		if parsed_path.path == '/~lavalse/LR2IR/2/score.cgi':

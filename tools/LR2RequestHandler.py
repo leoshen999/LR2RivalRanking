@@ -2,29 +2,54 @@
 import Database
 import GlobalTools
 import WebpageParser
+import threading
 from httplib import HTTPMessage
 from StringIO import StringIO
 import RankingGenerator
 import RivalUpdater
 import ScoreUpdater
 
-def handleLogin(q_dict):
+def handleLoginWithPid(pid):
 	with Database.lock:
 		GlobalTools.logger.write( '------- Update rival list --------\n' )
-		
-		pid=''
-		rids=[]
-		# parse the rival id list from the personal page of current player
-		# if id not exists, the rival list should be empty
-		if('id' in q_dict):
-			pid = q_dict['id'][0]
-			rids = WebpageParser.getRivals(pid)
-		
+		rids = WebpageParser.getRivals(pid)
 		status=RivalUpdater.updateRival(pid,rids,True)
 		if not status:
 			GlobalTools.logger.write( '   Failed to update rival list    \n' )
 		GlobalTools.logger.write( '----------------------------------\n' )
 		GlobalTools.logger.write( '\n' )
+
+def handleLogin(body):
+	newBody=body
+	tokens=newBody.split(',')
+	if tokens[0]=='#ERROR':
+		return newBody
+	tokens[0]='#OK'
+	if len(tokens)>1:
+		pid=tokens[1]
+		if pid.isdigit():
+			thr=threading.Thread(target=handleLoginWithPid,args=(pid,))
+			thr.daemon=True
+			thr.start()
+	return ','.join(tokens)
+
+# def handleLogin(q_dict):
+	# with Database.lock:
+		# GlobalTools.logger.write( '------- Update rival list --------\n' )
+		
+		# pid=''
+		# rids=[]
+		# parse the rival id list from the personal page of current player
+		# if id not exists, the rival list should be empty
+		# if('id' in q_dict):
+			# pid = q_dict['id'][0]
+			# rids = WebpageParser.getRivals(pid)
+		
+		# status=RivalUpdater.updateRival(pid,rids,True)
+		# if not status:
+			# GlobalTools.logger.write( '   Failed to update rival list    \n' )
+		# GlobalTools.logger.write( '----------------------------------\n' )
+		# GlobalTools.logger.write( '\n' )
 
 def handleScore(q_dict):
 	with Database.lock:
