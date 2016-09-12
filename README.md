@@ -1,4 +1,4 @@
-# LR2RivalRanking
+# LR2 Rival Ranking
 
 ## Pre-built Executable
 Latest released executable version:  ```v1.3```.  
@@ -7,7 +7,7 @@ The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRank
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
 ## Overview
-This application is a plug-in of Lunatic Rave 2.
+LR2 Rival Ranking(LR2RR) is a plug-in of Lunatic Rave 2.
 
 When the application is running, the ranking will be replaced.  
 The new ranking will only show the score of your rivals and yourself.  
@@ -40,14 +40,14 @@ I'm not sure whether other platforms are well-supported or not.
 ## Usage
 run ```LR2RivalRanking.py``` or ```LR2RivalRanking.exe``` with administrator privilege *before* LR2.
 
-If LR2 has been started before LR2RivalRanking, please close LR2 first.  
+If LR2 has been started before LR2RRR, please close LR2 first.  
 (LR2RR needs to take the login procedure of LR2 to get the rival list of current player.)
 
 Special function keys: **F1** - **F4**  
 For more detail, the usage guide will be shown when the app starts.
 
 The rival data is saved in ```%APPDATA%\LR2RR```.  
-You can delete this folder if you want to clean the prvious saved data.
+You can delete this folder if you want to clean the previous saved data.
 
 If the program is not closed correctly, it may cause connection error to LR2IR.  
 When the problem happens, just turn on LR2RR and close it again.  
