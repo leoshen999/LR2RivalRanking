@@ -33,24 +33,6 @@ def handleLogin(body):
 			thr.start()
 	return ','.join(tokens)
 
-# def handleLogin(q_dict):
-	# with Database.lock:
-		# GlobalTools.logger.write( '------- Update rival list --------\n' )
-		
-		# pid=''
-		# rids=[]
-		# parse the rival id list from the personal page of current player
-		# if id not exists, the rival list should be empty
-		# if('id' in q_dict):
-			# pid = q_dict['id'][0]
-			# rids = WebpageParser.getRivals(pid)
-		
-		# status=RivalUpdater.updateRival(pid,rids,True)
-		# if not status:
-			# GlobalTools.logger.write( '   Failed to update rival list    \n' )
-		# GlobalTools.logger.write( '----------------------------------\n' )
-		# GlobalTools.logger.write( '\n' )
-
 def handleScore(q_dict):
 	with Database.lock:
 		GlobalTools.logger.write( '---------- Update score ----------\n' )
