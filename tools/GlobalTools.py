@@ -100,7 +100,8 @@ def printDatabaseStatus():
 		if not players:
 			logger.write( '                              None\n' )
 		for player in players:
-			playerMessage='<font\tstyle="color:Khaki">%6d %s</font>'%(player['id'],player['name'])
+			url='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=%d' % (player['id'])
+			playerMessage='<a\thref="%s"\tstyle="color:Khaki;text-decoration:none">%6d %s</a>'%(url,player['id'],player['name'])
 			leftPad=''
 			width=7+strWidth(player['name'])
 			if width<34 : leftPad=' '*(34-width)
