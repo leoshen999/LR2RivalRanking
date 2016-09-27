@@ -8,7 +8,7 @@ import Database
 import DPISocket
 import GlobalTools
 
-extra_parser = lxml.etree.XMLParser(encoding='shift_jis')
+extra_parser = lxml.etree.XMLParser(encoding='cp932')
 
 def updateRival(pid,rids,toPrint=True):
 	conn = sqlite3.connect(Database.path)
