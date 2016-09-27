@@ -61,9 +61,7 @@ http://www.dream-pro.info/~lavalse/LR2IR/search.cgi
 Please refer to ```CHANGELOG``` for more information.
 
 ## TODO
-* BUG FOUND: fetch unexist artist
 * Separate database lock and console lock
-* Not update rival info when modifing Ir/ folder 
 * Add more exception handler
 * Add some user configurations
 * Add rival recommended song list

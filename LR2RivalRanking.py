@@ -9,7 +9,7 @@ from tools import Gui
 from tools import Server
 from tools import Database
 
-version='v1.3'
+version='v1.3.2'
 
 if __name__ == '__main__':
 	
