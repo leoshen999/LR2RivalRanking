@@ -4,14 +4,13 @@ import lxml.html
 import lxml.etree
 import sqlite3
 
-import Database
 import DPISocket
 import GlobalTools
 
 extra_parser = lxml.etree.XMLParser(encoding='cp932')
 
 def updateRival(pid,rids,toPrint=True):
-	conn = sqlite3.connect(Database.path)
+	conn = sqlite3.connect(GlobalTools.dbpath)
 	conn.row_factory = sqlite3.Row
 	cur = conn.cursor()
 	# reset all players in database to inactive

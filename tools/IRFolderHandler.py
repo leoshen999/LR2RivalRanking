@@ -1,15 +1,12 @@
 #coding: utf-8
-import Database
 import GlobalTools
-import WebpageParser
 import sqlite3
 import os
 
-import RivalUpdater
 import RankingGenerator
 
-def modifyIRFolder(id,path):
-	with Database.lock:
+def modifyIRFolder(path):
+	with GlobalTools.lock:
 		GlobalTools.logger.write( '----- Modify Ir/ folder data -----\n' )
 		hashs=[]
 		conn=''
@@ -36,10 +33,9 @@ def modifyIRFolder(id,path):
 		hashs=cur.fetchall()
 		conn.close()
 		
-		conn = sqlite3.connect(Database.path)
+		conn = sqlite3.connect(GlobalTools.dbpath)
 		conn.row_factory = sqlite3.Row
 		cur = conn.cursor()
-		
 		# save lr2exe location
 		try:
 			cur.execute('''
@@ -53,40 +49,19 @@ def modifyIRFolder(id,path):
 			GlobalTools.logger.write( '----------------------------------\n' )
 			GlobalTools.logger.write( '\n' )
 			return
-		
-		# back up the original active list of rivals
 		cur.execute('''
-			SELECT id,active
+			SELECT id
 			FROM rivals
 			WHERE active>0
 		''')
 		temp=cur.fetchall()
+		if len(temp) == 0:
+			conn.close()
+			GlobalTools.logger.write( '   Cannot found current player    \n' )
+			GlobalTools.logger.write( '----------------------------------\n' )
+			GlobalTools.logger.write( '\n' )
+			return
 		conn.close()
-		pid_backup=''
-		rids_backup=[]
-		for rr in temp:
-			if rr['active']==2:
-				pid_backup=str(rr['id'])
-			rids_backup.append(str(rr['id']))
-		
-		# get new rival lists
-		pid=''
-		if id=='backup':
-			pid=pid_backup
-		else:
-			pid=id
-		if not pid:
-			GlobalTools.logger.write( '   Failed to get current player   \n' )
-			GlobalTools.logger.write( '----------------------------------\n' )
-			GlobalTools.logger.write( '\n' )
-			return
-		rids=WebpageParser.getRivals(pid)
-		status=RivalUpdater.updateRival(pid,rids,True)
-		if not status:
-			GlobalTools.logger.write( '   Failed to update rival list    \n' )
-			GlobalTools.logger.write( '----------------------------------\n' )
-			GlobalTools.logger.write( '\n' )
-			return
 		
 		# update all xml in Ir/ folder
 		cnt=0
@@ -107,38 +82,5 @@ def modifyIRFolder(id,path):
 			file.write(body)
 			file.close()
 		
-		# recover original rival list
-		conn = sqlite3.connect(Database.path)
-		conn.row_factory = sqlite3.Row
-		cur = conn.cursor()
-		try:
-			cur.execute('''
-				UPDATE rivals SET active=0
-			''')
-			conn.commit()
-		except sqlite3.Error as er:
-			conn.rollback()
-			conn.close()
-			GlobalTools.logger.write( '   Failed to recover rival list   \n' )
-			GlobalTools.logger.write( '----------------------------------\n' )
-			GlobalTools.logger.write( '\n' )
-			return
-		for rid in rids_backup:
-			active=1
-			if rid==pid_backup:
-				active=2
-			try:
-				cur.execute('''
-					UPDATE rivals SET active=? WHERE id=?
-				''',(active,rid))
-				conn.commit()
-			except sqlite3.Error as er:
-				conn.rollback()
-				conn.close()
-				GlobalTools.logger.write( '   Failed to recover rival list   \n' )
-				GlobalTools.logger.write( '----------------------------------\n' )
-				GlobalTools.logger.write( '\n' )
-				return
-		conn.close()
 		GlobalTools.logger.write( '----------------------------------\n' )
 		GlobalTools.logger.write( '\n' )

@@ -23,8 +23,6 @@ def getRivals(id):
 					rids.append( parse_qs(urlparse(a.attrib['href']).query)['playerid'][0] )
 	return rids
 
-
-
 def printTitleAndArtist(hash):
 	request_url='/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=%s' % (hash)
 	full_url='http://www.dream-pro.info'+request_url

@@ -1,5 +1,4 @@
 #coding: utf-8
-import Database
 import GlobalTools
 import WebpageParser
 import threading
@@ -10,7 +9,7 @@ import RivalUpdater
 import ScoreUpdater
 
 def handleLoginWithPid(pid):
-	with Database.lock:
+	with GlobalTools.lock:
 		GlobalTools.logger.write( '------- Update rival list --------\n' )
 		rids = WebpageParser.getRivals(pid)
 		status=RivalUpdater.updateRival(pid,rids,True)
@@ -18,7 +17,6 @@ def handleLoginWithPid(pid):
 			GlobalTools.logger.write( '   Failed to update rival list    \n' )
 		GlobalTools.logger.write( '----------------------------------\n' )
 		GlobalTools.logger.write( '\n' )
-
 def handleLogin(body):
 	newBody=body
 	tokens=newBody.split(',')
@@ -34,7 +32,7 @@ def handleLogin(body):
 	return ','.join(tokens)
 
 def handleScore(q_dict):
-	with Database.lock:
+	with GlobalTools.lock:
 		GlobalTools.logger.write( '---------- Update score ----------\n' )
 		
 		# only handle the len==32 songmd5, or the score is not saved
@@ -75,7 +73,7 @@ class SimpleHTTPResponse():
 		self.status = 200
 		self.reason = 'OK'
 def handleRanking(q_dict):
-	with Database.lock:
+	with GlobalTools.lock:
 		GlobalTools.logger.write( '----- Generate rival ranking -----\n' )
 		
 		# only handle the len==32 songmd5, or the score is not saved

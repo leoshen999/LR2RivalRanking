@@ -1,12 +1,10 @@
 #coding: utf-8
-import Database
 import GlobalTools
 import sqlite3
 
-
 # caution: score entries are all in string form
 def updateScore(score,toPrint=True):
-	conn = sqlite3.connect(Database.path)
+	conn = sqlite3.connect(GlobalTools.dbpath)
 	conn.row_factory = sqlite3.Row
 	cur = conn.cursor()
 	try:

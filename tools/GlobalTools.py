@@ -1,15 +1,16 @@
 #coding: utf-8
-
 import sqlite3
 import win32api
 import StringIO
 import unicodedata
 from PyQt4 import QtCore
 import sys
-import Database
+import os
+import threading
 
-def is_exe():
-	return hasattr(sys, "frozen")
+version='v1.3.2'
+
+def is_exe(): return hasattr(sys, "frozen")
 
 # Need to know the supported charaters for Consolas for text alignment
 supportedUnicode=[]
@@ -25,7 +26,7 @@ else:
 # convert special entities for html
 # not sure if there's other entity to handle?
 def convertHTMLEntities(str):
-	return str.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('\"','&quot;')
+	return str.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('"','&quot;')
 
 # Define the width of a character
 def strWidth(str):
@@ -71,56 +72,56 @@ class Logger(QtCore.QObject):
 		self.signalClear.emit()
 logger=Logger()
 
+# for sqlite and qt logger with multithreads
+lock = threading.Lock()
 
-# function: view database status
-def printDatabaseStatus():
-	with Database.lock:
-		conn = sqlite3.connect(Database.path)
-		conn.row_factory = sqlite3.Row
-		cur = conn.cursor()
+# init database
+dbdir = '%s\\LR2RR\\' %  os.environ['APPDATA'] 
+if not os.path.exists(dbdir):
+	os.makedirs(dbdir)
+dbpath = '%sdata.db' % dbdir
+with lock:
+	conn = sqlite3.connect(dbpath)
+	conn.row_factory = sqlite3.Row
+	cur = conn.cursor()
+	try:
 		cur.execute('''
-			SELECT COUNT(*) AS cnt FROM rivals
-		''')
-		rn=cur.fetchall()[0]['cnt']
+			CREATE TABLE IF NOT EXISTS
+			rivals(
+				id INTEGER NOT NULL UNIQUE,
+				name TEXT,
+				lastupdate INTEGER NOT NULL,
+				active INTEGER
+			)''')
 		cur.execute('''
-			SELECT COUNT(*) AS cnt FROM scores
-		''')
-		sn=cur.fetchall()[0]['cnt']
+			CREATE TABLE IF NOT EXISTS
+			scores(
+				hash TEXT NOT NULL,
+				id INTEGER NOT NULL,
+				clear INTEGER NOT NULL,
+				notes INTEGER NOT NULL,
+				combo INTEGER NOT NULL,
+				pg INTEGER NOT NULL,
+				gr INTEGER NOT NULL,
+				minbp INTEGER NOT NULL,
+				UNIQUE(hash, id)
+			)''')
 		cur.execute('''
-			SELECT id,name FROM rivals WHERE active=2
+			CREATE TABLE IF NOT EXISTS
+			misc(
+				key TEXT NOT NULL UNIQUE,
+				value TEXT
+			)''')
+		cur.execute('''
+			REPLACE INTO misc VALUES('version',?)
+		''',(version,))
+		cur.execute('''
+			INSERT OR IGNORE INTO misc VALUES('lr2exepath','')
 		''')
-		players=cur.fetchall()
-		conn.close()
-		
-		logger.write( '-------- Database status ---------\n' )
-		logger.write( ' The database contains:           \n' )
-		logger.write( '                   <font\tstyle="color:LightGray">%8d</font> rivals\n'%rn )
-		logger.write( '                   <font\tstyle="color:LightGray">%8d</font> scores\n'%sn )
-		logger.write( ' Current player:                  \n' )
-		if not players:
-			logger.write( '                              None\n' )
-		for player in players:
-			url='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=%d' % (player['id'])
-			playerMessage='<a\thref="%s"\tstyle="color:Khaki;text-decoration:none">%6d %s</a>'%(url,player['id'],player['name'])
-			leftPad=''
-			width=7+strWidth(player['name'])
-			if width<34 : leftPad=' '*(34-width)
-			logger.write( leftPad+playerMessage+'\n' )
-		logger.write( '----------------------------------\n' )
-		logger.write( '\n' )
-		
-		
+		conn.commit()
+	except:
+		conn.rollback()
+		sys.exit()
+	conn.close()
 
-def printHelloMessage():
-	with Database.lock:
-		
-		logger.clear()
-		logger.write( '--- LR2 Rival Ranking commands ---\n' )
-		logger.write( '  <font\tstyle="color:LightGray">F1</font> - About LR2 Rival Ranking    \n' )
-		logger.write( '  <font\tstyle="color:LightGray">F2</font> - Modify Ir/ data in LR2     \n' )
-		logger.write( '  <font\tstyle="color:LightGray">F3</font> - View database status       \n' )
-		logger.write( '  <font\tstyle="color:LightGray">F4</font> - Reset log                  \n' )
-		logger.write( '----------------------------------\n' )
-		logger.write( '\n' )
-		
-		
+
