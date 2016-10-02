@@ -5,10 +5,13 @@ import sys
 import threading
 import os
 
+from tools import GlobalTools
 from tools import MainWindow
 from tools import Server
 
+version='v1.4'
 if __name__ == '__main__':
+	GlobalTools.init(version)
 	
 	# modify hosts to redirect http request
 	original_hosts=''

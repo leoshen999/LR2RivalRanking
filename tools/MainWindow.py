@@ -1,6 +1,6 @@
 #coding: utf-8
 
-from PyQt4 import QtGui, QtCore, QtWebKit
+from PyQt4 import QtGui, QtCore
 from StringIO import StringIO
 import sys
 import os
@@ -46,15 +46,15 @@ def printDatabaseStatus():
 			GlobalTools.logger.write( leftPad+playerMessage+'\n' )
 		GlobalTools.logger.write( '----------------------------------\n' )
 		GlobalTools.logger.write( '\n' )
-
 def printHelloMessage():
 	with GlobalTools.lock:
 		GlobalTools.logger.clear()
 		GlobalTools.logger.write( '--- LR2 Rival Ranking commands ---\n' )
-		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F2</font> - Modify Ir/ data in LR2     \n' )
-		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F3</font> - View database status       \n' )
-		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F4</font> - Reset log                  \n' )
-		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F5</font> - About LR2 Rival Ranking    \n' )
+		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F1</font> : Extend webpage function    \n' )
+		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F2</font> : Modify Ir/ data in LR2     \n' )
+		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F3</font> : View database status       \n' )
+		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F4</font> : Reset log                  \n' )
+		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F5</font> : About LR2 Rival Ranking    \n' )
 		GlobalTools.logger.write( '----------------------------------\n' )
 		GlobalTools.logger.write( '\n' )
 
@@ -126,6 +126,7 @@ class MainWindow(QtGui.QTextBrowser):
 		GlobalTools.logger.signalClear.connect(self.clearLog)
 		sys.stderr=sys.stdout
 		
+		self.extendWebpageWindow=SubWindow.ExtendWebpageWindow(self)
 		self.aboutWindow=SubWindow.AboutWindow(self)
 		self.modifyIRWindow=SubWindow.ModifyIRWindow(self)
 		
@@ -161,7 +162,7 @@ class MainWindow(QtGui.QTextBrowser):
 		sb.setValue(sb.maximum())
 	def keyPressEvent(self, event):
 		if event.key()==QtCore.Qt.Key_F1:
-			pass
+			self.extendWebpageWindow.show()
 		elif event.key()==QtCore.Qt.Key_F2:
 			self.modifyIRWindow.show()
 		elif event.key()==QtCore.Qt.Key_F3:

@@ -1,0 +1,266 @@
+span.not-show {
+	display: none;
+}
+
+h6{
+	font-size: 12pt;
+	font-family: Consolas,"MS Gothic";
+	color:rgb(230,230,230);
+	text-align:center;
+	font-weight:normal;
+	margin-top: 7px;
+	margin-bottom: 7px;
+}
+
+h5{
+	font-size: 12pt;
+	font-family: Consolas,"MS Gothic";
+	color:rgb(230,230,230);
+	text-align:left;
+	font-weight:normal;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.min-lv, .max-lv{
+	width: 70px;
+	background: transparent;
+	border-top-style: none;
+	border-right-style: none;
+	border-left-style: none;
+	border-bottom: 1px solid rgb(230,230,230);
+	color: rgb(230,230,230);
+}
+.min-lv option, .max-lv option{
+	background-color:black;
+}
+
+.ck-button span {
+	text-align: center;
+	border-radius: 3px;
+	border: 1px solid rgb(64,64,64);
+	cursor: pointer;
+	width: 90px;
+	display: inline-block;
+	margin-left: 1px;
+	margin-right: 1px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.ck-button input {display: none;}
+
+.ck-MAX span:hover{background-color: hsl(20, 80%, 70%);}
+.ck-MAX input:checked + span {background-color: hsl(20, 80%, 50%);}
+.ck-MAX input:checked:hover + span{background-color: hsl(20, 80%, 60%);}
+
+.ck-AAA span:hover{background-color: hsl(55, 50%, 65%);}
+.ck-AAA input:checked + span {background-color: hsl(55, 50%, 45%);}
+.ck-AAA input:checked:hover + span{background-color: hsl(55, 50%, 55%);}
+
+.ck-AA span:hover{background-color: hsl(250, 30%, 75%);}
+.ck-AA input:checked + span {background-color: hsl(250, 30%, 55%);}
+.ck-AA input:checked:hover + span{background-color: hsl(250, 30%, 65%);}
+
+.ck-A span:hover{background-color: hsl(220, 50%, 55%);}
+.ck-A input:checked + span {background-color: hsl(220, 50%, 35%);}
+.ck-A input:checked:hover + span{background-color: hsl(220, 50%, 45%);}
+
+.ck-B span:hover{background-color: hsl(200, 20%, 45%);}
+.ck-B input:checked + span {background-color: hsl(200, 20%, 25%);}
+.ck-B input:checked:hover + span{background-color: hsl(200, 20%, 35%);}
+
+.ck-C-F span:hover{background-color: hsl(220, 0%, 45%);}
+.ck-C-F input:checked + span {background-color: hsl(220, 0%, 25%);}
+.ck-C-F input:checked:hover + span{background-color: hsl(220, 0%, 35%);}
+
+
+.ck-FULLCOMBO span:hover{background-color: hsl(330, 80%, 75%);}
+.ck-FULLCOMBO input:checked + span {background-color: hsl(330, 80%, 55%);}
+.ck-FULLCOMBO input:checked:hover + span{background-color: hsl(330, 80%, 65%);}
+
+.ck-HARD span:hover{background-color: hsl(0, 0%, 75%);}
+.ck-HARD input:checked + span {background-color: hsl(0, 0%, 55%);}
+.ck-HARD input:checked:hover + span{background-color: hsl(0, 0%, 65%);}
+
+.ck-NORMAL span:hover{background-color: hsl(45, 75%, 60%);}
+.ck-NORMAL input:checked + span {background-color: hsl(45, 75%, 40%);}
+.ck-NORMAL input:checked:hover + span{background-color: hsl(45, 75%, 50%);}
+
+.ck-EASY span:hover{background-color: hsl(92, 75%, 50%);}
+.ck-EASY input:checked + span {background-color: hsl(92, 75%, 30%);}
+.ck-EASY input:checked:hover + span{background-color: hsl(92, 75%, 40%);}
+
+.ck-FAILED span:hover{background-color: hsl(0, 75%, 50%);}
+.ck-FAILED input:checked + span {background-color: hsl(0, 75%, 30%);}
+.ck-FAILED input:checked:hover + span{background-color: hsl(0, 75%, 40%);}
+
+.ck-NOPLAY span:hover{background-color: hsl(0, 0%, 45%);}
+.ck-NOPLAY input:checked + span {background-color: hsl(0, 0%, 25%);}
+.ck-NOPLAY input:checked:hover + span{background-color: hsl(0, 0%, 35%);}
+
+
+
+
+
+
+table{
+	font-size: 10pt;
+	font-family: Consolas,"MS Gothic";
+	border-collapse: seperate;
+	border-spacing: 0px 1px;
+	display: inline-block;
+	table-layout: fixed;
+	line-height: 20px;
+	margin-bottom: 5px;
+}
+table thead tr th{
+	background-color: rgb(64,64,64);
+	color: rgb(230,230,230);
+	cursor: pointer;
+	font-weight: normal;
+	border: 0px;
+	padding:0 0 0 0;
+	text-align: center;
+}
+table tbody tr td{
+	background-color: black;
+	color: rgb(230,230,230);
+	border-top: 1px solid rgb(64,64,64);
+	border-bottom: 1px solid rgb(64,64,64);
+	border-left: 0px;
+	border-right: 0px;
+	padding:0 0 0 0;
+	text-align: center;
+}
+.th-level, .td-level{width: 70px;}
+.th-title, .td-title{width: 513px;}
+.th-name, .td-name{width: 105px;}
+.th-lamp, .td-lamp{width: 8px;}
+.th-bp, .td-bp{width: 50px;}
+.th-bpdiff, .td-bpdiff{width: 50px;}
+.th-score, .td-score{width: 125px;}
+.th-scorediff, .td-scorediff{width: 50px;}
+.th-ranking, .td-ranking{width: 55px;}
+.th-playedN, .td-playedN{width: 55px;}
+
+th.th-title, th.th-ranking{
+	border-right: 1px solid rgb(20,20,20);
+}
+td.td-level, td.td-leftmost{
+	border-left: 1px solid rgb(64,64,64);
+}
+td.td-title, td.td-ranking, td.td-playedN, td.td-scorediff{
+	border-right: 1px solid rgb(64,64,64);
+}
+
+
+td.td-title a,td.td-name a{
+	color: rgb(230,230,230);
+	text-decoration: none;
+}
+
+td.td-name a.td-pid {color: Khaki !important;}
+
+td.td-TOP {color: yellow;}
+td.td-bp0 {color: yellow;}
+
+td.td-WIN {color: rgb(160,160,255);}
+td.td-LOSE {color: rgb(255,160,160);}
+
+.td-MAX{text-align: left;background: hsl(20, 80%, 50%);}
+.td-AAA{text-align: left;background: hsl(55, 50%, 45%);}
+.td-AA{text-align: left;background: hsl(250, 30%, 55%);}
+.td-A{text-align: left;background: hsl(220, 50%, 35%);}
+.td-B{text-align: left;background: hsl(200, 20%, 25%);}
+.td-CF{text-align: left;background: hsl(220, 0%, 25%);}
+
+.td-title{
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 513px;
+}
+
+.td-lamp.td-FC {
+	background: hsl(330, 100%, 80%);
+	background: -webkit-linear-gradient(hsl(330, 100%, 80%),hsl(330, 100%, 90%),hsl(330, 100%, 80%));
+	background: -o-linear-gradient(hsl(330, 100%, 80%),hsl(330, 100%, 90%),hsl(330, 100%, 80%));
+	background: -moz-linear-gradient(hsl(330, 100%, 80%),hsl(330, 100%, 90%),hsl(330, 100%, 80%));
+	background: linear-gradient(hsl(330, 100%, 80%),hsl(330, 100%, 90%),hsl(330, 100%, 80%));
+}
+.td-lamp.td-HC {
+	background: hsl(0, 0%, 80%);
+	background: -webkit-linear-gradient(hsl(0, 0%, 80%),hsl(0, 0%, 95%),hsl(0, 0%, 80%));
+	background: -o-linear-gradient(hsl(0, 0%, 80%),hsl(0, 0%, 95%),hsl(0, 0%, 80%));
+	background: -moz-linear-gradient(hsl(0, 0%, 80%),hsl(0, 0%, 95%),hsl(0, 0%, 80%));
+	background: linear-gradient(hsl(0, 0%, 80%),hsl(0, 0%, 95%),hsl(0, 0%, 80%));
+}
+.td-lamp.td-CL {
+	background: hsl(45, 100%, 40%);
+	background: -webkit-linear-gradient(hsl(45, 100%, 40%),hsl(45, 100%, 55%),hsl(45, 100%, 40%));
+	background: -o-linear-gradient(hsl(45, 100%, 40%),hsl(45, 100%, 55%),hsl(45, 100%, 40%));
+	background: -moz-linear-gradient(hsl(45, 100%, 40%),hsl(45, 100%, 55%),hsl(45, 100%, 40%));
+	background: linear-gradient(hsl(45, 100%, 40%),hsl(45, 100%, 55%),hsl(45, 100%, 40%));
+}
+.td-lamp.td-EC {
+	background: hsl(92, 100%, 30%);
+	background: -webkit-linear-gradient(hsl(92, 100%, 30%),hsl(92, 100%, 45%),hsl(92, 100%, 30%));
+	background: -o-linear-gradient(hsl(92, 100%, 30%),hsl(92, 100%, 45%),hsl(92, 100%, 30%));
+	background: -moz-linear-gradient(hsl(92, 100%, 30%),hsl(92, 100%, 45%),hsl(92, 100%, 30%));
+	background: linear-gradient(hsl(92, 100%, 30%),hsl(92, 100%, 45%),hsl(92, 100%, 30%));
+}
+.td-lamp.td-FA {
+	background: hsl(0, 75%, 15%);
+	background: -webkit-linear-gradient(hsl(0, 75%, 15%),hsl(0, 75%, 22%),hsl(0, 75%, 15%));
+	background: -o-linear-gradient(hsl(0, 75%, 15%),hsl(0, 75%, 22%),hsl(0, 75%, 15%));
+	background: -moz-linear-gradient(hsl(0, 75%, 15%),hsl(0, 75%, 22%),hsl(0, 75%, 15%));
+	background: linear-gradient(hsl(0, 75%, 15%),hsl(0, 75%, 22%),hsl(0, 75%, 15%));
+}
+.td-FC {border-color: hsl(330, 100%, 80%) !important;}
+.td-HC {border-color: hsl(0, 0%, 80%) !important;}
+.td-CL {border-color: hsl(45, 100%, 40%) !important;}
+.td-EC {border-color: hsl(92, 100%, 30%) !important;}
+.td-FA {border-color: hsl(0, 75%, 15%) !important;}
+
+.popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -240px;
+	
+	overflow: auto;
+	
+	visibility: hidden;
+	width: 480px;
+	background-color: rgba(0,0,0,0.75);
+	border: 1px solid rgb(64,64,64);
+	text-align: center;
+	border-radius: 6px;
+	z-index: 1;
+}
+
+
+.td-playedN:hover{
+	background-color: rgb(128,128,128);
+}
+.td-toggled:hover{
+	background-color: rgb(96,96,96) !important;
+}
+.td-toggled{
+	background-color: rgb(64,64,64) !important;
+}
+.ESC-button{
+	font-size: 8pt;
+	font-family: Consolas,"MS Gothic";
+	color:rgb(168,168,168);
+	text-align:right;
+	font-weight:normal;
+	margin-top: 2px;
+	margin-bottom: 0px;
+	margin-right: 4px;
+}
+.ESC-button:hover{
+	color:rgb(230,230,230);
+}

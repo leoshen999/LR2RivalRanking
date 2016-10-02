@@ -24,8 +24,7 @@ def modifyIRFolder(path):
 				FROM song
 			''')
 		except sqlite3.Error as er:
-			if isinstance(conn,sqlite3.Connection):
-				conn.close()
+			if isinstance(conn,sqlite3.Connection): conn.close()
 			GlobalTools.logger.write( '   Failed to read LR2 database    \n' )
 			GlobalTools.logger.write( '----------------------------------\n' )
 			GlobalTools.logger.write( '\n' )
@@ -33,6 +32,7 @@ def modifyIRFolder(path):
 		hashs=cur.fetchall()
 		conn.close()
 		
+		GlobalTools.misc['lr2exepath']=path
 		conn = sqlite3.connect(GlobalTools.dbpath)
 		conn.row_factory = sqlite3.Row
 		cur = conn.cursor()
@@ -49,19 +49,6 @@ def modifyIRFolder(path):
 			GlobalTools.logger.write( '----------------------------------\n' )
 			GlobalTools.logger.write( '\n' )
 			return
-		cur.execute('''
-			SELECT id
-			FROM rivals
-			WHERE active>0
-		''')
-		temp=cur.fetchall()
-		if len(temp) == 0:
-			conn.close()
-			GlobalTools.logger.write( '   Cannot found current player    \n' )
-			GlobalTools.logger.write( '----------------------------------\n' )
-			GlobalTools.logger.write( '\n' )
-			return
-		conn.close()
 		
 		# update all xml in Ir/ folder
 		cnt=0

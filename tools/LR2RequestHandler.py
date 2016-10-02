@@ -2,8 +2,7 @@
 import GlobalTools
 import WebpageParser
 import threading
-from httplib import HTTPMessage
-from StringIO import StringIO
+
 import RankingGenerator
 import RivalUpdater
 import ScoreUpdater
@@ -65,13 +64,7 @@ def handleScore(q_dict):
 		GlobalTools.logger.write( '\n' )
 
 
-# a simple fake response for the result of getrankingxml.cgi
-class SimpleHTTPResponse():
-	def __init__(self):
-		self.msg = HTTPMessage(StringIO())
-		self.msg['content-type'] = 'text/plain'
-		self.status = 200
-		self.reason = 'OK'
+
 def handleRanking(q_dict):
 	with GlobalTools.lock:
 		GlobalTools.logger.write( '----- Generate rival ranking -----\n' )
@@ -88,7 +81,7 @@ def handleRanking(q_dict):
 		WebpageParser.printTitleAndArtist(hash)
 		
 		# create a fake response
-		res=SimpleHTTPResponse()
+		res=GlobalTools.SimpleHTTPResponse()
 		body='#'+RankingGenerator.generateRanking(hash,True)
 		
 		GlobalTools.logger.write( '----------------------------------\n' )

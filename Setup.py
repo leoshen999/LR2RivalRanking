@@ -8,6 +8,8 @@ sys.argv.append( 'py2exe' )
 CLOUD_PNG = open('cloud.png','rb').read()
 CONSOLASHIGH_TTF = open('ConsolasHigh.ttf','rb').read()
 SUPPORTEDUNICODE_TXT = open('SupportedUnicode.txt','r').read()
+STYLE_CSS = open('style.css','r').read()
+SRC_JS = open('src.js','r').read()
 
 
 setup(
@@ -17,7 +19,9 @@ setup(
 				'other_resources': [
 					(u'CLOUD_PNG', 1, CLOUD_PNG),
 					(u'CONSOLASHIGH_TTF', 2, CONSOLASHIGH_TTF),
-					(u'SUPPORTEDUNICODE_TXT', 3, SUPPORTEDUNICODE_TXT)
+					(u'SUPPORTEDUNICODE_TXT', 3, SUPPORTEDUNICODE_TXT),
+					(u'STYLE_CSS', 4, STYLE_CSS),
+					(u'SRC_JS', 5, SRC_JS)
 				],
 				'uac_info': "requireAdministrator",
 	}],
