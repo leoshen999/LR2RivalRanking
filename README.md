@@ -77,6 +77,10 @@ Part of the code is copied from GNQG's lr2irproxy.
 (https://github.com/GNQG/lr2irproxy)   
 The basis code and the main idea help me a lot.
 
+Some css design of webpage extension difficulty table is referred to XYZ's BMS clear lamp.  
+(http://xyzzz.net/bms/clearlamp.php)  
+Sorry about that I can't read Korean, but the layout of clear lamp manager is beautiful!
+
 The font in the program is from Salauyou's Consolas High Line.  
 (https://github.com/Salauyou/Consolas-High-Line)  
 The font is awesome on aligning the text heights of different fonts!
