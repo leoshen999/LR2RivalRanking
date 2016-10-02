@@ -25,10 +25,14 @@ def handleWebpageExtensionSetup(flag):
 		GlobalTools.logger.write( '---- Setup webpage extension -----\n' )
 		
 		if flag:
+			GlobalTools.logger.write( ' Update:                          \n' )
+			cnt=0
 			for name,info in table_info.iteritems():
-				message=' Update '+info[0]+'...'
-				margin=' ' * (34-GlobalTools.strWidth(message))
-				GlobalTools.logger.write(message+margin+'\n')
+				cnt+=1
+				cntMessage='%d/%d'%(cnt,6)
+				margin=' ' * (26-len(cntMessage))
+				cntMessage='<font\tstyle="color:LightGray">%d</font>/%d'%(cnt,6)
+				GlobalTools.logger.writeCurrentLine( ' Update:'+margin+cntMessage+'\n' )
 				
 				web_url=info[1]
 				web_src=urllib2.urlopen(web_url).read()
@@ -65,6 +69,12 @@ def handleWebpageExtensionSetup(flag):
 					fp.write(unicode(json.dumps(level_order, ensure_ascii=False, encoding="utf-8")))
 					# json.dump(level_order,fp,ensure_ascii=False)
 			GlobalTools.misc['webpageextension']='True'
+			GlobalTools.logger.write( ' Difficulty table links:          \n' )
+			for name,info in table_info.iteritems():
+				width=GlobalTools.strWidth(info[0])
+				link='<a\thref="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?difficultytable='+name+'"\tstyle="color:LightGray;text-decoration:none">'+info[0]+'</a>'
+				margin=' '*(34-width)
+				GlobalTools.logger.write( margin+link+'\n' )
 		else:
 			GlobalTools.logger.write( '    Disable webpage extension     \n' )
 			GlobalTools.misc['webpageextension']='False'

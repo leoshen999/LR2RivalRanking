@@ -30,7 +30,7 @@ class LR2RRServer(BaseHTTPRequestHandler):
 			if parsed_path.path == '/~lavalse/LR2IR/search.cgi' and 'difficultytable' in q_dict_get:
 				result, resultBody=WebpageExtensionHandler.handleDifficultyTableSearch(self.headers,q_dict_get)
 			# search.cgi: generate difficulty table
-			if parsed_path.path == '/~lavalse/LR2IR/search.cgi' and 'difficultytablehash' in q_dict_get:
+			if parsed_path.path == '/~lavalse/LR2IR/search2.cgi' and 'difficultytablehash' in q_dict_get:
 				result, resultBody=WebpageExtensionHandler.handleDifficultyTableHashSearch(q_dict_get)
 		
 		

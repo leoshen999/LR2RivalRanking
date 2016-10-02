@@ -83,7 +83,7 @@ $('.td-playedN').mouseenter(function(){
 		
 		$('.popup').css('visibility', 'visible');
 		$.ajax({
-			url: '/~lavalse/LR2IR/search.cgi',
+			url: '/~lavalse/LR2IR/search2.cgi',
 			type: "get",
 			data: {"difficultytablehash":hash,"level":level,"title":title},
 			success: function(data){
@@ -121,7 +121,7 @@ $('.td-playedN').click(function(){
 			setPopupPositionAndHeight();
 			
 			$.ajax({
-				url: '/~lavalse/LR2IR/search.cgi',
+				url: '/~lavalse/LR2IR/search2.cgi',
 				type: "get",
 				data: {"difficultytablehash":hash,"level":level,"title":title},
 				success: function(data){

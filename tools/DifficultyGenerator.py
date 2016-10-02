@@ -69,7 +69,7 @@ class DifficultyGenerator():
 		
 		rr={}
 		rr['lamp']=''
-		rr['lamp_class']=''
+		rr['lamp_class']=' td-NO'
 		rr['bp']=''
 		rr['bp_class']=''
 		rr['score']=''
@@ -158,7 +158,7 @@ class DifficultyGenerator():
 			if score['active']==2 : rr['name_class']=' td-pid'
 			
 			rr['lamp']=str(score['clear'])
-			rr['lamp_class']=''
+			rr['lamp_class']=' td-NO'
 			if score['clear'] == 1 : rr['lamp_class']=' td-FA'
 			elif score['clear'] == 2 : rr['lamp_class']=' td-EC'
 			elif score['clear'] == 3 : rr['lamp_class']=' td-CL'

@@ -1,8 +1,8 @@
 # LR2 Rival Ranking
 
 ## Pre-built Executable
-Latest released executable version:  ```v1.4```.  
-The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.4/LR2RivalRanking.v1.4.zip).
+Latest released executable version:  ```v1.4.1```.  
+The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.4.1/LR2RivalRanking.v1.4.1.zip).
 
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
@@ -66,6 +66,7 @@ Please refer to ```CHANGELOG``` for more information.
 * Handle unlogging error
 * Unlock multiple access to database
 * Separate database lock and console lock
+* Modify webpage color design
 * Add more exception handler
 * Add some user configurations
 * Add rival recommended song list
