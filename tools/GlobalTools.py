@@ -16,7 +16,8 @@ def is_exe(): return hasattr(sys, "frozen")
 
 # convert special entities for html
 def convertHTMLEntities(str):
-	return str.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('"','&quot;')
+	return str.replace('<','&lt;').replace('>','&gt;').replace('"','&quot;').replace('\'','&#39;')
+	# how about .replace('&','&amp;') ????
 
 # Define the width of a character
 def strWidth(str):

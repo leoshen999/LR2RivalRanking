@@ -23,40 +23,6 @@ class DifficultyGenerator():
 				self.style=fp.read()
 			with open('src.js','r') as fp:
 				self.script=fp.read()
-	def getTableContent(self,table):
-		import time
-		t=time.time()
-		web_src=urllib2.urlopen(web_url).read()
-		print time.time()-t
-		
-		t=time.time()
-		header_url=urljoin(web_url,lxml.html.fromstring(web_src).find('.//meta[@name="bmstable"]').attrib['content'])
-		header_src=urllib2.urlopen(header_url).read()
-		print time.time()-t
-		header=json.loads(header_src)
-		
-		t=time.time()
-		body_url=urljoin(header_url,header['data_url'])
-		body_src=urllib2.urlopen(body_url).read()
-		print time.time()-t
-		body=json.loads(body_src)
-		
-		
-		if 'level_order' not in header:
-			tempLv={}
-			for song in body:
-				if song['level'].isdigit(): tempLv[song['level']]=int(song['level'])
-				else: tempLv[song['level']]=99999999
-			header['level_order']=sorted(tempLv, key=tempLv.get)
-		for idx in range(len(header['level_order'])):
-			if isinstance(header['level_order'][idx],int):
-				header['level_order'][idx]=str(header['level_order'][idx])
-		
-		songs={}
-		for song in body:
-			songs[ song['md5'] ] = [ song['level'] , song['title'] ]
-		level_order=header['level_order']
-		return songs,level_order
 	def getPlayerScore(self,hash,cur):
 		cur.execute('''
 			SELECT rr.name AS name, rr.id AS id, ss.clear AS clear, ss.notes AS notes, 
@@ -223,7 +189,7 @@ class DifficultyGenerator():
 	def generateDifficulty(self,table):
 		songs={}
 		level_order=[]
-		# songs,level_order=self.getTableContent(table)
+		
 		with io.open(GlobalTools.dbdir+table+'_level_order.json','r', encoding='utf-8') as fp:
 			level_order = json.load(fp)
 		with io.open(GlobalTools.dbdir+table+'_body.json','r', encoding='utf-8') as fp:
@@ -260,13 +226,13 @@ class DifficultyGenerator():
 			<table id="myTable" class="tablesorter">
 				<thead>
 					<tr>
-						<th class="th-level">Level</th>
-						<th class="th-title">Title</th>
-						<th class="th-lamp">L</th>
-						<th class="th-bp">BP</th>
-						<th class="th-score">Score</th>
-						<th class="th-ranking">Ranking</th>
-						<th class="th-playedN">Played</th>
+						<th class="player th-level">Level</th>
+						<th class="player th-title">Title</th>
+						<th class="player th-lamp">L</th>
+						<th class="player th-bp">BP</th>
+						<th class="player th-score">Score</th>
+						<th class="player th-ranking">Ranking</th>
+						<th class="player th-playedN">Played</th>
 					</tr>
 				</thead><tbody>'''
 		trs=[]
@@ -288,7 +254,7 @@ class DifficultyGenerator():
 				tr=''
 				tr+='<tr class="song-tr" hidden-level="'+str(level_order.index(song[0]))+'">'
 				tr+='<td class="td-level">'+song[0]+'</td>'
-				tr+='<td class="td-title"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5='+hash+'">'+song[1]+'</a></td>'
+				tr+='<td class="td-title"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5='+hash+'">'+GlobalTools.convertHTMLEntities(song[1])+'</a></td>'
 				tr+='<td class="player td-lamp'+cs['lamp_class']+'"><span class="not-show">'+cs['lamp']+'</span></td>'
 				tr+='<td class="player td-bp'+cs['bp_class']+cs['lamp_class']+'">'+cs['bp']+'</td>'
 				tr+='<td class="td-score'+cs['lamp_class']+'"><div class="player'+cs['score_class']+'" style="width:'+cs['score_rate']+'">&nbsp;'+cs['score_rate']+cs['score']+'</div></td>'
@@ -310,7 +276,7 @@ class DifficultyGenerator():
 		
 		return result
 	def generatePopup(self,level,title,hash):
-		result='<h6>'+level.decode('utf8')+'</h6><h6>'+title.decode('utf8')+'</h6>'
+		result='<h6>'+level.decode('utf8')+'</h6><h6>'+GlobalTools.convertHTMLEntities(title.decode('utf8'))+'</h6>'
 		
 		with GlobalTools.lock:
 			conn = sqlite3.connect(GlobalTools.dbpath)
