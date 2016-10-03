@@ -83,13 +83,18 @@ $('.td-playedN').mouseenter(function(){
 		
 		$('.popup').css('visibility', 'visible');
 		$.ajax({
-			url: '/~lavalse/LR2IR/search2.cgi',
-			type: "get",
-			data: {"difficultytablehash":hash,"level":level,"title":title},
-			success: function(data){
+				url: '/~lavalse/LR2IR/search2.cgi',
+				type: "get",
+				data: {"difficultytablehash":hash,"level":level,"title":title}
+			})
+			.done(function(data){
 				$('.popup-content').html(data);
 				setPopupPositionAndHeight();
-		}});
+			})
+			.fail(function(){
+					$('.popup-content').html('Failed to load data.');
+			})
+		;
 	}
 });
 $('.td-playedN').mouseleave(function(){
@@ -121,13 +126,18 @@ $('.td-playedN').click(function(){
 			setPopupPositionAndHeight();
 			
 			$.ajax({
-				url: '/~lavalse/LR2IR/search2.cgi',
-				type: "get",
-				data: {"difficultytablehash":hash,"level":level,"title":title},
-				success: function(data){
+					url: '/~lavalse/LR2IR/search2.cgi',
+					type: "get",
+					data: {"difficultytablehash":hash,"level":level,"title":title}
+				})
+				.done(function(data){
 					$('.popup-content').html(data);
 					setPopupPositionAndHeight();
-			}});
+				})
+				.fail(function(){
+						$('.popup-content').html('Failed to load data.');
+				})
+			;
 		}
 	}
 });
