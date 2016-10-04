@@ -1,17 +1,24 @@
 $(document).ready(function(){
 	$.tablesorter.addParser({
-		id: 'Level',
-		is: function(s) {
-			return false;
-		},
+		id: 'level',
+		is: function(s) {return false;},
 		format: function(s) {
 			return level_order.indexOf(s);
 		},
 		type: 'numeric'
 	});
+	$.tablesorter.addParser({
+		id: 'playedN',
+		is: function(s) {return false;},
+		format: function(s){
+			return s.replace(/^-$/,'');
+		},
+		type: 'numeric'
+	});
 	$("#myTable").tablesorter({
 		headers: { 
-			0: {sorter:'Level'}
+			0: {sorter:'level'},
+			6: {sorter:'playedN'}
 		},
 		textSorter: {
 			1: $.tablesorter.sortText
@@ -38,23 +45,14 @@ function resetFilterResult(){
 		}
 	});
 	
-	$('.RANK:checkbox:not(:checked)').each(function() {
+	$('.ck-RANK input:checkbox:not(:checked)').each(function() {
 		var rank = $(this).attr('value');
-		if(rank === "C-F"){
-			$(".player.td-CF").closest("tr").hide();
-		} else{
-			$(".player.td-".concat(rank)).closest("tr").hide();
-		}
+		$(".player.td-".concat(rank)).closest("tr").hide();
 	});
 
-	$('.CLEAR:checkbox:not(:checked)').each(function() {
+	$('.ck-CLEAR input:checkbox:not(:checked)').each(function() {
 		var clear = $(this).attr('value');
-		if(clear === "FULLCOMBO")$(".player.td-FC").closest("tr").hide();
-		else if(clear === "HARD")$(".player.td-HC").closest("tr").hide();
-		else if(clear === "NORMAL")$(".player.td-CL").closest("tr").hide();
-		else if(clear === "EASY")$(".player.td-EC").closest("tr").hide();
-		else if(clear === "FAILED")$(".player.td-FA").closest("tr").hide();
-		else if(clear === "NOPLAY")$(".player.td-NO").closest("tr").hide();
+		$(".player.td-lamp.td-".concat(clear)).closest("tr").hide();
 	});
 
 }
@@ -85,7 +83,7 @@ $('.td-playedN').mouseenter(function(){
 		$.ajax({
 				url: '/~lavalse/LR2IR/search2.cgi',
 				type: "get",
-				data: {"difficultytablehash":hash,"level":level,"title":title}
+				data: {"hash":hash,"level":level,"title":title}
 			})
 			.done(function(data){
 				$('.popup-content').html(data);
@@ -128,7 +126,7 @@ $('.td-playedN').click(function(){
 			$.ajax({
 					url: '/~lavalse/LR2IR/search2.cgi',
 					type: "get",
-					data: {"difficultytablehash":hash,"level":level,"title":title}
+					data: {"hash":hash,"level":level,"title":title}
 				})
 				.done(function(data){
 					$('.popup-content').html(data);

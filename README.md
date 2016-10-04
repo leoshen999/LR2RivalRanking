@@ -66,7 +66,7 @@ Please refer to ```CHANGELOG``` for more information.
 * Handle unlogging error
 * Unlock multiple access to database
 * Separate database lock and console lock
-* Modify webpage color design
+* Add status bar in webpage
 * Add more exception handler
 * Add some user configurations
 * Add rival recommended song list

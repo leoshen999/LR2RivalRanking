@@ -127,9 +127,7 @@ def handleDifficultyTableSearch(headers,q_dict):
 	if q_dict['difficultytable'][0] in table_info :
 		table = q_dict['difficultytable'][0]
 	
-	newContents='<br><h1>'+table_info[table][0]+'</h1><h2 id="loading">Loading...</h2>'
-	
-	newContents+=DifficultyGenerator.difficultyGenerator.generateDifficulty(table)
+	newContents='<h1>'+table_info[table][0]+'</h1>'+DifficultyGenerator.difficultyGenerator.generateDifficulty(table)
 	
 	body='<!DOCTYPE html>\n'+modifyContents(body,True,True,newContents)
 	
@@ -140,7 +138,7 @@ def handleDifficultyTableHashSearch(q_dict):
 	res=GlobalTools.SimpleHTTPResponse()
 	level=q_dict['level'][0]
 	title=q_dict['title'][0]
-	hash=q_dict['difficultytablehash'][0]
+	hash=q_dict['hash'][0]
 	body=DifficultyGenerator.difficultyGenerator.generatePopup(level,title,hash).encode('utf8')
 	return res,body
 
