@@ -9,7 +9,7 @@ from tools import GlobalTools
 from tools import MainWindow
 from tools import Server
 
-version='v1.4.1'
+version='v1.4.2'
 if __name__ == '__main__':
 	GlobalTools.init(version)
 	

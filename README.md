@@ -1,19 +1,20 @@
 # LR2 Rival Ranking
 
 ## Pre-built Executable
-Latest released executable version:  ```v1.4.1```.  
-The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.4.1/LR2RivalRanking.v1.4.1.zip).
+Latest released executable version:  ```v1.4.2```.  
+The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.4.2/LR2RivalRanking.v1.4.2.zip).
 
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
 ## Overview
-LR2 Rival Ranking(LR2RR) is a plug-in of Lunatic Rave 2.
+LR2 Rival Ranking(LR2RR) is a plug-in of Lunatic Rave 2(LR2).
 
-When the application is running, the ranking will be replaced.  
+When LR2RR is running, the ranking in LR2 will be replaced.  
 The new ranking will only show the score of your rivals and yourself.  
 It's easier to compare the scores with your rivals.
 
-
+Now we have a new feature about homepage modifcation of LR2 after v1.4.  
+You can see your scores among difficulty tables and compare with your rivals.
 
 ## Installation
 The following tools or packages are needed to compile the python script:
@@ -46,6 +47,9 @@ If LR2 has been started before LR2RRR, please close LR2 first.
 Special function keys: **F1** - **F5**  
 For more detail, the usage guide will be shown when the app starts.
 
+If the webpage modification function doesn't work properly, please refresh your webpage.  
+If it's still not work, please check the browser DNS settings.
+
 The rival data is saved in ```%APPDATA%\LR2RR```.  
 You can delete this folder if you want to clean the previous saved data.
 
@@ -61,15 +65,20 @@ http://www.dream-pro.info/~lavalse/LR2IR/search.cgi
 Please refer to ```CHANGELOG``` for more information.
 
 ## TODO
-* Remove not played record in ranking
-* Support manually logging
-* Handle unlogging error
-* Unlock multiple access to database
-* Separate database lock and console lock
-* Add status bar in webpage
-* Add more exception handler
-* Add some user configurations
-* Add rival recommended song list
+* In near future (v1.4.x):
+  * Add status bar in webpage
+  * Add webpage exception handler
+  * CSS design or more extended functions
+  * Add score comparison with arbitrary two players
+* should be done someday (v1.5 or farther):
+  * Add user configurations
+  * Support manually logging
+  * Add more exception handler
+  * Separate database lock and console lock
+  * Unlock multiple access to database
+* not sure whether to implement:
+  * Remove not played record in ranking
+  * Add rival recommended song list
 
 ## Credits
 Author: Leo Shen (LR2IR: [121168 うまい焼鴨](http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168))

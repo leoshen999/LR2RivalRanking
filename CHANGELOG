@@ -1,11 +1,15 @@
 # Change Log
 ## -- Latest version --
+### v1.4.2 - [2016-10-06]
+* webpage css design beautification
+* fix webpage HTML entities encoding bugs
+
+## -- Previous versions --
 ### v1.4.1 - [2016-10-02]
 * Show difficulty table link on extension setting
 * Fix NOPLAY can't be filtered bug
 * Fix popup window wrong content when LR2RR closed
 
-## -- Previous versions --
 ### v1.4 - [2016-10-02]
 * LR2IR website extensnion function: difficulty table
 * Remove id-typing in Ir/ folder modification
