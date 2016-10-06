@@ -25,7 +25,7 @@ h5{
 }
 
 .min-lv, .max-lv{
-	width: 55px;
+	width: 45px;
 	font-size: 10pt;
 	font-family: Consolas,"MS Gothic";
 	font-weight:normal;
@@ -55,7 +55,7 @@ h5{
 	user-select: none;
 	text-shadow: -2px 0px 8px rgba(0,0,0,0.7),2px 0px 8px rgba(0,0,0,0.7);
 }
-.ck-button.ck-RANK span{width: 50px;}
+.ck-button.ck-RANK span{width: 45px;}
 .ck-button.ck-CLEAR span{width: 75px;}
 .ck-button input {display: none;}
 
@@ -102,6 +102,21 @@ h5{
 .ck-NO span:hover{background-color: hsl(0, 0%, 25%);}
 .ck-NO input:checked + span {background-color: hsl(0, 0%, 40%);}
 .ck-NO input:checked:hover + span{background-color: hsl(0, 0%, 50%);}
+
+.status-RANK{width:47px;margin-left: 1px;margin-right: 1px;display: inline-block;}
+.status-CLEAR{width:77px;margin-left: 1px;margin-right: 1px;display: inline-block;}
+.status-MAX{color: hsl(20, 80%, 60%);}
+.status-AAA{color: hsl(45, 70%, 55%);}
+.status-AA{color: hsl(180, 30%, 60%);}
+.status-A{color: hsl(210, 40%, 50%);}
+.status-BF{color: hsl(0, 0%, 40%);}
+.status-FC{color: hsl(330, 90%, 65%);}
+.status-HC{color: hsl(260, 10%, 70%);}
+.status-CL{color: hsl(35, 75%, 55%);}
+.status-EC{color: hsl(90, 55%, 40%);}
+.status-FA{color: hsl(0, 75%, 35%);}
+.status-NO{color: hsl(0, 0%, 40%);}
+
 
 
 table{

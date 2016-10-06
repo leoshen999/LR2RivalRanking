@@ -1,8 +1,8 @@
 # LR2 Rival Ranking
 
 ## Pre-built Executable
-Latest released executable version:  ```v1.4.2```.  
-The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.4.2/LR2RivalRanking.v1.4.2.zip).
+Latest released executable version:  ```v1.4.3```.  
+The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.4.3/LR2RivalRanking.v1.4.3.zip).
 
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
@@ -67,7 +67,6 @@ Please refer to ```CHANGELOG``` for more information.
 ## TODO
 * In near future (v1.4.x):
   * Consider to use another table sorting library
-  * Add status bar in webpage
   * Add webpage exception handler
   * CSS design or more extended functions
   * Add score comparison with arbitrary two players

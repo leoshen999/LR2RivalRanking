@@ -214,15 +214,11 @@ class DifficultyGenerator():
 		
 		
 		temp=len(level_order)
-		filter='<h5><select class="min-lv" onchange="resetFilterResult()">'
+		filter='<h5>MinLV:<select class="min-lv" onchange="resetFilterResult()">'
 		for idx in range(temp):
 			if idx==0: filter+='<option value="'+str(idx)+'" selected>'+level_order[idx]+'</option>'
 			else: filter+='<option value="'+str(idx)+'">'+level_order[idx]+'</option>'
-		filter+='</select>-<select class="max-lv" onchange="resetFilterResult()">'
-		for idx in range(temp):
-			if idx==temp-1: filter+='<option value="'+str(idx)+'" selected>'+level_order[idx]+'</option>'
-			else: filter+='<option value="'+str(idx)+'">'+level_order[idx]+'</option>'
-		filter+='</select> '
+		filter+='</select> Filter:'
 		
 		for rank in [['MAX','MAX'],['AAA','AAA'],['AA','AA'],['A','A'],['BF','B-F']]:
 			filter+='<label class="ck-button ck-RANK ck-'+rank[0]+'"><input type="checkbox" value="'+rank[0]+'" checked onchange="resetFilterResult()"><span>'+rank[1]+'</span></label>'
@@ -230,6 +226,19 @@ class DifficultyGenerator():
 		
 		for clear in [['FC','FULLCOMBO'],['HC','HARD'],['CL','NORMAL'],['EC','EASY'],['FA','FAILED'],['NO','NOPLAY']]:
 			filter+='<label class="ck-button ck-CLEAR ck-'+clear[0]+'"><input type="checkbox" value="'+clear[0]+'" checked onchange="resetFilterResult()"><span>'+clear[1]+'</span></label>'
+		
+		filter+='</h5><h5>MaxLV:<select class="max-lv" onchange="resetFilterResult()">'
+		for idx in range(temp):
+			if idx==temp-1: filter+='<option value="'+str(idx)+'" selected>'+level_order[idx]+'</option>'
+			else: filter+='<option value="'+str(idx)+'">'+level_order[idx]+'</option>'
+		filter+='</select> Status:'
+		
+		
+		for rank in ['MAX','AAA','AA','A','BF']:
+			filter+='<span class="status-RANK status-'+rank+'"></span>'
+		filter+=' '
+		for clear in ['FC','HC','CL','EC','FA','NO']:
+			filter+='<span class="status-CLEAR status-'+clear+'"></span>'
 		filter+='</h5>'
 		
 		table='''

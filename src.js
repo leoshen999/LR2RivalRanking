@@ -30,6 +30,7 @@ $(document).ready(function(){
 	$("#myTable").tablesorter();
 	$("#loading").hide();
 	$("#loaded").show();
+	resetFilterResult();
 });
 
 
@@ -54,6 +55,21 @@ function resetFilterResult(){
 		var clear = $(this).attr('value');
 		$(".player.td-lamp.td-".concat(clear)).closest("tr").prop('hidden',true);
 	});
+	
+	$('.status-MAX').html($('.player.td-MAX:visible').length);
+	$('.status-AAA').html($('.player.td-AAA:visible').length);
+	$('.status-AA').html($('.player.td-AA:visible').length);
+	$('.status-A').html($('.player.td-A:visible').length);
+	$('.status-BF').html($('.player.td-BF:visible').length);
+	
+	$('.status-FC').html($('.player.td-lamp.td-FC:visible').length);
+	$('.status-HC').html($('.player.td-lamp.td-HC:visible').length);
+	$('.status-CL').html($('.player.td-lamp.td-CL:visible').length);
+	$('.status-EC').html($('.player.td-lamp.td-EC:visible').length);
+	$('.status-FA').html($('.player.td-lamp.td-FA:visible').length);
+	$('.status-NO').html($('.player.td-lamp.td-NO:visible').length);
+	
+	
 }
 
 function setPopupPositionAndHeight(){
