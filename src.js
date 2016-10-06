@@ -34,27 +34,26 @@ $(document).ready(function(){
 
 
 function resetFilterResult(){
-	$(".song-tr").show();
-
+	$(".song-tr").prop('hidden',false);
+	
 	var min_lv = $('.min-lv').prop('selectedIndex');
 	var max_lv = $('.max-lv').prop('selectedIndex');
 	$(".song-tr").each(function() {
 		var lv = parseInt($(this).attr('hidden-level'));
 		if( lv < min_lv || lv > max_lv) {
-			$(this).closest("tr").hide();
+			$(this).closest("tr").prop('hidden',true);
 		}
 	});
 	
 	$('.ck-RANK input:checkbox:not(:checked)').each(function() {
 		var rank = $(this).attr('value');
-		$(".player.td-".concat(rank)).closest("tr").hide();
+		$(".player.td-".concat(rank)).closest("tr").prop('hidden',true);
 	});
-
+	
 	$('.ck-CLEAR input:checkbox:not(:checked)').each(function() {
 		var clear = $(this).attr('value');
-		$(".player.td-lamp.td-".concat(clear)).closest("tr").hide();
+		$(".player.td-lamp.td-".concat(clear)).closest("tr").prop('hidden',true);
 	});
-
 }
 
 function setPopupPositionAndHeight(){
