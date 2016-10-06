@@ -15,17 +15,20 @@ h6 a{
 }
 
 h5{
-	font-size: 12pt;
+	font-size: 10pt;
 	font-family: Consolas,"MS Gothic";
 	color:rgb(230,230,230);
-	text-align:left;
+	text-align:center;
 	font-weight:normal;
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
 
 .min-lv, .max-lv{
-	width: 70px;
+	width: 55px;
+	font-size: 10pt;
+	font-family: Consolas,"MS Gothic";
+	font-weight:normal;
 	background: transparent;
 	border-top-style: none;
 	border-right-style: none;
@@ -52,6 +55,8 @@ h5{
 	user-select: none;
 	text-shadow: -2px 0px 8px rgba(0,0,0,0.7),2px 0px 8px rgba(0,0,0,0.7);
 }
+.ck-button.ck-RANK span{width: 50px;}
+.ck-button.ck-CLEAR span{width: 75px;}
 .ck-button input {display: none;}
 
 .ck-MAX span:hover{background-color: hsl(20, 80%, 20%);}

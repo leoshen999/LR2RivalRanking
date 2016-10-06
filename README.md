@@ -66,6 +66,7 @@ Please refer to ```CHANGELOG``` for more information.
 
 ## TODO
 * In near future (v1.4.x):
+  * Consider to use another table sorting library
   * Add status bar in webpage
   * Add webpage exception handler
   * CSS design or more extended functions
