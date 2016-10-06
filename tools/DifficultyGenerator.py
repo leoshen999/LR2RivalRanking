@@ -236,13 +236,13 @@ class DifficultyGenerator():
 		
 		table='''
 			<table id="myTable"><thead><tr>
-				<th class="player th-level">Level</th>
+				<th class="player th-level leftborder2">Level</th>
 				<th class="player th-title">Title</th>
 				<th class="player th-lamp leftborder">L</th>
 				<th class="player th-bp">BP</th>
 				<th class="player th-score">Score</th>
 				<th class="player th-ranking rightborder">Ranking</th>
-				<th class="player th-playedN">Played</th>
+				<th class="player th-playedN rightborder2">Played</th>
 			</tr></thead><tbody>
 		'''
 		trs=[]
@@ -285,13 +285,13 @@ class DifficultyGenerator():
 			rr='<table style="width:446px">'
 			rr+='''<thead>
 					<tr>
-						<th class="th-ranking">#</th>
+						<th class="th-ranking leftborder2">#</th>
 						<th class="th-name">Name</th>
 						<th class="th-lamp leftborder">L</th>
 						<th class="th-bp">BP</th>
 						<th class="th-bpdiff">diff</th>
 						<th class="th-score">Score</th>
-						<th class="th-scorediff">diff</th>
+						<th class="th-scorediff rightborder2">diff</th>
 					</tr>
 				</thead>'''
 			rr+='<tbody>'

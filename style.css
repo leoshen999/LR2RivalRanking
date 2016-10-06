@@ -144,8 +144,8 @@ th.player{cursor: pointer;}
 
 th.leftborder{border-left: 1px solid black;}
 th.rightborder{border-right: 1px solid black;}
-td.leftborder{border-left: 1px solid rgb(64,64,64);}
-td.rightborder{border-right: 1px solid rgb(64,64,64);}
+td.leftborder, th.leftborder2{border-left: 1px solid rgb(64,64,64);}
+td.rightborder, th.rightborder2{border-right: 1px solid rgb(64,64,64);}
 
 .td-title{
 	overflow:hidden;
