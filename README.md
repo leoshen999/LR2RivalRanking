@@ -41,7 +41,7 @@ I'm not sure whether other platforms are well-supported or not.
 ## Usage
 run ```LR2RivalRanking.py``` or ```LR2RivalRanking.exe``` with administrator privilege *before* LR2.
 
-If LR2 has been started before LR2RRR, please close LR2 first.  
+If LR2 has been started before LR2RR, please close LR2 first.  
 (LR2RR needs to take the login procedure of LR2 to get the rival list of current player.)
 
 Special function keys: **F1** - **F5**  
@@ -53,7 +53,7 @@ If it's still not work, please check the browser DNS settings.
 The rival data is saved in ```%APPDATA%\LR2RR```.  
 You can delete this folder if you want to clean the previous saved data.
 
-If the program is not closed correctly, it may cause connection error to LR2IR.  
+If the program is not closed correctly, it may cause connection error to LR2 server.  
 When the problem happens, just turn on LR2RR and close it again.  
 If it's still not solved, please check your hosts setting.  
 (```%SystemRoot%\System32\drivers\etc\hosts```)
