@@ -4,11 +4,11 @@ import lxml.html
 import sqlite3
 import urllib2
 import json
-import io
 
 import GlobalTools
 import DPISocket
 import DifficultyGenerator
+import ChallengeGenerator
 
 
 table_info={
@@ -62,12 +62,10 @@ def handleWebpageExtensionSetup(flag):
 				for level in header['level_order']:
 					level_order.append(unicode(level))
 				
-				with io.open(GlobalTools.dbdir+name+'_body.json', 'w', encoding='utf-8') as fp:
-					fp.write(unicode(json.dumps(songs, ensure_ascii=False, encoding="utf-8")))
-					# json.dump(songs,fp,ensure_ascii=False)
-				with io.open(GlobalTools.dbdir+name+'_level_order.json', 'w', encoding='utf-8') as fp:
-					fp.write(unicode(json.dumps(level_order, ensure_ascii=False, encoding="utf-8")))
-					# json.dump(level_order,fp,ensure_ascii=False)
+				with open(GlobalTools.dbdir+name+'_body.json', 'w') as fp:
+					fp.write(json.dumps(songs, ensure_ascii=False, encoding="utf-8").encode('utf-8'))
+				with open(GlobalTools.dbdir+name+'_level_order.json', 'w') as fp:
+					fp.write(json.dumps(level_order, ensure_ascii=False, encoding="utf-8").encode('utf-8'))
 			GlobalTools.misc['webpageextension']='True'
 			GlobalTools.logger.write( ' Difficulty table links:          \n' )
 			for name,info in table_info.iteritems():
@@ -103,7 +101,11 @@ def modifyContents(body,appendMenu=True,changeContent=False,newContent=''):
 	menu=root.find('.//div[@id="menu"]')
 	
 	if appendMenu is True:
-		menu.append(lxml.html.fromstring(u'<div>難易度表： <a href="search.cgi?difficultytable=normal">☆通常難易度表</a> | <a href="search.cgi?difficultytable=insane">★発狂BMS難易度表</a> | <a href="search.cgi?difficultytable=normal_no2">▽第2通常難易度</a> | <a href="search.cgi?difficultytable=insane_no2">▼第2発狂難易度</a> | <a href="search.cgi?difficultytable=ln">◆LN難易度</a> | <a href="search.cgi?difficultytable=overjoy">★★Overjoy</a></div>'))
+		menu.getchildren()[-1].tail=' | '
+		menu.append(lxml.html.fromstring(u'<a href="search.cgi?mode=challenge">挑戦状</a>'))
+		menu.getchildren()[-1].tail=' | '
+		menu.append(lxml.html.fromstring(u'<a href="search.cgi?mode=recent">最近の遊び記録</a>'))
+		menu.append(lxml.html.fromstring(u'<div>難易度表： <a href="search.cgi?mode=difficulty&table=normal">☆通常難易度表</a> | <a href="search.cgi?mode=difficulty&table=insane">★発狂BMS難易度表</a> | <a href="search.cgi?mode=difficulty&table=normal_no2">▽第2通常難易度</a> | <a href="search.cgi?mode=difficulty&table=insane_no2">▼第2発狂難易度</a> | <a href="search.cgi?mode=difficulty&table=ln">◆LN難易度</a> | <a href="search.cgi?mode=difficulty&table=overjoy">★★Overjoy</a></div>'))
 	
 	if changeContent is True:
 		parent=menu.getparent()
@@ -115,7 +117,7 @@ def modifyContents(body,appendMenu=True,changeContent=False,newContent=''):
 				break
 			else:
 				parent.remove(elem)
-	body=lxml.html.tostring(root,encoding='cp932')
+	body='<!DOCTYPE html>\n'+lxml.html.tostring(root,encoding='cp932')
 	return body
 
 def handleDifficultyTableSearch(headers,q_dict):
@@ -124,30 +126,82 @@ def handleDifficultyTableSearch(headers,q_dict):
 	res,body=sock.sendAndReceive()
 	
 	table='normal_no2'
-	if q_dict['difficultytable'][0] in table_info :
-		table = q_dict['difficultytable'][0]
+	if q_dict['table'][0] in table_info :
+		table = q_dict['table'][0]
 	
-	newContents='<h1>'+table_info[table][0]+'</h1>'+DifficultyGenerator.difficultyGenerator.generateDifficulty(table)
+	pre_def='''
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/js/jquery.tablesorter.min.js"></script>
+		<style>'''+GlobalTools.webstyle+'''</style>
+	'''
+	post_def='<script>'+GlobalTools.webscript+'</script>'
 	
-	body='<!DOCTYPE html>\n'+modifyContents(body,True,True,newContents)
+	newContents='<div id="myextend">'+pre_def+'<div class="big-title">'+table_info[table][0]+'</div>'+DifficultyGenerator.difficultyGenerator.generateDifficulty(table)+post_def+'</div>'
+	
+	body=modifyContents(body,True,True,newContents)
 	
 	return res,body
 
 def handleDifficultyTableHashSearch(q_dict):
 	
 	res=GlobalTools.SimpleHTTPResponse()
-	level=q_dict['level'][0]
+	level=''
+	if 'level' in q_dict: level=q_dict['level'][0]+'<br>'
 	title=q_dict['title'][0]
 	hash=q_dict['hash'][0]
 	body=DifficultyGenerator.difficultyGenerator.generatePopup(level,title,hash).encode('utf8')
 	return res,body
 
+def handleChallenge(headers):
+	sock=DPISocket.DPISocket('GET','/~lavalse/LR2IR/search.cgi?mode=detail')
+	sock.setMsg(headers)
+	res,body=sock.sendAndReceive()
+	
+	pre_def='''
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/js/jquery.tablesorter.min.js"></script>
+		<style>'''+GlobalTools.webstyle+'''</style>
+	'''
+	post_def='<script>var mode="challenge";'+GlobalTools.webscript+'</script>'
+	
+	loading='<div class="small-title" id="loading">Loading...</div>'
+	popup='<div class="popup"><div class="ESC-button">[ESC] Close</div><div class="popup-content"></div></div>'
+	popup2='<div class="popup2"></div>'
+	loaded='<div id="loaded" style="display: none"><div id="all-ch-box"></div>'+popup+popup2+'</div>'
+	
+	newContents=u'<div id="myextend">'+pre_def+u'<div class="big-title">挑戦状</div>'+loading+loaded+post_def+'</div>'
+	body=modifyContents(body,True,True,newContents)
+	return res,body
 
+def handleChallengeAddDeleteQuery(q_dict):
+	type=q_dict['type'][0]
+	res=GlobalTools.SimpleHTTPResponse()
+	body=''
+	if type=='add':
+		body=ChallengeGenerator.addChallenge(q_dict['hash'][0],q_dict['id'][0],q_dict['name'][0])
+	elif type=='delete':
+		body=ChallengeGenerator.deleteChallenge(q_dict['hash'][0],q_dict['id'][0],q_dict['direction'][0])
+	elif type=='query':
+		body=ChallengeGenerator.queryChallenge()
+	return res,body
 
-
-
-
-
+def handleRecent(headers):
+	sock=DPISocket.DPISocket('GET','/~lavalse/LR2IR/search.cgi?mode=detail')
+	sock.setMsg(headers)
+	res,body=sock.sendAndReceive()
+	
+	pre_def='''
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/js/jquery.tablesorter.min.js"></script>
+		<style>'''+GlobalTools.webstyle+'''</style>
+	'''
+	post_def='<script>'+GlobalTools.webscript+'</script>'
+	
+	newContents='<div id="myextend">'+pre_def+u'<div class="big-title">最近の遊び記録</div>'+DifficultyGenerator.difficultyGenerator.generateRecent()+post_def+'</div>'
+	
+	body=modifyContents(body,True,True,newContents)
+	
+	return res,body
 
 
 

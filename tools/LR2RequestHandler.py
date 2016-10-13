@@ -1,8 +1,8 @@
 #coding: utf-8
-import GlobalTools
-import WebpageParser
 import threading
 
+import GlobalTools
+import WebpageParser
 import RankingGenerator
 import RivalUpdater
 import ScoreUpdater
@@ -43,7 +43,7 @@ def handleScore(q_dict):
 			return
 		
 		# get song title and artist
-		WebpageParser.printTitleAndArtist(hash)
+		rt,ra=WebpageParser.getTitleAndArtist(hash,True)
 		
 		# write the score to database
 		score={
@@ -56,7 +56,7 @@ def handleScore(q_dict):
 			'gr' : q_dict['gr'][0],
 			'minbp' : q_dict['minbp'][0]
 		}
-		status=ScoreUpdater.updateScore(score,True)
+		status=ScoreUpdater.updateScore(score,rt,True)
 		
 		if not status:
 			GlobalTools.logger.write( '      Failed to update score      \n' )
@@ -78,7 +78,7 @@ def handleRanking(q_dict):
 			return '',''
 		
 		# get song title and artist
-		WebpageParser.printTitleAndArtist(hash)
+		WebpageParser.getTitleAndArtist(hash,True)
 		
 		# create a fake response
 		res=GlobalTools.SimpleHTTPResponse()

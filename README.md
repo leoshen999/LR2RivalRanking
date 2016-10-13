@@ -76,6 +76,7 @@ Please refer to ```CHANGELOG``` for more information.
   * Add more exception handler
   * Separate database lock and console lock
   * Unlock multiple access to database
+  * subWindow input state
 * not sure whether to implement:
   * Remove not played record in ranking
   * Add rival recommended song list

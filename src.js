@@ -1,170 +1,259 @@
 $(document).ready(function(){
-	$.tablesorter.addParser({
-		id: 'level',
-		is: function(s) {return false;},
-		format: function(s) {
-			return level_order.indexOf(s);
-		},
-		type: 'numeric'
-	});
-	$.tablesorter.addParser({
-		id: 'playedN',
-		is: function(s) {return false;},
-		format: function(s){
-			return s.replace(/^-$/,'');
-		},
-		type: 'numeric'
-	});
-	$("#myTable").tablesorter({
-		headers: { 
-			0: {sorter:'level'},
-			6: {sorter:'playedN'}
-		},
-		textSorter: {
-			1: $.tablesorter.sortText
-		},
-		sortAppend: [[0,0],[1,0]],
-		sortList: [[0,0],[1,0]]
-	}); 
-	
-	$("#myTable").tablesorter();
-	$("#loading").hide();
-	$("#loaded").show();
-	resetFilterResult();
+	if(mode==='difficulty'){
+		$.tablesorter.addParser({
+			id: 'level',
+			is: function(s) {return false;},
+			format: function(s) {
+				return level_order.indexOf(s);
+			},
+			type: 'numeric'
+		});
+		$.tablesorter.addParser({
+			id: 'playedN',
+			is: function(s) {return false;},
+			format: function(s){
+				return s.replace(/^-$/,'');
+			},
+			type: 'numeric'
+		});
+		$("#playerTable").tablesorter({
+			headers: { 
+				0: {sorter:'level'},
+				6: {sorter:'playedN'}
+			},
+			textSorter: {
+				1: $.tablesorter.sortText
+			},
+			sortAppend: [[0,0],[1,0]],
+			sortList: [[0,0],[1,0]]
+		}); 
+		
+		$("#myTable").tablesorter();
+		setPopupEvent();
+		$("#loading").hide();
+		$("#loaded").show();
+		resetFilterResult();
+	}
+	if(mode==='challenge'){
+		updateAllChallengebox();
+	}
+	if(mode==='recent'){
+		setPopupEvent();
+		$("#loading").hide();
+		$("#loaded").show();
+	}
 });
 
 
 function resetFilterResult(){
-	$(".song-tr").prop('hidden',false);
-	
 	var min_lv = $('.min-lv').prop('selectedIndex');
 	var max_lv = $('.max-lv').prop('selectedIndex');
 	$(".song-tr").each(function() {
 		var lv = parseInt($(this).attr('hidden-level'));
-		if( lv < min_lv || lv > max_lv) {
-			$(this).closest("tr").prop('hidden',true);
-		}
+		if( lv < min_lv || lv > max_lv)
+			$(this).prop('hidden',true);
+		else $(this).prop('hidden',false);
 	});
 	
-	$('.ck-RANK input:checkbox:not(:checked)').each(function() {
-		var rank = $(this).attr('value');
-		$(".player.td-".concat(rank)).closest("tr").prop('hidden',true);
+	$('.ck input:checkbox:not(:checked)').each(function() {
+		var unchecked = $(this).attr('value');
+		$('.song-tr.'+unchecked).prop('hidden',true);
 	});
 	
-	$('.ck-CLEAR input:checkbox:not(:checked)').each(function() {
-		var clear = $(this).attr('value');
-		$(".player.td-lamp.td-".concat(clear)).closest("tr").prop('hidden',true);
+	$('.ck-status.MAX').html($('.song-tr.MAX:visible').length);
+	$('.ck-status.AAA').html($('.song-tr.AAA:visible').length);
+	$('.ck-status.AA').html($('.song-tr.AA:visible').length);
+	$('.ck-status.A').html($('.song-tr.A:visible').length);
+	$('.ck-status.BF').html($('.song-tr.BF:visible').length);
+	
+	$('.ck-status.FC').html($('.song-tr.FC:visible').length);
+	$('.ck-status.HC').html($('.song-tr.HC:visible').length);
+	$('.ck-status.CL').html($('.song-tr.CL:visible').length);
+	$('.ck-status.EC').html($('.song-tr.EC:visible').length);
+	$('.ck-status.FA').html($('.song-tr.FA:visible').length);
+	$('.ck-status.NO').html($('.song-tr.NO:visible').length);
+	
+	
+}
+
+var toggled=false;
+var toggledHash='';
+var challengeProcessing=false;
+var challengeUpdating=false;
+function setChallengeDeleteEvent(){
+	$('.ch-box.delete').click(function(){
+		if(challengeProcessing||challengeUpdating)return;
+		
+		challengeProcessing=true;
+		$('.popup2').html('<div class="tiny-title">Sending...</div>');
+		$('.popup2').animate({bottom:"0px"},300);
+		
+		var hash=$(this).attr('hash');
+		var id=$(this).attr('rid');
+		var direction=0;
+		if ($(this).attr('direction')=='FROM') direction=1;
+		$.ajax({
+				url: '/~lavalse/LR2IR/challenge.cgi',
+				type: "get",
+				data: {"type":"delete","hash":hash,"id":id,"direction":direction}
+			})
+			.done(function(data){
+				$('.popup2').html(data);
+				updateAllChallengebox();
+			})
+			.fail(function(){
+				$('.popup2').html('<div class="tiny-title">Failed to send data.</div>');
+			})
+			.always(function(){
+				setTimeout(function(){
+					$('.popup2').animate({bottom:"-28px"},300,function(){challengeProcessing=false;});
+				}, 1500);
+			})
+		;
 	});
-	
-	$('.status-MAX').html($('.player.td-MAX:visible').length);
-	$('.status-AAA').html($('.player.td-AAA:visible').length);
-	$('.status-AA').html($('.player.td-AA:visible').length);
-	$('.status-A').html($('.player.td-A:visible').length);
-	$('.status-BF').html($('.player.td-BF:visible').length);
-	
-	$('.status-FC').html($('.player.td-lamp.td-FC:visible').length);
-	$('.status-HC').html($('.player.td-lamp.td-HC:visible').length);
-	$('.status-CL').html($('.player.td-lamp.td-CL:visible').length);
-	$('.status-EC').html($('.player.td-lamp.td-EC:visible').length);
-	$('.status-FA').html($('.player.td-lamp.td-FA:visible').length);
-	$('.status-NO').html($('.player.td-lamp.td-NO:visible').length);
-	
-	
+}
+
+function setChallengeAddEvent(){
+	$('td.challenge.add').click(function(){
+		if(!toggled)return;
+		if(challengeProcessing||challengeUpdating)return;
+		
+		challengeProcessing=true;
+		$('.popup2').html('<div class="tiny-title">Sending...</div>');
+		$('.popup2').animate({bottom:"0px"},300);
+		
+		var id=$(this).attr('rid');
+		var name=$(this).siblings('td.name').children('a').text();
+		$.ajax({
+				url: '/~lavalse/LR2IR/challenge.cgi',
+				type: "get",
+				data: {"type":"add","hash":toggledHash,"id":id,"name":name}
+			})
+			.done(function(data){
+				$('.popup2').html(data);
+				if(mode==='challenge')updateAllChallengebox();
+			})
+			.fail(function(){
+				$('.popup2').html('<div class="tiny-title">Failed to send data.</div>');
+			})
+			.always(function(){
+				setTimeout(function(){
+					$('.popup2').animate({bottom:"-28px"},300,function(){challengeProcessing=false;});
+				}, 1500);
+			})
+		;
+	});
+}
+function updateAllChallengebox(){
+	challengeUpdating=true;
+	$.ajax({
+			url: '/~lavalse/LR2IR/challenge.cgi',
+			type: "get",
+			data: {"type":"query"}
+		})
+		.done(function(data){
+			$('#all-ch-box').html(data);
+			setChallengeDeleteEvent();
+			setPopupEvent();
+			$("#loading").hide();
+			$("#loaded").show();
+			if(toggled)
+				$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').addClass('toggled');
+		})
+		.fail(function(){
+			$('#all-ch-box').html('<div class="tiny-title">Failed to send data.</div>');
+		})
+		.always(function(){
+			challengeUpdating=false;
+		})
+	;
 }
 
 function setPopupPositionAndHeight(){
 	$('.popup').height('auto');
 	var h=$('.popup')[0].scrollHeight+2;
 	var window_h=$(window).height();
+	if (window_h>50)window_h-=50;
 	var min_h=Math.min(h,window_h);
 	
 	$('.popup').outerHeight(min_h);
 	$('.popup').css('margin-top','-'+(min_h/2)+'px');
 }
+function setPopupContent(hash,level,title){
+	$('.popup-content').html('<div class="small-title">Loading...</div>');
+	setPopupPositionAndHeight();
+	
+	$('.popup').css('visibility', 'visible');
+	$.ajax({
+			url: '/~lavalse/LR2IR/hashsearch.cgi',
+			type: "get",
+			data: {"hash":hash,"level":level,"title":title}
+		})
+		.done(function(data){
+			$('.popup-content').html(data);
+			setPopupPositionAndHeight();
+			setChallengeAddEvent();
+		})
+		.fail(function(){
+			$('.popup-content').html('<div class="small-title">Failed to load data.</div>');
+			setPopupPositionAndHeight();
+		})
+	;
+}
 
+function setPopupEvent(){
+	$('td.playedN, .ch-box.more').mouseenter(function(){
+		if(!toggled){
+			var hash = $(this).attr('hash');
+			var level=$(this).siblings('.level, .line').text();
+			var title=$(this).siblings('.title').children('a').text();
+			
+			setPopupContent(hash,level,title);
+		}
+	});
+	$('td.playedN, .ch-box.more').mouseleave(function(){
+		if (!toggled)
+			$('.popup').css('visibility', 'hidden');
+	});
 
-var toggled=false;
-var toggledHash='';
-$('.td-playedN').mouseenter(function(){
-	if(!toggled){
-		var hash = $(this).attr('hash');
-		var level=$(this).siblings('.td-level').text();
-		var title=$(this).siblings('.td-title').children('a').text();
-		
-		$('.popup-content').html('Loading...');
-		setPopupPositionAndHeight();
-		
-		$('.popup').css('visibility', 'visible');
-		$.ajax({
-				url: '/~lavalse/LR2IR/search2.cgi',
-				type: "get",
-				data: {"hash":hash,"level":level,"title":title}
-			})
-			.done(function(data){
-				$('.popup-content').html(data);
-				setPopupPositionAndHeight();
-			})
-			.fail(function(){
-					$('.popup-content').html('Failed to load data.');
-			})
-		;
-	}
-});
-$('.td-playedN').mouseleave(function(){
-	if (!toggled)
-		$('.popup').css('visibility', 'hidden');
-});
-
-$('.td-playedN').click(function(){
-	var hash=$(this).attr('hash');
-	if(!toggled){
-		$(this).addClass('td-toggled');
-		toggledHash=hash;
-		toggled=true;
-	}
-	else{
-		if(toggledHash===hash){
-			$(this).removeClass('td-toggled');
-			toggled=false;
+	$('td.playedN, .ch-box.more').click(function(){
+		var hash=$(this).attr('hash');
+		if(!toggled){
+			toggledHash=hash;
+			toggled=true;
+			$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').addClass('toggled');
 		}
 		else{
-			$('.td-playedN[hash="'+toggledHash+'"]').removeClass('td-toggled');
-			$(this).addClass('td-toggled');
-			toggledHash=hash;
-			
-			var level=$(this).siblings('.td-level').text();
-			var title=$(this).siblings('.td-title').children('a').text();
-			
-			$('.popup-content').html('Loading...');
-			setPopupPositionAndHeight();
-			
-			$.ajax({
-					url: '/~lavalse/LR2IR/search2.cgi',
-					type: "get",
-					data: {"hash":hash,"level":level,"title":title}
-				})
-				.done(function(data){
-					$('.popup-content').html(data);
-					setPopupPositionAndHeight();
-				})
-				.fail(function(){
-						$('.popup-content').html('Failed to load data.');
-				})
-			;
+			if(toggledHash===hash){
+				$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').removeClass('toggled');
+				toggled=false;
+			}
+			else{
+				$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').removeClass('toggled');
+				toggledHash=hash;
+				$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').addClass('toggled');
+				
+				var level=$(this).siblings('.level, .line').text();
+				var title=$(this).siblings('.title').children('a').text();
+				
+				setPopupContent(hash,level,title);
+			}
 		}
-	}
-});
+	});
+}
+
+
+
 $(document).keyup(function(e) {
 	if (toggled && e.keyCode === 27){
-		$('.td-playedN[hash="'+toggledHash+'"]').removeClass('td-toggled');
+		$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').removeClass('toggled');
 		toggled=false;
 		$('.popup').css('visibility', 'hidden');
 	}
 });
-
 $('.ESC-button').click(function(){
 	if (toggled){
-		$('.td-playedN[hash="'+toggledHash+'"]').removeClass('td-toggled');
+		$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').removeClass('toggled');
 		toggled=false;
 		$('.popup').css('visibility', 'hidden');
 	}
@@ -183,8 +272,6 @@ var waitForFinalEvent = (function () {
 		timers[uniqueId] = setTimeout(callback, ms);
 	};
 })();
-
-
 $(window).resize(function () {
 	waitForFinalEvent(function(){
 		setPopupPositionAndHeight()

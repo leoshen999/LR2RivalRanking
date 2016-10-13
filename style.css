@@ -1,45 +1,55 @@
-span.not-show {display: none;}
-
-h6{
-	font-size: 12pt;
-	font-family: Consolas,"MS Gothic";
+#myextend{
+	font-size: 10pt;
+	font-family: Consolas,Meiryo;
 	color:rgb(230,230,230);
-	text-align:center;
-	font-weight:normal;
-	margin-top: 7px;
-	margin-bottom: 7px;
 }
-h6 a{
+
+.big-title{
+	background-color: rgb(64,64,64);
+	font-size: 16pt;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	text-align:center;
+}
+.small-title{
+	font-size: 12pt;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	text-align:center;
+}
+.small-title a{
 	color: rgb(230,230,230) !important;
 	text-decoration: none;
 }
-
-h5{
+.tiny-title{
 	font-size: 10pt;
-	font-family: Consolas,"MS Gothic";
-	color:rgb(230,230,230);
 	text-align:center;
-	font-weight:normal;
-	margin-top: 3px;
-	margin-bottom: 3px;
 }
 
-.min-lv, .max-lv{
+
+.ck{
+	margin-top: 1px;
+	margin-bottom: 1px;
+	text-align: center;
+	vertical-align: middle;
+}
+.ck-select{
+	position: absolute;
+	left:0px;
+	top: 0px;
+	display: inline-block;
+	height: 18px;
 	width: 45px;
 	font-size: 10pt;
-	font-family: Consolas,"MS Gothic";
-	font-weight:normal;
-	background: transparent;
+	font-family: Consolas,Meiryo;
 	border-top-style: none;
 	border-right-style: none;
 	border-left-style: none;
 	border-bottom: 1px solid rgb(230,230,230);
 	color: rgb(230,230,230);
-}
-.min-lv option, .max-lv option{
 	background-color:black;
 }
-
+.ck-button input {display: none;}
 .ck-button span {
 	text-align: center;
 	border-radius: 3px;
@@ -55,90 +65,90 @@ h5{
 	user-select: none;
 	text-shadow: -2px 0px 8px rgba(0,0,0,0.7),2px 0px 8px rgba(0,0,0,0.7);
 }
-.ck-button.ck-RANK span{width: 45px;}
-.ck-button.ck-CLEAR span{width: 75px;}
-.ck-button input {display: none;}
+.ck-button.RANK span{width: 45px;}
+.ck-button.CLEAR span{width: 75px;}
 
-.ck-MAX span:hover{background-color: hsl(20, 80%, 20%);}
-.ck-MAX input:checked + span {background-color: hsl(20, 80%, 60%);}
-.ck-MAX input:checked:hover + span{background-color: hsl(20, 80%, 70%);}
+.ck-button.MAX span:hover{background-color: hsl(20, 80%, 20%);}
+.ck-button.MAX input:checked + span {background-color: hsl(20, 80%, 60%);}
+.ck-button.MAX input:checked:hover + span{background-color: hsl(20, 80%, 70%);}
 
-.ck-AAA span:hover{background-color: hsl(45, 70%, 18%);}
-.ck-AAA input:checked + span {background-color: hsl(45, 70%, 55%);}
-.ck-AAA input:checked:hover + span{background-color: hsl(45, 70%, 65%);}
+.ck-button.AAA span:hover{background-color: hsl(45, 70%, 18%);}
+.ck-button.AAA input:checked + span {background-color: hsl(45, 70%, 55%);}
+.ck-button.AAA input:checked:hover + span{background-color: hsl(45, 70%, 65%);}
 
-.ck-AA span:hover{background-color: hsl(180, 30%, 23%);}
-.ck-AA input:checked + span {background-color: hsl(180, 30%, 60%);}
-.ck-AA input:checked:hover + span{background-color: hsl(180, 30%, 70%);}
+.ck-button.AA span:hover{background-color: hsl(180, 30%, 23%);}
+.ck-button.AA input:checked + span {background-color: hsl(180, 30%, 60%);}
+.ck-button.AA input:checked:hover + span{background-color: hsl(180, 30%, 70%);}
 
-.ck-A span:hover{background-color: hsl(210, 40%, 20%);}
-.ck-A input:checked + span {background-color: hsl(210, 40%, 50%);}
-.ck-A input:checked:hover + span{background-color: hsl(210, 40%, 60%);}
+.ck-button.A span:hover{background-color: hsl(210, 40%, 20%);}
+.ck-button.A input:checked + span {background-color: hsl(210, 40%, 50%);}
+.ck-button.A input:checked:hover + span{background-color: hsl(210, 40%, 60%);}
 
-.ck-BF span:hover{background-color: hsl(0, 0%, 25%);}
-.ck-BF input:checked + span {background-color: hsl(0, 0%, 40%);}
-.ck-BF input:checked:hover + span{background-color: hsl(0, 0%, 50%);}
+.ck-button.BF span:hover{background-color: hsl(0, 0%, 25%);}
+.ck-button.BF input:checked + span {background-color: hsl(0, 0%, 40%);}
+.ck-button.BF input:checked:hover + span{background-color: hsl(0, 0%, 50%);}
 
-.ck-FC span:hover{background-color: hsl(330, 90%, 20%);}
-.ck-FC input:checked + span {background-color: hsl(330, 90%, 65%);}
-.ck-FC input:checked:hover + span{background-color: hsl(330, 90%, 75%);}
+.ck-button.FC span:hover{background-color: hsl(330, 90%, 20%);}
+.ck-button.FC input:checked + span {background-color: hsl(330, 90%, 65%);}
+.ck-button.FC input:checked:hover + span{background-color: hsl(330, 90%, 75%);}
 
-.ck-HC span:hover{background-color: hsl(260, 10%, 30%);}
-.ck-HC input:checked + span {background-color: hsl(260, 10%, 70%);}
-.ck-HC input:checked:hover + span{background-color: hsl(260, 10%, 80%);}
+.ck-button.HC span:hover{background-color: hsl(260, 10%, 30%);}
+.ck-button.HC input:checked + span {background-color: hsl(260, 10%, 70%);}
+.ck-button.HC input:checked:hover + span{background-color: hsl(260, 10%, 80%);}
 
-.ck-CL span:hover{background-color: hsl(35, 75%, 20%);}
-.ck-CL input:checked + span {background-color: hsl(35, 75%, 55%);}
-.ck-CL input:checked:hover + span{background-color: hsl(35, 75%, 65%);}
+.ck-button.CL span:hover{background-color: hsl(35, 75%, 20%);}
+.ck-button.CL input:checked + span {background-color: hsl(35, 75%, 55%);}
+.ck-button.CL input:checked:hover + span{background-color: hsl(35, 75%, 65%);}
 
-.ck-EC span:hover{background-color: hsl(90, 55%, 10%);}
-.ck-EC input:checked + span {background-color: hsl(90, 55%, 40%);}
-.ck-EC input:checked:hover + span{background-color: hsl(90, 55%, 50%);}
+.ck-button.EC span:hover{background-color: hsl(90, 55%, 10%);}
+.ck-button.EC input:checked + span {background-color: hsl(90, 55%, 40%);}
+.ck-button.EC input:checked:hover + span{background-color: hsl(90, 55%, 50%);}
 
-.ck-FA span:hover{background-color: hsl(0, 75%, 20%);}
-.ck-FA input:checked + span {background-color: hsl(0, 75%, 35%);}
-.ck-FA input:checked:hover + span{background-color: hsl(0, 75%, 45%);}
+.ck-button.FA span:hover{background-color: hsl(0, 75%, 20%);}
+.ck-button.FA input:checked + span {background-color: hsl(0, 75%, 35%);}
+.ck-button.FA input:checked:hover + span{background-color: hsl(0, 75%, 45%);}
 
-.ck-NO span:hover{background-color: hsl(0, 0%, 25%);}
-.ck-NO input:checked + span {background-color: hsl(0, 0%, 40%);}
-.ck-NO input:checked:hover + span{background-color: hsl(0, 0%, 50%);}
+.ck-button.NO span:hover{background-color: hsl(0, 0%, 25%);}
+.ck-button.NO input:checked + span {background-color: hsl(0, 0%, 40%);}
+.ck-button.NO input:checked:hover + span{background-color: hsl(0, 0%, 50%);}
 
-.status-RANK{width:47px;margin-left: 1px;margin-right: 1px;display: inline-block;}
-.status-CLEAR{width:77px;margin-left: 1px;margin-right: 1px;display: inline-block;}
-.status-MAX{color: hsl(20, 80%, 60%);}
-.status-AAA{color: hsl(45, 70%, 55%);}
-.status-AA{color: hsl(180, 30%, 60%);}
-.status-A{color: hsl(210, 40%, 50%);}
-.status-BF{color: hsl(0, 0%, 40%);}
-.status-FC{color: hsl(330, 90%, 65%);}
-.status-HC{color: hsl(260, 10%, 70%);}
-.status-CL{color: hsl(35, 75%, 55%);}
-.status-EC{color: hsl(90, 55%, 40%);}
-.status-FA{color: hsl(0, 75%, 35%);}
-.status-NO{color: hsl(0, 0%, 40%);}
+.ck-status.RANK{width:47px;margin-left: 1px;margin-right: 1px;display: inline-block;}
+.ck-status.CLEAR{width:77px;margin-left: 1px;margin-right: 1px;display: inline-block;}
+.ck-status.MAX{color: hsl(20, 80%, 60%);}
+.ck-status.AAA{color: hsl(45, 70%, 55%);}
+.ck-status.AA{color: hsl(180, 30%, 60%);}
+.ck-status.A{color: hsl(210, 40%, 50%);}
+.ck-status.BF{color: hsl(0, 0%, 40%);}
+.ck-status.FC{color: hsl(330, 90%, 65%);}
+.ck-status.HC{color: hsl(260, 10%, 70%);}
+.ck-status.CL{color: hsl(35, 75%, 55%);}
+.ck-status.EC{color: hsl(90, 55%, 40%);}
+.ck-status.FA{color: hsl(0, 75%, 35%);}
+.ck-status.NO{color: hsl(0, 0%, 40%);}
 
 
 
 table{
 	font-size: 10pt;
-	font-family: Consolas,"MS Gothic";
+	font-family: Consolas,Meiryo;
 	border-collapse: seperate;
 	border-spacing: 0px 1px;
 	display: inline-block;
 	table-layout: fixed;
 	line-height: 20px;
-	margin-bottom: 5px;
-	background: black;
 }
-table thead tr th{
+tr{background: transparent;}
+th{
 	background-color: rgb(64,64,64);
 	color: rgb(230,230,230);
-	font-weight: normal;
 	border: 0px;
 	padding:0 0 0 0;
 	text-align: center;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
-table tbody tr td{
+td{
 	background-color: black;
 	color: rgb(230,230,230);
 	border-top: 1px solid rgb(64,64,64);
@@ -147,113 +157,116 @@ table tbody tr td{
 	border-right: 0px;
 	padding:0 0 0 0;
 	text-align: center;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
-th.player{cursor: pointer;}
+#playerTable th{cursor: pointer;}
 
-.th-level, .td-level{width: 70px;}
-.th-title, .td-title{width: 513px;}
-.th-name, .td-name{width: 105px;}
-.th-lamp, .td-lamp{width: 8px;}
-.th-bp, .td-bp{width: 50px;}
-.th-bpdiff, .td-bpdiff{width: 50px;}
-.th-score, .td-score{width: 125px;}
-.th-scorediff, .td-scorediff{width: 50px;}
-.th-ranking, .td-ranking{width: 55px;}
-.th-playedN, .td-playedN{width: 55px;}
+th.level, td.level{width: 70px;}
+th.title, td.title{width: 513px;max-width: 513px;}
+th.name, td.name{width: 105px;max-width: 105px;}
+th.lamp, td.lamp{width: 8px;}
+th.bp, td.bp{width: 50px;}
+th.bpdiff, td.bpdiff{width: 50px;}
+th.score, td.score{width: 125px;}
+th.scorediff, td.scorediff{width: 50px;}
+th.ranking, td.ranking{width: 55px;}
+th.playedN, td.playedN{width: 55px;}
+th.challenge, td.challenge{width: 18px;}
+th.garbage, td.garbage{width: 18px;}
 
 th.leftborder{border-left: 1px solid black;}
 th.rightborder{border-right: 1px solid black;}
 td.leftborder, th.leftborder2{border-left: 1px solid rgb(64,64,64);}
 td.rightborder, th.rightborder2{border-right: 1px solid rgb(64,64,64);}
 
-.td-title{
-	overflow:hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	max-width: 513px;
-}
-.td-title a, .td-name a{
+
+td.title a, td.name a{
 	color: rgb(230,230,230);
 	text-decoration: none;
 }
-.td-pid {color: Khaki !important;}
+td.name.pid a{color: Khaki !important;}
 
-.td-lamp.td-FC {
+td.lamp.FC {
 	background: hsl(330, 90%, 80%);
 	background: linear-gradient(hsl(330, 90%, 80%),hsl(330, 90%, 85%),hsl(330, 90%, 80%));
 }
-.td-lamp.td-HC {
+td.lamp.HC {
 	background: hsl(260, 10%, 65%);
 	background: linear-gradient(hsl(260, 10%, 75%),hsl(260, 10%, 90%),hsl(260, 10%, 75%));
 }
-.td-lamp.td-CL {
+td.lamp.CL {
 	background: hsl(35, 75%, 55%);
 	background: linear-gradient(hsl(35, 75%, 55%),hsl(35, 75%, 65%),hsl(35, 75%, 55%));
 }
-.td-lamp.td-EC {
+td.lamp.EC {
 	background: hsl(90, 55%, 40%);
 	background: linear-gradient(hsl(90, 55%, 40%),hsl(90, 55%, 50%),hsl(90, 55%, 40%));
 }
-.td-lamp.td-FA {
+td.lamp.FA {
 	background: hsl(0, 75%, 15%);
 	background: linear-gradient(hsl(0, 75%, 15%),hsl(0, 75%, 22%),hsl(0, 75%, 15%));
 }
-.td-FC {border-color: hsl(330, 90%, 80%) !important;}
-.td-HC {border-color: hsl(260, 10%, 70%) !important;}
-.td-CL {border-color: hsl(35, 75%, 55%) !important;}
-.td-EC {border-color: hsl(90, 55%, 40%) !important;}
-.td-FA {border-color: hsl(0, 75%, 15%) !important;}
+td.FC {border-color: hsl(330, 90%, 80%) !important;}
+td.HC {border-color: hsl(260, 10%, 70%) !important;}
+td.CL {border-color: hsl(35, 75%, 55%) !important;}
+td.EC {border-color: hsl(90, 55%, 40%) !important;}
+td.FA {border-color: hsl(0, 75%, 15%) !important;}
 
-.td-bp0 {
+td.bp0 {
 	color: Gold;
 	text-shadow: -2px 0px 8px Gold,2px 0px 8px Gold;
 }
 
-.td-WIN {color: rgb(160,160,255);}
-.td-LOSE {color: rgb(255,160,160);}
+td.WIN {color: rgb(160,160,255);}
+td.LOSE {color: rgb(255,160,160);}
 
-.td-score{text-shadow: -2px 0px 8px rgba(0,0,0,0.7),2px 0px 8px rgba(0,0,0,0.7);}
-.td-MAX{text-align: left;background: hsl(20, 80%, 60%);}
-.td-AAA{text-align: left;background: hsl(45, 70%, 55%);}
-.td-AA{text-align: left;background: hsl(180, 30%, 60%);}
-.td-A{text-align: left;background: hsl(210, 40%, 50%);}
-.td-BF{text-align: left;background: hsl(0, 0%, 40%);}
+td.score{text-align: left;text-shadow: -2px 0px 8px rgba(0,0,0,0.7),2px 0px 8px rgba(0,0,0,0.7);}
+td.score .MAX{background: hsl(20, 80%, 60%);}
+td.score .AAA{background: hsl(45, 70%, 55%);}
+td.score .AA{background: hsl(180, 30%, 60%);}
+td.score .A{background: hsl(210, 40%, 50%);}
+td.score .BF{background: hsl(0, 0%, 40%);}
 
-.td-TOP1 {
+td.TOP1 {
 	color: Gold;
 	text-shadow: -2px 0px 8px Gold,2px 0px 8px Gold;
 }
 
+td.challenge.add{cursor: pointer;}
+td.challenge.add:hover{background-color: rgb(40,40,40);}
 
-.td-playedN0 {color: rgb(96,96,96);}
-.td-playedN{cursor: pointer;}
-.td-playedN:hover{background-color: rgb(40,40,40);}
-.td-toggled:hover{background-color: rgb(96,96,96) !important;}
-.td-toggled{background-color: rgb(64,64,64) !important;}
+td.playedN{cursor: pointer;}
+td.N0 {color: rgb(96,96,96);}
+td.playedN:hover{background-color: rgb(40,40,40);}
+td.toggled:hover{background-color: rgb(96,96,96) !important;}
+td.toggled{background-color: rgb(64,64,64) !important;}
+
+td.challengePopup2{border:0px;}
 
 
 .popup {
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	margin-left: -240px;
+	margin-left: -250px;
 	overflow: auto;
 	visibility: hidden;
-	width: 480px;
+	width: 500px;
 	background-color: rgba(0,0,0,0.7);
 	border: 1px solid rgb(64,64,64);
 	text-align: center;
 	border-radius: 6px;
 	z-index: 1;
+	padding-bottom: 8px;
 }
 .ESC-button{
 	font-size: 8pt;
-	font-family: Consolas,"MS Gothic";
 	background-color: rgb(64,64,64);
 	color:rgb(168,168,168);
 	text-align:right;
-	font-weight:normal;
 	padding-top: 2px;
 	padding-bottom: 0px;
 	padding-right: 8px;
@@ -263,3 +276,167 @@ td.rightborder, th.rightborder2{border-right: 1px solid rgb(64,64,64);}
 	color: rgb(230,230,230);
 	background-color: rgb(96,96,96);
 }
+.popup2 {
+	position: fixed;
+	bottom: -28px;
+	left: 50%;
+	height: 18px;
+	margin-left: -350px;
+	width: 700px;
+	border-top: 1px solid DodgerBlue;
+	border-left: 1px solid DodgerBlue;
+	border-right: 1px solid DodgerBlue;
+	box-shadow: 0px 0px 8px 1px DodgerBlue;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	background-color: black;
+	z-index: 2;
+	text-align: center;
+}
+
+
+.ch-box{
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.ch-box.outer{
+	width: 878px;
+	height: 60px;
+	display: inline-block;
+	background-color: black;
+	position: relative;
+	border-radius: 6px;
+	line-height: 20px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+.ch-box.title{
+	font-size: 12pt;
+	position: absolute;
+	left: 100px;
+	right: 80px;
+	top: 5px;
+	text-align: center;
+}
+.ch-box a{
+	color:rgb(230,230,230);
+	text-decoration: none;
+}
+.ch-box.line{
+	position: absolute;
+	left: 100px;
+	right: 80px;
+	top: 50%;
+}
+
+.ch-box.namelabel{
+	position: absolute;
+	left: 10px;
+	top: 8px;
+	width: 80px;
+	text-align: left;
+}
+
+.ch-box.name{
+	position: absolute;
+	left: 10px;
+	bottom: 8px;
+	width: 80px;
+	//font-size: 12pt;
+	text-align: center;
+}
+
+.ch-box.clear{
+	position: absolute;
+	left: 120px;
+	bottom: 5px;
+	width: 120px;
+	text-align: center;
+}
+
+.ch-box.bp{
+	position: absolute;
+	left: 305px;
+	bottom: 5px;
+	width: 70px;
+	text-align: center;
+}
+
+.ch-box.score{
+	position: absolute;
+	left: 430px;
+	bottom: 5px;
+	width: 160px;
+}
+
+.ch-box.time{
+	position: absolute;
+	left: 635px;
+	bottom: 5px;
+	width: 150px;
+}
+
+.ch-box.delete{
+	position: absolute;
+	right: 10px;
+	top: 6px;
+	width: 60px;
+	text-align: center;
+	border: 1px solid rgb(64,64,64);
+}
+.ch-box.more{
+	position: absolute;
+	right: 10px;
+	bottom: 6px;
+	width: 60px;
+	text-align: center;
+	border: 1px solid rgb(64,64,64);
+}
+
+.ch-box.outer.FROM{
+	border: 1px solid OrangeRed;
+	box-shadow: 0px 0px 8px 1px OrangeRed;
+}
+.ch-box.outer.TO{
+	border: 1px solid DodgerBlue;
+	box-shadow: 0px 0px 8px 1px DodgerBlue;
+}
+.ch-box.line.FROM{
+	border-top: 1px solid OrangeRed;
+	box-shadow: 0px 0px 8px 1px OrangeRed;
+}
+.ch-box.line.TO{
+	border-top: 1px solid DodgerBlue;
+	box-shadow: 0px 0px 8px 1px DodgerBlue;
+}
+
+.ch-box.FC{
+	color: hsl(330, 90%, 75%);
+	text-shadow: -2px 0px 8px hsl(330, 90%, 65%),2px 0px 8px hsl(330, 90%, 65%);
+}
+.ch-box.HC{
+	color: hsl(260, 10%, 90%);
+	text-shadow: -2px 0px 8px hsl(260, 10%, 80%),2px 0px 8px hsl(260, 10%, 80%);
+}
+.ch-box.CL{color: hsl(35, 75%, 65%);}
+.ch-box.EC{color: hsl(90, 55%, 50%);}}
+.ch-box.FA{color: hsl(0, 75%, 40%);}
+.ch-box.NO{color: hsl(0, 0%, 40%);}
+
+.ch-box.bp0{
+	color: Gold;
+	text-shadow: -2px 0px 8px Gold,2px 0px 8px Gold;
+}
+
+.ch-box.score{text-shadow: -2px 0px 8px rgba(0,0,0,0.7),2px 0px 8px rgba(0,0,0,0.7);}
+.ch-box.score .AAA{background: hsl(45, 70%, 55%);}
+.ch-box.score .AA{background: hsl(180, 30%, 60%);}
+.ch-box.score .A{background: hsl(210, 40%, 50%);}
+.ch-box.score .BF{background: hsl(0, 0%, 40%);}
+
+
+.ch-box.more, .ch-box.delete{cursor: pointer;}
+.ch-box.more:hover, .ch-box.delete:hover{background-color: rgb(40,40,40);}
+.ch-box.toggled:hover{background-color: rgb(96,96,96) !important;}
+.ch-box.toggled{background-color: rgb(64,64,64) !important;}

@@ -1,9 +1,10 @@
 #coding: utf-8
-import GlobalTools
+import time
 import sqlite3
+import GlobalTools
 
 # caution: score entries are all in string form
-def updateScore(score,toPrint=True):
+def updateScore(score,title,toPrint=True):
 	conn = sqlite3.connect(GlobalTools.dbpath)
 	conn.row_factory = sqlite3.Row
 	cur = conn.cursor()
@@ -11,6 +12,16 @@ def updateScore(score,toPrint=True):
 		cur.execute('''
 			REPLACE INTO scores VALUES(?,?,?,?,?,?,?,?)
 		''',(score['hash'],score['id'],score['clear'],score['notes'],score['combo'],score['pg'],score['gr'],score['minbp']))
+		current_time=int(time.time())
+		cur.execute('''
+			REPLACE INTO recent VALUES(?,?,?,?)
+		''',(score['hash'],score['id'],title,current_time))
+		cur.execute('''
+			DELETE FROM recent
+			WHERE id=? AND hash NOT IN(
+				SELECT hash FROM recent WHERE id=? ORDER BY lastupdate DESC LIMIT 30
+			)
+		''',(score['id'],score['id']))
 		conn.commit()
 	except sqlite3.Error as er:
 		conn.rollback()

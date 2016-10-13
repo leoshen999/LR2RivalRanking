@@ -25,13 +25,22 @@ class LR2RRServer(BaseHTTPRequestHandler):
 		if parsed_path.path == '/~lavalse/LR2IR/2/getrankingxml.cgi':
 			result, resultBody = LR2RequestHandler.handleRanking(q_dict_post)
 		
+		hasExtended=False
 		if GlobalTools.misc['webpageextension']=='True':
-			# search.cgi: generate difficulty table
-			if parsed_path.path == '/~lavalse/LR2IR/search.cgi' and 'difficultytable' in q_dict_get:
-				result, resultBody=WebpageExtensionHandler.handleDifficultyTableSearch(self.headers,q_dict_get)
-			# search.cgi: generate difficulty table
-			if parsed_path.path == '/~lavalse/LR2IR/search2.cgi' and 'hash' in q_dict_get:
+			if parsed_path.path == '/~lavalse/LR2IR/search.cgi' and 'mode' in q_dict_get:
+				if q_dict_get['mode'][0]=='difficulty':
+					result, resultBody=WebpageExtensionHandler.handleDifficultyTableSearch(self.headers,q_dict_get)
+					hasExtended=True
+				elif q_dict_get['mode'][0]=='challenge':
+					result, resultBody=WebpageExtensionHandler.handleChallenge(self.headers)
+					hasExtended=True
+				elif q_dict_get['mode'][0]=='recent':
+					result, resultBody=WebpageExtensionHandler.handleRecent(self.headers)
+					hasExtended=True
+			if parsed_path.path == '/~lavalse/LR2IR/hashsearch.cgi':
 				result, resultBody=WebpageExtensionHandler.handleDifficultyTableHashSearch(q_dict_get)
+			if parsed_path.path == '/~lavalse/LR2IR/challenge.cgi':
+				result, resultBody=WebpageExtensionHandler.handleChallengeAddDeleteQuery(q_dict_get)
 		
 		
 		# send the original request to LR2IR for unhandled request type
@@ -43,7 +52,7 @@ class LR2RRServer(BaseHTTPRequestHandler):
 		
 		if GlobalTools.misc['webpageextension']=='True':
 			# search.cgi: append difficulty table link to webpage
-			if parsed_path.path == '/~lavalse/LR2IR/search.cgi' and 'difficultytable' not in q_dict_get and 'difficultytablehash' not in q_dict_get:
+			if parsed_path.path == '/~lavalse/LR2IR/search.cgi' and not hasExtended:
 				resultBody=WebpageExtensionHandler.modifyContents(resultBody)
 		
 		# login.cgi: the rival list and scores should be updated
@@ -67,7 +76,6 @@ class LR2RRServer(BaseHTTPRequestHandler):
 		self.end_headers()
 		
 		self.wfile.write(resultBody)
-		
 		
 		return
 	def log_message(self, format, *args):

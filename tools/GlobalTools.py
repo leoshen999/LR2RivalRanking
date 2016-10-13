@@ -34,7 +34,7 @@ def strWidth(str):
 # Truncate the string into 34 width
 def strTruncateTo34(str):
 	width=0
-	result=''
+	result=u''
 	for ch in unicode(str):
 		status = unicodedata.east_asian_width(ch)
 		if status=='W' or status=='F' : width+=2
@@ -77,15 +77,22 @@ lock = threading.Lock()
 misc={}
 dbdir=''
 dbpath=''
-
+webstyle=''
+webscript=''
 
 def init(version):
-	global supportedUnicode,lock,misc,dbdir,dbpath
+	global supportedUnicode,lock,misc,dbdir,dbpath,webstyle,webscript
 	
 	if is_exe():
 		for str in win32api.LoadResource(0, u'SUPPORTEDUNICODE_TXT', 3).split('\n') :
 			supportedUnicode.append(int(str,16))
+		webstyle= win32api.LoadResource(0, u'STYLE_CSS', 4)
+		webscript= win32api.LoadResource(0, u'SRC_JS', 5)
 	else:
+		with open('style.css','r') as fp:
+			webstyle=fp.read()
+		with open('src.js','r') as fp:
+			webscript=fp.read()
 		file=open('SupportedUnicode.txt','r')
 		for str in file.read().split('\n') :
 			supportedUnicode.append(int(str,16))
@@ -120,6 +127,15 @@ def init(version):
 					pg INTEGER NOT NULL,
 					gr INTEGER NOT NULL,
 					minbp INTEGER NOT NULL,
+					UNIQUE(hash, id)
+				)''')
+			cur.execute('''
+				CREATE TABLE IF NOT EXISTS
+				recent(
+					hash TEXT NOT NULL,
+					id INTEGER NOT NULL,
+					title TEXT,
+					lastupdate INTEGER NOT NULL,
 					UNIQUE(hash, id)
 				)''')
 			cur.execute('''
