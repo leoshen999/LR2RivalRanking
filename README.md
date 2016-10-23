@@ -1,8 +1,8 @@
 # LR2 Rival Ranking
 
 ## Pre-built Executable
-Latest released executable version:  ```v1.4.3```.  
-The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v1.4.3/LR2RivalRanking.v1.4.3.zip).
+Latest released executable version:  ```v2.0```.  
+The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v2.0/LR2RivalRanking.v2,0.zip).
 
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
@@ -13,8 +13,9 @@ When LR2RR is running, the ranking in LR2 will be replaced.
 The new ranking will only show the score of your rivals and yourself.  
 It's easier to compare the scores with your rivals.
 
-Now we have a new feature about homepage modifcation of LR2 after v1.4.  
-You can see your scores among difficulty tables and compare with your rivals.
+The LR2IR website is also modified.  
+You are able to view the scores of recent plays or difficulties.  
+You can also send challenge letters to your rivals for more fun!
 
 ## Installation
 The following tools or packages are needed to compile the python script:
@@ -44,10 +45,13 @@ run ```LR2RivalRanking.py``` or ```LR2RivalRanking.exe``` with administrator pri
 If LR2 has been started before LR2RR, please close LR2 first.  
 (LR2RR needs to take the login procedure of LR2 to get the rival list of current player.)
 
-Special function keys: **F1** - **F5**  
-For more detail, the usage guide will be shown when the app starts.
+In the app, there are some supplemental functions:
+* Ctrl+1: modify Ir/ folder of LR2
+* Ctrl+2: Update difficulties tables
+* Ctrl+3: Shortcut for opening LR2IR
 
-If the webpage modification function doesn't work properly, please refresh your webpage.  
+For the first time to use, please update difficulties tables.  
+If the LR2IR modification function doesn't work properly, please refresh your web page.  
 If it's still not work, please check the browser DNS settings.
 
 The rival data is saved in ```%APPDATA%\LR2RR```.  
@@ -65,24 +69,25 @@ http://www.dream-pro.info/~lavalse/LR2IR/search.cgi
 Please refer to ```CHANGELOG``` for more information.
 
 ## TODO
-* In near future (v1.4.x):
+* In near future (v2.0.x):
   * Consider to use another table sorting library
-  * Add webpage exception handler
-  * CSS design or more extended functions
   * Add score comparison with arbitrary two players
-* should be done someday (v1.5 or farther):
+  * challenge server security issue
+  * improve challenge box css design
+  * check multiple execution of LR2RR
+* should be done someday (v2.1 or further):
   * Add user configurations
   * Support manually logging
   * Add more exception handler
-  * Separate database lock and console lock
-  * Unlock multiple access to database
-  * subWindow input state
+  * Performance evaluation
 * not sure whether to implement:
   * Remove not played record in ranking
   * Add rival recommended song list
+  * Recommend proper rivals to the player
 
 ## Credits
-Author: Leo Shen (LR2IR: [121168 うまい焼鴨](http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168))
+Author: Leo Shen (LR2IR: [121168 うまい焼鴨](http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168))  
+Twitter: https://twitter.com/leoshen365 (seldom use it)
 
 Part of the code is copied from GNQG's lr2irproxy.  
 (https://github.com/GNQG/lr2irproxy)   

@@ -1,178 +1,224 @@
 #coding: utf-8
-
-from PyQt4 import QtGui, QtCore
+from PyQt4 import QtGui, QtCore, QtWebKit
 from StringIO import StringIO
-import sys
 import os
-import win32api
-import threading
-import sqlite3
+import sys
+import webbrowser
 
 import SubWindow
 import GlobalTools
 
-def printDatabaseStatus():
-	with GlobalTools.lock:
-		conn = sqlite3.connect(GlobalTools.dbpath)
-		conn.row_factory = sqlite3.Row
-		cur = conn.cursor()
-		cur.execute('''
-			SELECT COUNT(*) AS cnt FROM rivals
-		''')
-		rn=cur.fetchall()[0]['cnt']
-		cur.execute('''
-			SELECT COUNT(*) AS cnt FROM scores
-		''')
-		sn=cur.fetchall()[0]['cnt']
-		cur.execute('''
-			SELECT id,name FROM rivals WHERE active=2
-		''')
-		players=cur.fetchall()
-		conn.close()
-		
-		GlobalTools.logger.write( '-------- Database status ---------\n' )
-		GlobalTools.logger.write( ' The database contains:           \n' )
-		GlobalTools.logger.write( '                   <font\tstyle="color:LightGray">%8d</font> rivals\n'%rn )
-		GlobalTools.logger.write( '                   <font\tstyle="color:LightGray">%8d</font> scores\n'%sn )
-		GlobalTools.logger.write( ' Current player:                  \n' )
-		if not players:
-			GlobalTools.logger.write( '                              None\n' )
-		for player in players:
-			url='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=%d' % (player['id'])
-			playerMessage='<a\thref="%s"\tstyle="color:Khaki;text-decoration:none">%6d %s</a>'%(url,player['id'],player['name'])
-			leftPad=''
-			width=7+GlobalTools.strWidth(player['name'])
-			if width<34 : leftPad=' '*(34-width)
-			GlobalTools.logger.write( leftPad+playerMessage+'\n' )
-		GlobalTools.logger.write( '----------------------------------\n' )
-		GlobalTools.logger.write( '\n' )
-def printHelloMessage():
-	with GlobalTools.lock:
-		GlobalTools.logger.clear()
-		GlobalTools.logger.write( '--- LR2 Rival Ranking commands ---\n' )
-		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F1</font> : Extend webpage function    \n' )
-		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F2</font> : Modify Ir/ data in LR2     \n' )
-		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F3</font> : View database status       \n' )
-		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F4</font> : Reset log                  \n' )
-		GlobalTools.logger.write( '  <font\tstyle="color:LightGray">F5</font> : About LR2 Rival Ranking    \n' )
-		GlobalTools.logger.write( '----------------------------------\n' )
-		GlobalTools.logger.write( '\n' )
-
-
-class MainWindow(QtGui.QTextBrowser):
-	def __init__(self,original_hosts):
-		QtGui.QTextBrowser.__init__(self)
-		
-		self.original_hosts=original_hosts
-		
-		self.fontDB = QtGui.QFontDatabase()
-		if GlobalTools.is_exe():
-			self.fontDB.addApplicationFontFromData(StringIO( win32api.LoadResource(0, u'CONSOLASHIGH_TTF', 2)).getvalue())
-		else:
-			self.fontDB.addApplicationFont('ConsolasHigh.ttf')
-		self.setStyleSheet('''
-			font-size: 10pt;
-			font-family: ConsolasHigh,"MS Gothic";
-			background-color:rgb(20,20,20);
-			color: rgb(150,150,150);
-		''')
-		
-		
-		if GlobalTools.is_exe():
-			img=QtGui.QPixmap()
-			img.loadFromData(StringIO( win32api.LoadResource(0, u'CLOUD_PNG', 1)).getvalue())
-			self.setWindowIcon(QtGui.QIcon( img ))
-		else:
-			self.setWindowIcon(QtGui.QIcon( 'cloud.png' ))
-		
-		self.setReadOnly(True)
-		self.setWindowTitle(' LR2 Rival Ranking')
-		self.setWindowFlags(QtCore.Qt.CustomizeWindowHint | QtCore.Qt.WindowCloseButtonHint | QtCore.Qt.WindowMinimizeButtonHint)
-		self.setOpenExternalLinks(True)
-		self.resize(260,400)
-		self.setFixedWidth(260)
-		self.setMinimumHeight(400)
-		
-		sb = self.verticalScrollBar()
-		sb.setStyleSheet('''
-			QScrollBar:vertical {
-				border: none;
-				background: rgb(32,32,32);
-				width: 10px;
-				margin: 0 0 0 0;
+class WebView(QtWebKit.QWebView):
+	def __init__(self,parent=None):
+		QtWebKit.QWebView.__init__(self,parent)
+		self.setHtml('''<!DOCTYPE html>
+		<html>
+		<head>
+		<meta charset="utf-8">
+		<style>
+			body{
+				font-size: 10pt;
+				font-family: ConsolasHigh,Meiryo;
+				color:DarkGray;
+				background-color: black;
+				text-align: center;
+				overflow-y: scroll;
+				margin: 0px;
+				-webkit-user-select: none;
 			}
-			QScrollBar::handle:vertical {
-				background: rgb(64,64,64);
+			::-webkit-scrollbar {width: 10px;}
+			::-webkit-scrollbar-track {background-color: Black;}
+			::-webkit-scrollbar-thumb {background-color: rgb(64,64,64);}
+			::-webkit-scrollbar-button {display:none;}
+			a{color:Gainsboro;text-decoration:none;}
+			.one-row{
+				line-height: 20px;
+				margin-top: 1px;
+				margin-bottom: 1px;
 			}
-			QScrollBar::add-line:vertical {
-				border: none;
-				height: 0px;
+			.one-row span{
+				height: 20px;
+				display: inline-block;
+				overflow:hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				vertical-align: top;
 			}
-			QScrollBar::sub-line:vertical {
-				border: none;
-				height: 0px;
+			.title{width: 260px;}
+			.highlight{color:Gainsboro;}
+			.pid a{color:Khaki !important;}
+			
+			.up-num{width: 50px;text-align:right;}
+			.up-id{width: 50px;text-align:right;}
+			.up-name{width: 100px;text-align:left;padding-left:10px;}
+			.up-new{width: 46px;color: rgb(160,160,255);text-align:right;padding-right:4px;}
+			
+			.rank-num{width: 35px;}
+			.rank-num.TOP1{color: Gold !important;text-shadow: -2px 0px 8px Gold,2px 0px 8px Gold;}
+			.rank-name{width: 85px;}
+			.rank-clear{width: 25px;}
+			.rank-clear.FC{
+				color: hsl(330, 100%, 80%);
+				text-shadow: -2px 0px 8px hsl(330, 100%, 80%),2px 0px 8px hsl(330, 100%, 80%);
 			}
-			QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-				background: none;
+			.rank-clear.HC{
+				color: hsl(260, 20%, 85%);
+				text-shadow: -2px 0px 8px hsl(260, 20%, 85%),2px 0px 8px hsl(260, 20%, 85%);
 			}
+			.rank-clear.CL{color: hsl(35, 75%, 60%);}
+			.rank-clear.EC{color: hsl(90, 55%, 45%);}
+			.rank-clear.FA{color: hsl(0, 100%, 20%);}
+			.rank-score{
+				width: 115px;
+				text-align: left;
+				text-shadow: -2px 0px 8px rgba(0,0,0,0.85),2px 0px 8px rgba(0,0,0,0.85);
+				color:Gainsboro;
+			}
+			.rank-score .MAX{background: hsl(20, 80%, 60%);}
+			.rank-score .AAA{background: hsl(45, 70%, 55%);}
+			.rank-score .AA{background: hsl(180, 30%, 60%);}
+			.rank-score .A{background: hsl(210, 40%, 50%);}
+			.rank-score .BF{background: hsl(270, 5%, 40%);}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script>
+			function writeLog(string,newLine){
+				if(!newLine)
+					$("body").find('.one-row:last').remove();
+				$("body").append(string);
+				$("body").find('.one-row:lt(-150)').remove();
+				window.scrollTo(0,document.body.scrollHeight);
+			}
+		</script>
+		</head>
+		<body>
+		</body>
+		</html>
 		''')
-		self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-		
-		# to keep the log contents
-		self.line_n=0
-		self.lines=['']*150
+		self.page().setLinkDelegationPolicy(2)
+		self.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
 		
 		GlobalTools.logger.signalWrite.connect(self.writeLog)
-		GlobalTools.logger.signalClear.connect(self.clearLog)
-		sys.stderr=sys.stdout
-		
-		self.extendWebpageWindow=SubWindow.ExtendWebpageWindow(self)
-		self.aboutWindow=SubWindow.AboutWindow(self)
-		self.modifyIRWindow=SubWindow.ModifyIRWindow(self)
-		
-		printHelloMessage()
-		
-	def closeEvent(self, event):
-		# recover original hosts contents
-		file=open( os.environ['SystemRoot']+'\\System32\\drivers\\etc\\hosts','w')
-		file.write(self.original_hosts)
-		file.close()
-		event.accept()
-	def writeLog(self,string,newLine=True):
-		# write sth to log
-		
-		# roll back one line if write to current line
-		if not newLine:
-			self.line_n=(self.line_n+149)%150
-		
-		# handle whitespace and \n
-		self.lines[self.line_n]=string.replace(' ','&nbsp;').replace(u'　','&nbsp;&nbsp;').replace('\n','<br>')
-		
-		# only keep the latest 150 messages
-		self.line_n=(self.line_n+1)%150
-		self.setHtml(  ''.join(self.lines[self.line_n:])+''.join(self.lines[:self.line_n])  )
-		sb = self.verticalScrollBar()
-		sb.setValue(sb.maximum())
-	def clearLog(self):
-		# function: reset log
-		self.line_n=0
-		self.lines=['']*150
-		self.setHtml(  ''.join(self.lines[self.line_n:])+''.join(self.lines[:self.line_n])  )
-		sb = self.verticalScrollBar()
-		sb.setValue(sb.maximum())
-	def keyPressEvent(self, event):
-		if event.key()==QtCore.Qt.Key_F1:
-			self.extendWebpageWindow.show()
-		elif event.key()==QtCore.Qt.Key_F2:
-			self.modifyIRWindow.show()
-		elif event.key()==QtCore.Qt.Key_F3:
-			thr=threading.Thread(target=printDatabaseStatus)
-			thr.daemon=True
-			thr.start()
-		elif event.key()==QtCore.Qt.Key_F4:
-			thr=threading.Thread(target=printHelloMessage)
-			thr.daemon=True
-			thr.start()
-		elif event.key()==QtCore.Qt.Key_F5:
-			self.aboutWindow.show()
+		self.linkClicked.connect(self.openLink)
+	def writeLog(self,string,newLine):
+		if newLine: nl='true'
+		else: nl='false'
+		self.page().mainFrame().evaluateJavaScript('writeLog(\''+string+'\','+nl+')')
+	def openLink(self,url):
+		webbrowser.open(url.toString())
 
+class SystemTrayIcon(QtGui.QSystemTrayIcon):
+	def __init__(self, parent=None):
+		QtGui.QSystemTrayIcon.__init__(self, parent)
+		self.setIcon(GlobalTools.windowIcon)
+		
+		self.menu=QtGui.QMenu()
+		self.menu.LR2RRAction = self.menu.addAction("LR2RR")
+		self.menu.LR2IRAction = self.menu.addAction("LR2IR")
+		self.menu.addSeparator()
+		self.menu.exitAction = self.menu.addAction("Exit")
+		
+		self.setContextMenu(self.menu)
+
+class MenuBar(QtGui.QMenuBar):
+	def __init__(self,parent=None):
+		QtGui.QMenuBar.__init__(self,parent)
+		
+		self.setStyleSheet('''
+			QMenuBar {background-color: rgb(32,32,32);}
+			QMenuBar::item {
+				spacing: 3px;
+				padding: 1px 6px;
+				background: transparent;
+			}
+			QMenuBar::item:selected{background: rgb(64,64,64);}
+			QMenuBar::item:pressed {background: rgb(64,64,64);}
+			
+			QMenu {
+				background-color: rgb(32,32,32);
+				border: 1px solid rgb(64,64,64);
+			}
+			QMenu::item {
+				padding: 0px;
+				padding: 3px 8px;
+			}
+			QMenu::item:selected {background-color: rgb(64,64,64);}
+			QMenu::separator {
+				height: 1px;
+				background: rgb(64,64,64);
+			}
+		''')
+		
+		
+		self.mainmenu=self.addMenu("Main")
+		self.mainmenu.modifyIrAction = self.mainmenu.addAction("Modify Ir/")
+		self.mainmenu.modifyIrAction.setShortcut(QtGui.QKeySequence('Ctrl+1'))
+		self.mainmenu.updateDifficultiesAction = self.mainmenu.addAction("Update difficulties")
+		self.mainmenu.updateDifficultiesAction.setShortcut(QtGui.QKeySequence('Ctrl+2'))
+		self.mainmenu.addSeparator()
+		self.mainmenu.LR2IRAction = self.mainmenu.addAction("Visit LR2IR")
+		self.mainmenu.LR2IRAction.setShortcut(QtGui.QKeySequence('Ctrl+3'))
+		self.mainmenu.addSeparator()
+		self.mainmenu.exitAction = self.mainmenu.addAction("Exit")
+		
+		# self.viewmenu=self.addMenu("View")
+		
+		self.questionmenu=self.addMenu('?')
+		self.questionmenu.aboutAction = self.questionmenu.addAction("About LR2RR")
+		self.questionmenu.aboutAction.setShortcut(QtGui.QKeySequence('F1'))
+
+class MainWindow(QtGui.QMainWindow):
+	def __init__(self,original_hosts):
+		QtGui.QMainWindow.__init__(self,parent=None)
+		self.original_hosts=original_hosts
+		
+		self.setWindowTitle('LR2 Rival Ranking')
+		self.setWindowIcon(GlobalTools.windowIcon)
+		self.setStyleSheet(GlobalTools.styleSheet)
+		self.resize(270,400)
+		self.setFixedWidth(270)
+		self.setMinimumHeight(400)
+		self.setWindowFlags(QtCore.Qt.CustomizeWindowHint | QtCore.Qt.WindowCloseButtonHint | QtCore.Qt.WindowMinimizeButtonHint)
+		
+		self.aboutWindow=SubWindow.AboutWindow()
+		self.modifyIrWindow=SubWindow.ModifyIrWindow()
+		self.updateDifficultiesWindow=SubWindow.UpdateDifficultiesWindow()
+		
+		self.webview=WebView(self)
+		self.setCentralWidget(self.webview)
+		
+		self.menubar=MenuBar(self)
+		self.setMenuBar(self.menubar)
+		self.menubar.mainmenu.LR2IRAction.triggered.connect(self.visitLR2IR)
+		self.menubar.mainmenu.modifyIrAction.triggered.connect(self.modifyIrWindow.showWindow)
+		self.menubar.mainmenu.updateDifficultiesAction.triggered.connect(self.updateDifficultiesWindow.showWindow)
+		self.menubar.mainmenu.exitAction.triggered.connect(self.closeAll)
+		self.menubar.questionmenu.aboutAction.triggered.connect(self.aboutWindow.showWindow)
+		
+		self.tray = SystemTrayIcon(self)
+		self.tray.activated.connect(self.trayClicked)
+		self.tray.menu.LR2RRAction.triggered.connect(self.showWindow)
+		self.tray.menu.LR2IRAction.triggered.connect(self.visitLR2IR)
+		self.tray.menu.exitAction.triggered.connect(self.closeAll)
+		self.tray.show()
+		self.tray.showMessage("LR2RR", "LR2RR is working and hidden in the taskbar.")
+		
+		self.show()
+		
+	def trayClicked(self,value):
+		if value==self.tray.DoubleClick: self.showWindow()
+	def visitLR2IR(self):
+		webbrowser.open('http://www.dream-pro.info/~lavalse/LR2IR/search.cgi')
+	def closeAll(self):
+		try:
+			with open( os.environ['SystemRoot']+'\\System32\\drivers\\etc\\hosts','w') as file:
+				file.write(self.original_hosts)
+		except: pass
+		QtCore.QCoreApplication.exit()
+	def closeEvent(self, event):
+		self.hide()
+		event.ignore()
+	def showWindow(self):
+		self.show()
+		self.setWindowState(self.windowState() & ~QtCore.Qt.WindowMinimized | QtCore.Qt.WindowActive)
+		self.activateWindow()

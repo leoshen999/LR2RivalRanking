@@ -81,7 +81,7 @@ var toggledHash='';
 var challengeProcessing=false;
 var challengeUpdating=false;
 function setChallengeDeleteEvent(){
-	$('.ch-box.delete').click(function(){
+	$('.ch-component.delete').click(function(){
 		if(challengeProcessing||challengeUpdating)return;
 		
 		challengeProcessing=true;
@@ -102,7 +102,7 @@ function setChallengeDeleteEvent(){
 				updateAllChallengebox();
 			})
 			.fail(function(){
-				$('.popup2').html('<div class="tiny-title">Failed to send data.</div>');
+				$('.popup2').html('<div class="tiny-title">Failed to load data.</div>');
 			})
 			.always(function(){
 				setTimeout(function(){
@@ -134,7 +134,7 @@ function setChallengeAddEvent(){
 				if(mode==='challenge')updateAllChallengebox();
 			})
 			.fail(function(){
-				$('.popup2').html('<div class="tiny-title">Failed to send data.</div>');
+				$('.popup2').html('<div class="tiny-title">Failed to load data.</div>');
 			})
 			.always(function(){
 				setTimeout(function(){
@@ -158,10 +158,10 @@ function updateAllChallengebox(){
 			$("#loading").hide();
 			$("#loaded").show();
 			if(toggled)
-				$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').addClass('toggled');
+				$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').addClass('toggled');
 		})
 		.fail(function(){
-			$('#all-ch-box').html('<div class="tiny-title">Failed to send data.</div>');
+			$('#all-ch-box').html('<div class="tiny-title">Failed to load data.</div>');
 		})
 		.always(function(){
 			challengeUpdating=false;
@@ -180,14 +180,16 @@ function setPopupPositionAndHeight(){
 	$('.popup').css('margin-top','-'+(min_h/2)+'px');
 }
 function setPopupContent(hash,level,title){
+	$('.popup-title1').html(level);
+	$('.popup-title2').html('<a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5='+hash+'">'+title+'</a>')
 	$('.popup-content').html('<div class="small-title">Loading...</div>');
 	setPopupPositionAndHeight();
 	
 	$('.popup').css('visibility', 'visible');
 	$.ajax({
-			url: '/~lavalse/LR2IR/hashsearch.cgi',
+			url: '/~lavalse/LR2IR/ranking.cgi',
 			type: "get",
-			data: {"hash":hash,"level":level,"title":title}
+			data: {"hash":hash}
 		})
 		.done(function(data){
 			$('.popup-content').html(data);
@@ -202,7 +204,7 @@ function setPopupContent(hash,level,title){
 }
 
 function setPopupEvent(){
-	$('td.playedN, .ch-box.more').mouseenter(function(){
+	$('td.playedN, .ch-component.more').mouseenter(function(){
 		if(!toggled){
 			var hash = $(this).attr('hash');
 			var level=$(this).siblings('.level, .line').text();
@@ -211,27 +213,27 @@ function setPopupEvent(){
 			setPopupContent(hash,level,title);
 		}
 	});
-	$('td.playedN, .ch-box.more').mouseleave(function(){
+	$('td.playedN, .ch-component.more').mouseleave(function(){
 		if (!toggled)
 			$('.popup').css('visibility', 'hidden');
 	});
 
-	$('td.playedN, .ch-box.more').click(function(){
+	$('td.playedN, .ch-component.more').click(function(){
 		var hash=$(this).attr('hash');
 		if(!toggled){
 			toggledHash=hash;
 			toggled=true;
-			$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').addClass('toggled');
+			$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').addClass('toggled');
 		}
 		else{
 			if(toggledHash===hash){
-				$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').removeClass('toggled');
+				$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').removeClass('toggled');
 				toggled=false;
 			}
 			else{
-				$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').removeClass('toggled');
+				$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').removeClass('toggled');
 				toggledHash=hash;
-				$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').addClass('toggled');
+				$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').addClass('toggled');
 				
 				var level=$(this).siblings('.level, .line').text();
 				var title=$(this).siblings('.title').children('a').text();
@@ -246,14 +248,14 @@ function setPopupEvent(){
 
 $(document).keyup(function(e) {
 	if (toggled && e.keyCode === 27){
-		$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').removeClass('toggled');
+		$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').removeClass('toggled');
 		toggled=false;
 		$('.popup').css('visibility', 'hidden');
 	}
 });
 $('.ESC-button').click(function(){
 	if (toggled){
-		$('td.playedN[hash="'+toggledHash+'"], .ch-box.more[hash="'+toggledHash+'"]').removeClass('toggled');
+		$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').removeClass('toggled');
 		toggled=false;
 		$('.popup').css('visibility', 'hidden');
 	}

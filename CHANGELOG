@@ -1,11 +1,18 @@
 # Change Log
 ## -- Latest version --
+### v2.0 - [2016-10-23]
+* Multiple access improvement
+* Exception handling
+* Application interface re-design
+* Web page css modification
+* Challenge letter and recent play records
+
+## -- Previous versions --
 ### v1.4.3 - [2016-10-07]
 * Improve webpage css design
 * Improve filter performance
 * Add status bar to difficulty page
 
-## -- Previous versions --
 ### v1.4.2 - [2016-10-06]
 * webpage css design beautification
 * fix webpage HTML entities encoding bugs

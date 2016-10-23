@@ -1,69 +1,64 @@
 #coding: utf-8
 import threading
-from urlparse import urlparse, parse_qs
+from urlparse import urlparse, parse_qsl
 from SocketServer import ThreadingMixIn
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
 import DPISocket
 import LR2RequestHandler
 import WebpageExtensionHandler
-import GlobalTools
+import DifficultyPageHandler
+import RecentPageHandler
+import RankingRequestHandler
+import ChallengePageHandler
+import ChallengeRequestHandler
 
 class LR2RRServer(BaseHTTPRequestHandler):
 	def do_all(self):
 		
-		parsed_path = urlparse(self.path)
-		self.req_body = self.rfile.read(int(self.headers.getheader('content-length',0)))
+		temp = urlparse(self.path)
+		req_url = temp.path
+		req_body = self.rfile.read(int(self.headers.getheader('content-length',0)))
 		
-		q_dict_get=parse_qs(parsed_path.query)
-		q_dict_post=parse_qs(self.req_body)
+		q_dict = {}
+		for qq in parse_qsl(temp.query)+parse_qsl(req_body):
+			q_dict[qq[0]]=qq[1]
 		
 		result=''
 		resultBody=''
-		
-		# getrankingxml.cgi: the result should be replaced with following:
-		if parsed_path.path == '/~lavalse/LR2IR/2/getrankingxml.cgi':
-			result, resultBody = LR2RequestHandler.handleRanking(q_dict_post)
-		
 		hasExtended=False
-		if GlobalTools.misc['webpageextension']=='True':
-			if parsed_path.path == '/~lavalse/LR2IR/search.cgi' and 'mode' in q_dict_get:
-				if q_dict_get['mode'][0]=='difficulty':
-					result, resultBody=WebpageExtensionHandler.handleDifficultyTableSearch(self.headers,q_dict_get)
-					hasExtended=True
-				elif q_dict_get['mode'][0]=='challenge':
-					result, resultBody=WebpageExtensionHandler.handleChallenge(self.headers)
-					hasExtended=True
-				elif q_dict_get['mode'][0]=='recent':
-					result, resultBody=WebpageExtensionHandler.handleRecent(self.headers)
-					hasExtended=True
-			if parsed_path.path == '/~lavalse/LR2IR/hashsearch.cgi':
-				result, resultBody=WebpageExtensionHandler.handleDifficultyTableHashSearch(q_dict_get)
-			if parsed_path.path == '/~lavalse/LR2IR/challenge.cgi':
-				result, resultBody=WebpageExtensionHandler.handleChallengeAddDeleteQuery(q_dict_get)
 		
+		if req_url == '/~lavalse/LR2IR/2/getrankingxml.cgi':
+			result, resultBody = LR2RequestHandler.handleRanking(q_dict)
+		elif req_url == '/~lavalse/LR2IR/search.cgi' and 'mode' in q_dict:
+			if q_dict['mode']=='difficulty':
+				result, resultBody = DifficultyPageHandler.handleDifficultyPage(self.headers,q_dict)
+				hasExtended=True
+			elif q_dict['mode']=='challenge':
+				result, resultBody = ChallengePageHandler.handleChallengePage(self.headers)
+				hasExtended=True
+			elif q_dict['mode']=='recent':
+				result, resultBody = RecentPageHandler.handleRecentPage(self.headers)
+				hasExtended=True
+		elif req_url == '/~lavalse/LR2IR/ranking.cgi':
+			result, resultBody = RankingRequestHandler.handleRankingRequest(q_dict)
+		elif req_url == '/~lavalse/LR2IR/challenge.cgi':
+			result, resultBody = ChallengeRequestHandler.handleChallengeRequest(q_dict)
 		
-		# send the original request to LR2IR for unhandled request type
-		if result == '':
+		if not result:
 			sock = DPISocket.DPISocket(self.command,self.path,self.request_version)
 			sock.setMsg(self.headers)
-			sock.setBody(self.req_body)
+			sock.setBody(req_body)
 			result, resultBody = sock.sendAndReceive()
 		
-		if GlobalTools.misc['webpageextension']=='True':
-			# search.cgi: append difficulty table link to webpage
-			if parsed_path.path == '/~lavalse/LR2IR/search.cgi' and not hasExtended:
-				resultBody=WebpageExtensionHandler.modifyContents(resultBody)
+		if req_url == '/~lavalse/LR2IR/2/login.cgi':
+			resultBody = LR2RequestHandler.handleLogin(resultBody)
+		elif req_url == '/~lavalse/LR2IR/2/score.cgi':
+			LR2RequestHandler.handleScore(q_dict)
+		elif req_url == '/~lavalse/LR2IR/search.cgi' and not hasExtended:
+			resultBody = WebpageExtensionHandler.modifyContents(resultBody)
 		
-		# login.cgi: the rival list and scores should be updated
-		if parsed_path.path == '/~lavalse/LR2IR/2/login.cgi':
-			resultBody=LR2RequestHandler.handleLogin(resultBody)
 		
-		# score.cgi: update the database with the sent score
-		if parsed_path.path == '/~lavalse/LR2IR/2/score.cgi':
-			LR2RequestHandler.handleScore(q_dict_post)
-		
-		# return the result to client
 		self.send_response(result.status,result.reason)
 		
 		if 'connection' in result.msg.keys():
@@ -87,8 +82,6 @@ class LR2RRServer(BaseHTTPRequestHandler):
 	do_HEAD = do_all
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
 	"""Handle requests in a separate thread."""
-
-
 
 def startServer():
 	# needs a multithreaded server for handling multiple requests in same time

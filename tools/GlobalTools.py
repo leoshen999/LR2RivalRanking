@@ -1,16 +1,12 @@
 #coding: utf-8
 import sqlite3
 import win32api
+from PyQt4 import QtGui,QtCore
 from httplib import HTTPMessage
 from StringIO import StringIO
-import unicodedata
-from PyQt4 import QtCore
 import sys
 import os
 import threading
-
-# Need to know the supported charaters for Consolas for text alignment
-supportedUnicode=[]
 
 def is_exe(): return hasattr(sys, "frozen")
 
@@ -19,94 +15,85 @@ def convertHTMLEntities(str):
 	return str.replace('<','&lt;').replace('>','&gt;').replace('"','&quot;').replace('\'','&#39;')
 	# how about .replace('&','&amp;') ????
 
-# Define the width of a character
-def strWidth(str):
-	width=0
-	for ch in unicode(str):
-		status = unicodedata.east_asian_width(ch)
-		if status=='W' or status=='F' : width+=2
-		elif status=='A' :
-			if ord(ch) in supportedUnicode : width+=1
-			else: width+=2
-		else: width+=1
-	return width
-
-# Truncate the string into 34 width
-def strTruncateTo34(str):
-	width=0
-	result=u''
-	for ch in unicode(str):
-		status = unicodedata.east_asian_width(ch)
-		if status=='W' or status=='F' : width+=2
-		elif status=='A' :
-			if ord(ch) in supportedUnicode : width+=1
-			else: width+=2
-		else: width+=1
-		result+=ch
-		if width==32:
-			result+='..'
-			break
-		if width==33:
-			result+='.'
-			break
-	return result
-
-# a simple fake response for the generated result
 class SimpleHTTPResponse():
 	def __init__(self):
 		self.msg = HTTPMessage(StringIO())
 		self.msg['content-type'] = 'text/plain'
 		self.status = 200
 		self.reason = 'OK'
+class FailedHTTPResponse():
+	def __init__(self):
+		self.msg = HTTPMessage(StringIO())
+		self.msg['content-type'] = 'text/plain'
+		self.status = 400
+		self.reason = 'Bad Request'
 
-# global logger: redirect message to QT
+table_info={
+	'normal_no2':[u'▽第2通常難易度','http://bmsnormal2.syuriken.jp/table.html'],
+	'insane_no2':[u'▼第2発狂難易度','http://bmsnormal2.syuriken.jp/table_insane.html'],
+	'normal':[u'☆通常難易度表','http://www.ribbit.xyz/bms/tables/normal.html'],
+	'insane':[u'★発狂BMS難易度表','http://www.ribbit.xyz/bms/tables/insane.html'],
+	'overjoy':[u'★★Overjoy','http://www.ribbit.xyz/bms/tables/overjoy.html'],
+	'ln':[u'◆LN難易度','http://flowermaster.web.fc2.com/lrnanido/gla/LN.html']}
+dbLock = threading.Lock()
+logLock = threading.Lock()
+
 class Logger(QtCore.QObject):
 	signalWrite = QtCore.pyqtSignal(object,object)
-	signalClear = QtCore.pyqtSignal()
-	def write(self,string):
-		self.signalWrite.emit(string,True)
-	def writeCurrentLine(self,string):
-		self.signalWrite.emit(string,False)
-	def clear(self):
-		self.signalClear.emit()
+	signalWriteIrLastupdate = QtCore.pyqtSignal(object)
+	signalWriteDifficultiesLastupdate = QtCore.pyqtSignal(object)
+	def write(self,string,newLine=True):
+		self.signalWrite.emit(string,newLine)
+	def writeIrLastupdate(self,string):
+		self.signalWriteIrLastupdate.emit(string)
+	def writeDifficultiesLastupdate(self,string):
+		self.signalWriteDifficultiesLastupdate.emit(string)
 logger=Logger()
 
-# for sqlite and qt logger with multithreads
-lock = threading.Lock()
+mainWindow=''
 
-misc={}
 dbdir=''
-dbpath=''
+conn = ''
+cur = ''
+misc={}
+
 webstyle=''
 webscript=''
+windowIcon=''
+styleSheet=''
 
 def init(version):
-	global supportedUnicode,lock,misc,dbdir,dbpath,webstyle,webscript
+	global dbdir,conn,cur,misc
+	global webstyle,webscript
+	global windowIcon,styleSheet
 	
+	styleSheet='''
+		font-size: 10pt;
+		font-family: ConsolasHigh,Meiryo;
+		background-color: Black;
+		color: DarkGray;
+	'''
 	if is_exe():
-		for str in win32api.LoadResource(0, u'SUPPORTEDUNICODE_TXT', 3).split('\n') :
-			supportedUnicode.append(int(str,16))
-		webstyle= win32api.LoadResource(0, u'STYLE_CSS', 4)
-		webscript= win32api.LoadResource(0, u'SRC_JS', 5)
+		img=QtGui.QPixmap()
+		img.loadFromData(StringIO( win32api.LoadResource(0, u'CLOUD_PNG', 1)).getvalue())
+		windowIcon=QtGui.QIcon( img )
+		webstyle= win32api.LoadResource(0, u'STYLE_CSS', 2)
+		webscript= win32api.LoadResource(0, u'SRC_JS', 3)
+		QtGui.QFontDatabase().addApplicationFontFromData(StringIO( win32api.LoadResource(0, u'CONSOLASHIGH_TTF', 4)).getvalue())
 	else:
-		with open('style.css','r') as fp:
-			webstyle=fp.read()
-		with open('src.js','r') as fp:
-			webscript=fp.read()
-		file=open('SupportedUnicode.txt','r')
-		for str in file.read().split('\n') :
-			supportedUnicode.append(int(str,16))
-		file.close()
+		windowIcon=QtGui.QIcon( 'resources/cloud.png' )
+		with open('resources/style.css','r') as fp: webstyle=fp.read()
+		with open('resources/src.js','r') as fp: webscript=fp.read()
+		QtGui.QFontDatabase().addApplicationFont('resources/ConsolasHigh.ttf')
 	
 	# init database
-	dbdir = '%s\\LR2RR\\' %  os.environ['APPDATA'] 
+	dbdir = '%s\\LR2RR\\' %  os.environ['APPDATA']
 	if not os.path.exists(dbdir):
 		os.makedirs(dbdir)
-	dbpath = '%sdata.db' % dbdir
-	with lock:
-		conn = sqlite3.connect(dbpath)
-		conn.row_factory = sqlite3.Row
-		cur = conn.cursor()
+	conn = sqlite3.connect(dbdir+'data.db',check_same_thread=False)
+	conn.row_factory = sqlite3.Row
+	cur = conn.cursor()
+	with dbLock:
 		try:
 			cur.execute('''
 				CREATE TABLE IF NOT EXISTS
@@ -144,21 +131,13 @@ def init(version):
 					key TEXT NOT NULL UNIQUE,
 					value TEXT
 				)''')
-			cur.execute('''
-				REPLACE INTO misc VALUES('version',?)
-			''',(version,))
-			cur.execute('''
-				INSERT OR IGNORE INTO misc VALUES('lr2exepath','')
-			''')
-			cur.execute('''
-				INSERT OR IGNORE INTO misc VALUES('webpageextension','False')
-			''')
+			cur.execute('REPLACE INTO misc VALUES("version",?)',(version,))
+			cur.execute('INSERT OR IGNORE INTO misc VALUES("lr2exepath","")')
+			cur.execute('INSERT OR IGNORE INTO misc VALUES("irlastupdate","Never")')
+			cur.execute('INSERT OR IGNORE INTO misc VALUES("difficultieslastupdate","Never")')
 			conn.commit()
+			cur.execute('SELECT * FROM misc')
+			for tt in cur.fetchall(): misc[tt['key']]=tt['value']
 		except:
 			conn.rollback()
 			sys.exit()
-		cur.execute('SELECT * FROM misc')
-		temp=cur.fetchall()
-		for tt in temp:
-			misc[tt['key']]=tt['value']
-		conn.close()

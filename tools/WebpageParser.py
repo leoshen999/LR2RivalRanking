@@ -3,7 +3,6 @@ from urlparse import urlparse, parse_qs
 import lxml.html
 import lxml.etree
 import DPISocket
-import GlobalTools
 
 def getRivals(id):
 	pid=id
@@ -11,58 +10,33 @@ def getRivals(id):
 	rids.append(pid)
 	sock = DPISocket.DPISocket('GET','/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=%s' % (pid) )
 	res, body = sock.sendAndReceive()
-	if res is False: return rids
 	
-	root=lxml.html.fromstring(body)
-	table=root.find('.//table')
-	if table is not None :
-		for tr in table.findall('.//tr'):
+	try:
+		root=lxml.html.fromstring(body)
+		for tr in root.find('.//table').findall('.//tr'):
 			th=tr.find('th')
-			if th is not None and th.text==u'ライバル':
+			if th.text==u'ライバル':
 				for a in tr.find('td').findall('a'):
 					rids.append( parse_qs(urlparse(a.attrib['href']).query)['playerid'][0] )
+	except Exception as e: pass
+	
 	return rids
 
-def getTitleAndArtist(hash,toPrint=True):
+def getTitleAndArtist(hash):
 	request_url='/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=%s' % (hash)
-	full_url='http://www.dream-pro.info'+request_url
 	
-	rt=''
-	ra=''
+	title=''
+	artist=''
 	
 	sock = DPISocket.DPISocket('GET', request_url)
 	res, body = sock.sendAndReceive()
-	if res is False: return rt,ra
 	
-	root=lxml.html.fromstring(body)
-	if root.find('.//h1') is not None :
-		title=root.find('.//h1').text
-		if title is not None:
-			rt=title
-			if toPrint:
-				width=GlobalTools.strWidth(title)
-				leftPad=''
-				rightPad=''
-				if(width<=34):
-					leftPad=' '*((34-width)/2)
-					rightPad=' '*(34-width-len(leftPad))
-				else:
-					title=GlobalTools.strTruncateTo34(title)
-				title=GlobalTools.convertHTMLEntities(title)
-				GlobalTools.logger.write( leftPad+'<a\thref="'+full_url+'"\tstyle="color:LightGray;text-decoration:none">'+title+'</a>'+rightPad+'\n' )
-	if root.find('.//h2') is not None :
-		artist=root.find('.//h2').text
-		if artist is not None:
-			ra=artist
-			if toPrint:
-				width=GlobalTools.strWidth(artist)
-				leftPad=''
-				rightPad=''
-				if(width<=34):
-					leftPad=' '*((34-width)/2)
-					rightPad=' '*(34-width-len(leftPad))
-				else:
-					artist=GlobalTools.strTruncateTo34(artist)
-				artist=GlobalTools.convertHTMLEntities(artist)
-				GlobalTools.logger.write( leftPad+'<a\thref="'+full_url+'"\tstyle="color:LightGray;text-decoration:none">'+artist+'</a>'+rightPad+'\n' )
-	return rt,ra
+	try:
+		root=lxml.html.fromstring(body)
+		if root.find('.//h1') is not None :
+			title=root.find('.//h1').text
+		if root.find('.//h2') is not None :
+			artist=root.find('.//h2').text
+	except Exception as e: pass
+	
+	return title,artist

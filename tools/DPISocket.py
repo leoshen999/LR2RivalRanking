@@ -9,6 +9,8 @@ from httplib import HTTPMessage, HTTPResponse
 from StringIO import StringIO
 from zlib import decompress
 
+import GlobalTools
+
 ORIGINAL_IP = '202.215.80.119'
 
 class DPISocket():
@@ -47,7 +49,7 @@ class DPISocket():
 			sock.connect((ORIGINAL_IP,80))
 			sock.sendall(str(self))
 		except:
-			return False, False
+			return GlobalTools.FailedHTTPResponse(),''
 		
 		res = HTTPResponse(sock)
 		res.begin()
