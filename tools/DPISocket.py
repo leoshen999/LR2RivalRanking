@@ -11,7 +11,7 @@ from zlib import decompress
 
 import GlobalTools
 
-ORIGINAL_IP = '202.215.80.119'
+ORIGINAL_IP = '115.179.53.238'
 
 class DPISocket():
 	def __init__(self, method, path, version='HTTP/1.1'):

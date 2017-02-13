@@ -70,6 +70,7 @@ Please refer to ```CHANGELOG``` for more information.
 
 ## TODO
 * In near future (v2.0.x):
+  * Original webpage form sending crashed
   * Consider to use another table sorting library
   * Add score comparison with arbitrary two players
   * challenge server security issue
