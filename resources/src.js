@@ -34,9 +34,6 @@ $(document).ready(function(){
 		$("#loaded").show();
 		resetFilterResult();
 	}
-	if(mode==='challenge'){
-		updateAllChallengebox();
-	}
 	if(mode==='recent'){
 		setPopupEvent();
 		$("#loading").hide();
@@ -78,96 +75,6 @@ function resetFilterResult(){
 
 var toggled=false;
 var toggledHash='';
-var challengeProcessing=false;
-var challengeUpdating=false;
-function setChallengeDeleteEvent(){
-	$('.ch-component.delete').click(function(){
-		if(challengeProcessing||challengeUpdating)return;
-		
-		challengeProcessing=true;
-		$('.popup2').html('<div class="tiny-title">Sending...</div>');
-		$('.popup2').animate({bottom:"0px"},300);
-		
-		var hash=$(this).attr('hash');
-		var id=$(this).attr('rid');
-		var direction=0;
-		if ($(this).attr('direction')=='FROM') direction=1;
-		$.ajax({
-				url: '/~lavalse/LR2IR/challenge.cgi',
-				type: "get",
-				data: {"type":"delete","hash":hash,"id":id,"direction":direction}
-			})
-			.done(function(data){
-				$('.popup2').html(data);
-				updateAllChallengebox();
-			})
-			.fail(function(){
-				$('.popup2').html('<div class="tiny-title">Failed to load data.</div>');
-			})
-			.always(function(){
-				setTimeout(function(){
-					$('.popup2').animate({bottom:"-28px"},300,function(){challengeProcessing=false;});
-				}, 1500);
-			})
-		;
-	});
-}
-
-function setChallengeAddEvent(){
-	$('td.challenge.add').click(function(){
-		if(!toggled)return;
-		if(challengeProcessing||challengeUpdating)return;
-		
-		challengeProcessing=true;
-		$('.popup2').html('<div class="tiny-title">Sending...</div>');
-		$('.popup2').animate({bottom:"0px"},300);
-		
-		var id=$(this).attr('rid');
-		var name=$(this).siblings('td.name').children('a').text();
-		$.ajax({
-				url: '/~lavalse/LR2IR/challenge.cgi',
-				type: "get",
-				data: {"type":"add","hash":toggledHash,"id":id,"name":name}
-			})
-			.done(function(data){
-				$('.popup2').html(data);
-				if(mode==='challenge')updateAllChallengebox();
-			})
-			.fail(function(){
-				$('.popup2').html('<div class="tiny-title">Failed to load data.</div>');
-			})
-			.always(function(){
-				setTimeout(function(){
-					$('.popup2').animate({bottom:"-28px"},300,function(){challengeProcessing=false;});
-				}, 1500);
-			})
-		;
-	});
-}
-function updateAllChallengebox(){
-	challengeUpdating=true;
-	$.ajax({
-			url: '/~lavalse/LR2IR/challenge.cgi',
-			type: "get",
-			data: {"type":"query"}
-		})
-		.done(function(data){
-			$('#all-ch-box').html(data);
-			setChallengeDeleteEvent();
-			setPopupEvent();
-			$("#loading").hide();
-			$("#loaded").show();
-			if(toggled)
-				$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').addClass('toggled');
-		})
-		.fail(function(){
-			$('#all-ch-box').html('<div class="tiny-title">Failed to load data.</div>');
-		})
-		.always(function(){
-			challengeUpdating=false;
-		})
-	;
-}
 
 function setPopupPositionAndHeight(){
 	$('.popup').height('auto');
@@ -194,7 +101,6 @@ function setPopupContent(hash,level,title){
 		.done(function(data){
 			$('.popup-content').html(data);
 			setPopupPositionAndHeight();
-			setChallengeAddEvent();
 		})
 		.fail(function(){
 			$('.popup-content').html('<div class="small-title">Failed to load data.</div>');
@@ -204,7 +110,7 @@ function setPopupContent(hash,level,title){
 }
 
 function setPopupEvent(){
-	$('td.playedN, .ch-component.more').mouseenter(function(){
+	$('td.playedN').mouseenter(function(){
 		if(!toggled){
 			var hash = $(this).attr('hash');
 			var level=$(this).siblings('.level, .line').text();
@@ -213,27 +119,27 @@ function setPopupEvent(){
 			setPopupContent(hash,level,title);
 		}
 	});
-	$('td.playedN, .ch-component.more').mouseleave(function(){
+	$('td.playedN').mouseleave(function(){
 		if (!toggled)
 			$('.popup').css('visibility', 'hidden');
 	});
 
-	$('td.playedN, .ch-component.more').click(function(){
+	$('td.playedN').click(function(){
 		var hash=$(this).attr('hash');
 		if(!toggled){
 			toggledHash=hash;
 			toggled=true;
-			$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').addClass('toggled');
+			$('td.playedN[hash="'+toggledHash+'"]').addClass('toggled');
 		}
 		else{
 			if(toggledHash===hash){
-				$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').removeClass('toggled');
+				$('td.playedN[hash="'+toggledHash+'"]').removeClass('toggled');
 				toggled=false;
 			}
 			else{
-				$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').removeClass('toggled');
+				$('td.playedN[hash="'+toggledHash+'"]').removeClass('toggled');
 				toggledHash=hash;
-				$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').addClass('toggled');
+				$('td.playedN[hash="'+toggledHash+'"]').addClass('toggled');
 				
 				var level=$(this).siblings('.level, .line').text();
 				var title=$(this).siblings('.title').children('a').text();
@@ -248,14 +154,14 @@ function setPopupEvent(){
 
 $(document).keyup(function(e) {
 	if (toggled && e.keyCode === 27){
-		$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').removeClass('toggled');
+		$('td.playedN[hash="'+toggledHash+'"]').removeClass('toggled');
 		toggled=false;
 		$('.popup').css('visibility', 'hidden');
 	}
 });
 $('.ESC-button').click(function(){
 	if (toggled){
-		$('td.playedN[hash="'+toggledHash+'"], .ch-component.more[hash="'+toggledHash+'"]').removeClass('toggled');
+		$('td.playedN[hash="'+toggledHash+'"]').removeClass('toggled');
 		toggled=false;
 		$('.popup').css('visibility', 'hidden');
 	}

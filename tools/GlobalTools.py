@@ -29,8 +29,8 @@ class FailedHTTPResponse():
 		self.reason = 'Bad Request'
 
 table_info={
-	'normal_no2':[u'▽第2通常難易度','http://bmsnormal2.syuriken.jp/table.html'],
-	'insane_no2':[u'▼第2発狂難易度','http://bmsnormal2.syuriken.jp/table_insane.html'],
+	'normal_no2':[u'▽第2通常難易度','http://rattoto10.jounin.jp/table.html'],
+	'insane_no2':[u'▼第2発狂難易度','http://rattoto10.jounin.jp/table_insane.html'],
 	'normal':[u'☆通常難易度表','http://www.ribbit.xyz/bms/tables/normal.html'],
 	'insane':[u'★発狂BMS難易度表','http://www.ribbit.xyz/bms/tables/insane.html'],
 	'overjoy':[u'★★Overjoy','http://www.ribbit.xyz/bms/tables/overjoy.html'],

@@ -1,8 +1,8 @@
 # LR2 Rival Ranking
 
 ## Pre-built Executable
-Latest released executable version:  ```v2.0```.  
-The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v2.0/LR2RivalRanking.v2.0.zip).
+Latest released executable version:  ```v2.1```.  
+The download link is [__>> HERE <<__](https://github.com/leoshen999/LR2RivalRanking/releases/download/v2.0/LR2RivalRanking.v2.1.zip).
 
 It's built and tested on Windows 7 SP1 64bits with Python 2.7.  
 
@@ -14,15 +14,14 @@ The new ranking will only show the score of your rivals and yourself.
 It's easier to compare the scores with your rivals.
 
 The LR2IR website is also modified.  
-You are able to view the scores of recent plays or difficulties.  
-You can also send challenge letters to your rivals for more fun!
+You are able to view the scores of recent plays or difficulties.
 
 ## Installation
 The following tools or packages are needed to compile the python script:
 * Python 2.7
 * PyQt4
 * lxml
-* win32api
+* pywin32
 * py2exe
 
 After installing all of above, just simply run:
@@ -72,9 +71,8 @@ Please refer to ```CHANGELOG``` for more information.
 * In near future (v2.0.x):
   * Original webpage form sending crashed
   * Consider to use another table sorting library
+  * Add arbitrary song comparison for rivals
   * Add score comparison with arbitrary two players
-  * challenge server security issue
-  * improve challenge box css design
   * check multiple execution of LR2RR
 * should be done someday (v2.1 or further):
   * Add user configurations
@@ -108,4 +106,4 @@ Thanks for the great art works.
 
 ## License
 MIT License   
-Copyright (c) 2016 leoshen999
+Copyright (c) 2016-2017 leoshen999

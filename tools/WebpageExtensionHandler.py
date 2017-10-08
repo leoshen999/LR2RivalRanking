@@ -11,8 +11,6 @@ def modifyContents(body,appendMenu=True,changeContent=False,newContent=''):
 		
 		if appendMenu is True:
 			menu.getchildren()[-1].tail=' | '
-			menu.append(lxml.html.fromstring(u'<a href="search.cgi?mode=challenge">挑戦状</a>'))
-			menu.getchildren()[-1].tail=' | '
 			menu.append(lxml.html.fromstring(u'<a href="search.cgi?mode=recent">最近の遊び記録</a>'))
 			menu.append(lxml.html.fromstring(u'<br>'))
 			menu.getchildren()[-1].tail=u'難易度表： '

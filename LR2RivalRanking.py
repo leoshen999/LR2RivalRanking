@@ -8,7 +8,7 @@ from tools import GlobalTools
 from tools import MainWindow
 from tools import Server
 
-version='v2.0'
+version='v2.1'
 if __name__ == '__main__':
 	sys.stderr=sys.stdout
 	app = QtGui.QApplication(sys.argv)

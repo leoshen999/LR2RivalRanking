@@ -1,5 +1,12 @@
 # Change Log
 ## -- Latest version --
+### v2.1 - [2017-10-08]
+* Remove challenge letter
+* Fix server IP error
+* Fix difficulty table parsing error
+* Fix difficuty page layout
+
+## -- Previous versions --
 ### v2.0 - [2016-10-23]
 * Multiple access improvement
 * Exception handling
@@ -7,7 +14,6 @@
 * Web page css modification
 * Challenge letter and recent play records
 
-## -- Previous versions --
 ### v1.4.3 - [2016-10-07]
 * Improve webpage css design
 * Improve filter performance

@@ -12,7 +12,6 @@ def updateDifficulties():
 		try:
 			table_l=len(GlobalTools.table_info)
 			cnt=0
-			GlobalTools.logger.write( '<div class="one-row"><span class="title">Update difficulties progress: <span class="highlight">0 / '+str(table_l)+'</span></span></div>' )
 			for table,info in GlobalTools.table_info.iteritems():
 				cnt+=1
 				GlobalTools.logger.write( '<div class="one-row"><span class="title">Update difficulties progress: <span class="highlight">'+str(cnt)+' / '+str(table_l)+'</span></span></div>',False )
@@ -21,11 +20,11 @@ def updateDifficulties():
 				web_src=urllib2.urlopen(web_url).read()
 				
 				header_url=urljoin(web_url,lxml.html.fromstring(web_src).find('.//meta[@name="bmstable"]').attrib['content'])
-				header_src=urllib2.urlopen(header_url).read()
+				header_src=urllib2.urlopen(header_url).read().decode('utf-8-sig')
 				header=json.loads(header_src)
 				
 				body_url=urljoin(header_url,header['data_url'])
-				body_src=urllib2.urlopen(body_url).read()
+				body_src=urllib2.urlopen(body_url).read().decode('utf-8-sig')
 				body=json.loads(body_src)
 				
 				if 'level_order' not in header:

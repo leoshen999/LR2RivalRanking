@@ -128,9 +128,9 @@ def handleRecentPage(headers):
 	post_def='<script>var mode="recent";'+GlobalTools.webscript+'</script>'
 	
 	try:
-		loaded='<div id="loaded" style="display: none">'+generateTable(songs)+'<div class="popup"><div class="ESC-button">[ESC] Close</div><div class="popup-title1 small-title"></div><div class="popup-title2 small-title"></div><div class="popup-content"></div></div><div class="popup2"></div></div>'
+		loaded='<div id="loaded" style="display: none">'+generateTable(songs)+'<div class="popup"><div class="ESC-button">[ESC] Close</div><div class="popup-title1 small-title"></div><div class="popup-title2 small-title"></div><div class="popup-content"></div></div></div>'
 	except Exception as e:
-		loaded='<div id="loaded" style="display: none"><div class="small-title">Failed to load data.</div><div class="popup"><div class="ESC-button">[ESC] Close</div><div class="popup-title1 small-title"></div><div class="popup-title2 small-title"></div><div class="popup-content"></div></div><div class="popup2"></div></div>'
+		loaded='<div id="loaded" style="display: none"><div class="small-title">Failed to load data.</div><div class="popup"><div class="ESC-button">[ESC] Close</div><div class="popup-title1 small-title"></div><div class="popup-title2 small-title"></div><div class="popup-content"></div></div></div>'
 	
 	newContents='<div id="myextend">'+pre_def+title+loading+loaded+post_def+'</div>'
 	

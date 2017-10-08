@@ -160,9 +160,9 @@ def handleDifficultyPage(headers,q_dict):
 			level_order = json.loads(fp.read().decode('utf-8'))
 		with open(GlobalTools.dbdir+table+'_body.json','r') as fp:
 			songs = json.loads(fp.read().decode('utf-8'))
-		loaded='<div id="loaded" style="display: none">'+generateFilter(level_order)+generateTable(level_order,songs)+'<div class="popup"><div class="ESC-button">[ESC] Close</div><div class="popup-title1 small-title"></div><div class="popup-title2 small-title"></div><div class="popup-content"></div></div><div class="popup2"></div></div>'
+		loaded='<div id="loaded" style="display: none">'+generateFilter(level_order)+generateTable(level_order,songs)+'<div class="popup"><div class="ESC-button">[ESC] Close</div><div class="popup-title1 small-title"></div><div class="popup-title2 small-title"></div><div class="popup-content"></div></div></div>'
 	except Exception as e:
-		loaded='<div id="loaded" style="display: none"><div class="small-title">Failed to load data.</div><div class="popup"><div class="ESC-button">[ESC] Close</div><div class="popup-title1 small-title"></div><div class="popup-title2 small-title"></div><div class="popup-content"></div></div><div class="popup2"></div></div>'
+		loaded='<div id="loaded" style="display: none"><div class="small-title">Failed to load data.</div><div class="popup"><div class="ESC-button">[ESC] Close</div><div class="popup-title1 small-title"></div><div class="popup-title2 small-title"></div><div class="popup-content"></div></div></div>'
 	
 	newContents='<div id="myextend">'+pre_def+title+loading+loaded+post_def+'</div>'
 	

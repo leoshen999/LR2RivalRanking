@@ -10,8 +10,6 @@ import WebpageExtensionHandler
 import DifficultyPageHandler
 import RecentPageHandler
 import RankingRequestHandler
-import ChallengePageHandler
-import ChallengeRequestHandler
 
 class LR2RRServer(BaseHTTPRequestHandler):
 	def do_all(self):
@@ -34,16 +32,11 @@ class LR2RRServer(BaseHTTPRequestHandler):
 			if q_dict['mode']=='difficulty':
 				result, resultBody = DifficultyPageHandler.handleDifficultyPage(self.headers,q_dict)
 				hasExtended=True
-			elif q_dict['mode']=='challenge':
-				result, resultBody = ChallengePageHandler.handleChallengePage(self.headers)
-				hasExtended=True
 			elif q_dict['mode']=='recent':
 				result, resultBody = RecentPageHandler.handleRecentPage(self.headers)
 				hasExtended=True
 		elif req_url == '/~lavalse/LR2IR/ranking.cgi':
 			result, resultBody = RankingRequestHandler.handleRankingRequest(q_dict)
-		elif req_url == '/~lavalse/LR2IR/challenge.cgi':
-			result, resultBody = ChallengeRequestHandler.handleChallengeRequest(q_dict)
 		
 		if not result:
 			sock = DPISocket.DPISocket(self.command,self.path,self.request_version)

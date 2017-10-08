@@ -61,7 +61,6 @@
 	margin-bottom: 3px;
 	text-align:center;
 }
-.tiny-title{text-align:center;}
 
 
 .ck{
@@ -69,6 +68,11 @@
 	margin-bottom: 1px;
 	text-align: center;
 	vertical-align: middle;
+}
+.ck label{
+	margin-right: inherit;
+	width: auto;
+	float: inherit;
 }
 .ck-select{
 	position: absolute;
@@ -190,16 +194,14 @@ td{
 
 th.level, td.level{width: 70px;}
 th.title, td.title{width: 513px;max-width: 513px;}
-th.name, td.name{width: 105px;max-width: 105px;}
+th.name, td.name{width: 112px;max-width: 112px;}
 th.lamp, td.lamp{width: 8px;}
 th.bp, td.bp{width: 50px;}
-th.bpdiff, td.bpdiff{width: 50px;}
+th.bpdiff, td.bpdiff{width: 56px;}
 th.score, td.score{width: 125px;}
-th.scorediff, td.scorediff{width: 50px;}
+th.scorediff, td.scorediff{width: 56px;}
 th.ranking, td.ranking{width: 55px;}
 th.playedN, td.playedN{width: 55px;}
-th.challenge, td.challenge{width: 18px;}
-th.garbage, td.garbage{width: 18px;}
 
 th.leftborder{border-left: 1px solid black;}
 th.rightborder{border-right: 1px solid black;}
@@ -243,15 +245,11 @@ td.score .AA{background: var(--color-AA);}
 td.score .A{background: var(--color-A);}
 td.score .BF{background: var(--color-BF);}
 
-td.challenge.add{cursor: pointer;}
-td.challenge.add:hover{background-color: rgb(32,32,32);}
-
 td.playedN{cursor: pointer;}
 td.N0 {color: rgb(64,64,64);}
 td.playedN:hover{background-color: rgb(32,32,32);}
 td.toggled{background-color: rgb(64,64,64) !important;}
 
-td.challengePopup2{border:none;}
 
 .popup {
 	position: fixed;
@@ -282,153 +280,4 @@ td.challengePopup2{border:none;}
 	color: Gainsboro;
 	background-color: rgb(64,64,64);
 }
-.popup2 {
-	position: fixed;
-	bottom: -28px;
-	left: 50%;
-	height: 18px;
-	margin-left: -350px;
-	width: 700px;
-	border-top: 1px solid DodgerBlue;
-	border-left: 1px solid DodgerBlue;
-	border-right: 1px solid DodgerBlue;
-	box-shadow: 0px 0px 8px 1px DodgerBlue;
-	border-top-left-radius: 6px;
-	border-top-right-radius: 6px;
-	background-color: black;
-	z-index: 2;
-	text-align: center;
-}
 
-
-.ch-box{
-	width: 878px;
-	height: 60px;
-	display: inline-block;
-	background-color: black;
-	position: relative;
-	border-radius: 6px;
-	line-height: 20px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	border-width: 1px;
-	border-style: solid;
-}
-.ch-component{
-	position: absolute;
-	overflow:hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-.ch-component.title{
-	font-size: 12pt;
-	left: 100px;
-	right: 80px;
-	top: 5px;
-	text-align: center;
-}
-.ch-component.line{
-	left: 100px;
-	right: 80px;
-	top: 50%;
-	border-top-width: 1px;
-	border-top-style: solid;
-}
-.ch-box.FROM, .ch-component.line.FROM {
-	border-color: OrangeRed;
-	box-shadow: 0px 0px 8px 1px OrangeRed;
-	background-color: rgba(51,14,0,0.5);
-}
-.ch-box.TO, .ch-component.line.TO {
-	border-color: DodgerBlue;
-	box-shadow: 0px 0px 8px 1px DodgerBlue;
-	background-color: rgba(6,29,51,0.5);
-}
-
-.ch-component.namelabel{
-	left: 10px;
-	top: 8px;
-	width: 80px;
-}
-
-.ch-component.name{
-	left: 10px;
-	bottom: 8px;
-	width: 80px;
-	text-align: center;
-}
-
-.ch-component.clear{
-	left: 120px;
-	bottom: 5px;
-	width: 120px;
-	text-align: center;
-}
-
-.ch-component.bp{
-	left: 305px;
-	bottom: 5px;
-	width: 70px;
-	text-align: center;
-}
-
-.ch-component.score{
-	left: 430px;
-	bottom: 5px;
-	width: 160px;
-}
-
-.ch-component.time{
-	left: 635px;
-	bottom: 5px;
-	width: 150px;
-}
-
-.ch-component.delete{
-	right: 10px;
-	top: 6px;
-	width: 60px;
-	text-align: center;
-	border: 1px solid rgb(64,64,64);
-}
-.ch-component.more{
-	right: 10px;
-	bottom: 6px;
-	width: 60px;
-	text-align: center;
-	border: 1px solid rgb(64,64,64);
-}
-
-
-
-.ch-component.clear.FC{
-	color: var(--color-FC-s);
-	text-shadow: -2px 0px 8px var(--color-FC-s),2px 0px 8px var(--color-FC-s);
-}
-.ch-component.clear.HC{
-	color: var(--color-HC-s);
-	text-shadow: -2px 0px 8px var(--color-HC-s),2px 0px 8px var(--color-HC-s);
-}
-.ch-component.clear.CL{color: var(--color-CL-s);}
-.ch-component.clear.EC{color: var(--color-EC-s);}
-.ch-component.clear.FA{color: var(--color-FA-s);}
-.ch-component.clear.NO{color: var(--color-NO);}
-
-.ch-component.bp.bp0{
-	color: Gold;
-	text-shadow: -2px 0px 8px Gold,2px 0px 8px Gold;
-}
-
-.ch-component.score{
-	text-shadow: -2px 0px 8px rgba(0,0,0,0.85),2px 0px 8px rgba(0,0,0,0.85);
-}
-.ch-component.score .MAX{background: var(--color-MAX);}
-.ch-component.score .AAA{background: var(--color-AAA);}
-.ch-component.score .AA{background: var(--color-AA);}
-.ch-component.score .A{background: var(--color-A);}
-.ch-component.score .BF{background: var(--color-BF);}
-
-
-.ch-component.more, .ch-component.delete{cursor: pointer;background-color:rgba(0,0,0,0.5);}
-.ch-component.more:hover, .ch-component.delete:hover{background-color: rgb(32,32,32);}
-.ch-component.toggled{background-color: rgb(64,64,64) !important;}

@@ -136,8 +136,7 @@ def handleRankingRequest(q_dict):
 						<th class="bp">BP</th>
 						<th class="bpdiff">Diff</th>
 						<th class="score">Score</th>
-						<th class="scorediff rightborder">Diff</th>
-						<th class="challenge rightborder2">Ch</th>
+						<th class="scorediff rightborder2">Diff</th>
 					</tr>
 				</thead>'''
 			rr+='<tbody>'
@@ -150,7 +149,6 @@ def handleRankingRequest(q_dict):
 				rr+='<td class="bpdiff'+s['bpdiff_class']+s['lamp_class']+'">'+s['bpdiff']+'</td>'
 				rr+='<td class="score'+s['lamp_class']+'"><div class="'+s['score_class']+'" style="width:'+s['score_rate']+'">&nbsp;'+s['score_rate']+s['score']+'</div></td>'
 				rr+='<td class="scorediff rightborder'+s['scorediff_class']+s['lamp_class']+'">'+s['scorediff']+'</td>'
-				rr+='<td class="challenge rightborder'+s['challenge_class']+'" rid="'+s['id']+'">'+s['challenge']+'</td>'
 				rr+='</tr>'
 			rr+='</tbody></table>'
 		except Exception as e: rr='<div class="small-title">Failed to load data.</div>'
