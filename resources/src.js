@@ -79,7 +79,7 @@ var toggledHash='';
 function setPopupPositionAndHeight(){
 	$('.popup').height('auto');
 	var h=$('.popup')[0].scrollHeight+2;
-	var window_h=$(window).height();
+	var window_h=window.innerHeight;//$(window).height();
 	if (window_h>50)window_h-=50;
 	var min_h=Math.min(h,window_h);
 	
