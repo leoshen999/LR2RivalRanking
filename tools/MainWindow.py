@@ -161,8 +161,6 @@ class MenuBar(QtGui.QMenuBar):
 		self.mainmenu.addSeparator()
 		self.mainmenu.exitAction = self.mainmenu.addAction("Exit")
 		
-		# self.viewmenu=self.addMenu("View")
-		
 		self.questionmenu=self.addMenu('?')
 		self.questionmenu.aboutAction = self.questionmenu.addAction("About LR2RR")
 		self.questionmenu.aboutAction.setShortcut(QtGui.QKeySequence('F1'))

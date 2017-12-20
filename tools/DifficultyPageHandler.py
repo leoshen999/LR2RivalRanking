@@ -74,34 +74,34 @@ def generateFilter(level_order):
 	temp=len(level_order)
 	filter='<div class="ck">MinLV:<span style="position:relative;display:inline-block;width:45px;height:20px;">&nbsp;<select class="ck-select min-lv" onchange="resetFilterResult()">'
 	for idx in range(temp):
-		if idx==0: filter+='<option value="'+str(idx)+'" selected>'+level_order[idx]+'</option>'
-		else: filter+='<option value="'+str(idx)+'">'+level_order[idx]+'</option>'
+		if idx==0: filter+='<option value="%s" selected>%s</option>'%(str(idx),level_order[idx])
+		else: filter+='<option value="%s">%s</option>'%(str(idx),level_order[idx])
 	filter+='</select></span> Filter:'
 	
 	for rank in [['MAX','MAX'],['AAA','AAA'],['AA','AA'],['A','A'],['BF','B-F']]:
-		filter+='<label class="ck-button RANK '+rank[0]+'"><input type="checkbox" value="'+rank[0]+'" checked onchange="resetFilterResult()"><span>'+rank[1]+'</span></label>'
+		filter+='<label class="ck-button RANK %s"><input type="checkbox" value="%s" checked onchange="resetFilterResult()"><span>%s</span></label>'%(rank[0],rank[0],rank[1])
 	filter+=' '
 	
 	for clear in [['FC','FULLCOMBO'],['HC','HARD'],['CL','NORMAL'],['EC','EASY'],['FA','FAILED'],['NO','NOPLAY']]:
-		filter+='<label class="ck-button CLEAR '+clear[0]+'"><input type="checkbox" value="'+clear[0]+'" checked onchange="resetFilterResult()"><span>'+clear[1]+'</span></label>'
+		filter+='<label class="ck-button CLEAR %s"><input type="checkbox" value="%s" checked onchange="resetFilterResult()"><span>%s</span></label>'%(clear[0],clear[0],clear[1])
 	
 	filter+='<br>MaxLV:<span style="position:relative;display:inline-block;width:45px;height:20px;">&nbsp;<select class="ck-select max-lv" onchange="resetFilterResult()">'
 	for idx in range(temp):
-		if idx==temp-1: filter+='<option value="'+str(idx)+'" selected>'+level_order[idx]+'</option>'
-		else: filter+='<option value="'+str(idx)+'">'+level_order[idx]+'</option>'
+		if idx==temp-1: filter+='<option value="%s" selected>%s</option>'%(str(idx),level_order[idx])
+		else: filter+='<option value="%s">%s</option>'%(str(idx),level_order[idx])
 	filter+='</select></span> Status:'
 	
 	for rank in ['MAX','AAA','AA','A','BF']:
-		filter+='<span class="ck-status RANK '+rank+'"></span>'
+		filter+='<span class="ck-status RANK %s"></span>'%(rank)
 	filter+=' '
 	for clear in ['FC','HC','CL','EC','FA','NO']:
-		filter+='<span class="ck-status CLEAR '+clear+'"></span>'
+		filter+='<span class="ck-status CLEAR %s"></span>'%(clear)
 	filter+='</div>'
 	
 	lvs='['
 	for level in level_order: lvs+='"'+level+'",'
 	lvs+=']'
-	filter+='<script>var level_order='+lvs+';</script>'
+	filter+='<script>var level_order=%s;</script>'%(lvs)
 	return filter
 
 def generateTable(level_order,songs):
@@ -121,15 +121,14 @@ def generateTable(level_order,songs):
 	for hash,song in songs.iteritems():
 		cs=getPlayerScore(hash)
 		
-		tr=''
-		tr+='<tr class="song-tr'+cs['lamp_class']+cs['score_class']+'" hidden-level="'+str(level_order.index(song[0]))+'">'
-		tr+='<td class="level leftborder">'+song[0]+'</td>'
-		tr+='<td class="title"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5='+hash+'">'+GlobalTools.convertHTMLEntities(song[1])+'</a></td>'
-		tr+='<td class="lamp leftborder'+cs['lamp_class']+'"><span style="display:none">'+cs['lamp']+'</span></td>'
-		tr+='<td class="bp'+cs['bp_class']+cs['lamp_class']+'">'+cs['bp']+'</td>'
-		tr+='<td class="score'+cs['lamp_class']+'"><div class="'+cs['score_class']+'" style="width:'+cs['score_rate']+'">&nbsp;'+cs['score_rate']+cs['score']+'</div></td>'
-		tr+='<td class="ranking rightborder'+cs['ranking_class']+cs['lamp_class']+'">'+cs['ranking']+'</td>'
-		tr+='<td class="playedN rightborder'+cs['playedN_class']+'" hash="'+hash+'">'+cs['playedN']+'</td>'
+		tr='<tr class="song-tr%s%s" hidden-level="%s">'%(cs['lamp_class'],cs['score_class'],str(level_order.index(song[0])))
+		tr+='<td class="level leftborder">%s</td>'%(song[0])
+		tr+='<td class="title"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5=%s">%s</a></td>'%(hash,GlobalTools.convertHTMLEntities(song[1]))
+		tr+='<td class="lamp leftborder%s"><span style="display:none">%s</span></td>'%(cs['lamp_class'],cs['lamp'])
+		tr+='<td class="bp%s%s">%s</td>'%(cs['bp_class'],cs['lamp_class'],cs['bp'])
+		tr+='<td class="score%s"><div class="%s" style="width:%s">&nbsp;%s%s</div></td>'%(cs['lamp_class'],cs['score_class'],cs['score_rate'],cs['score_rate'],cs['score'])
+		tr+='<td class="ranking rightborder%s%s">%s</td>'%(cs['ranking_class'],cs['lamp_class'],cs['ranking'])
+		tr+='<td class="playedN rightborder%s" hash="%s">%s</td>'%(cs['playedN_class'],hash,cs['playedN'])
 		tr+='</tr>'
 		trs.append(tr)
 	table+= ''.join(trs)+'</tbody></table>'
@@ -146,11 +145,11 @@ def handleDifficultyPage(headers,q_dict):
 	pre_def='''
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/js/jquery.tablesorter.min.js"></script>
-		<style>'''+GlobalTools.webstyle+'''</style>
-	'''
-	title='<div class="big-title">'+GlobalTools.table_info[table][0]+'</div>'
+		<style>%s</style>'''%(GlobalTools.webstyle)
+	
+	title='<div class="big-title">%s</div>'%(GlobalTools.table_info[table][0])
 	loading='<div class="small-title" id="loading">Loading...</div>'
-	post_def='<script>var mode="difficulty";'+GlobalTools.webscript+'</script>'
+	post_def='<script>var mode="difficulty";%s</script>'%(GlobalTools.webscript)
 	
 	
 	level_order=[]

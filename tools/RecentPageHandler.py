@@ -88,15 +88,14 @@ def generateTable(songs):
 		cs=getPlayerScore(song['hash'])
 		cnt+=1
 		
-		tr=''
-		tr+='<tr>'
-		tr+='<td class="level leftborder">'+str(cnt)+'</td>'
-		tr+='<td class="title"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5='+song['hash']+'">'+GlobalTools.convertHTMLEntities(song['title'])+'</a></td>'
-		tr+='<td class="lamp leftborder'+cs['lamp_class']+'"><span style="display:none">'+cs['lamp']+'</span></td>'
-		tr+='<td class="bp'+cs['bp_class']+cs['lamp_class']+'">'+cs['bp']+'</td>'
-		tr+='<td class="score'+cs['lamp_class']+'"><div class="'+cs['score_class']+'" style="width:'+cs['score_rate']+'">&nbsp;'+cs['score_rate']+cs['score']+'</div></td>'
-		tr+='<td class="ranking rightborder'+cs['ranking_class']+cs['lamp_class']+'">'+cs['ranking']+'</td>'
-		tr+='<td class="playedN rightborder'+cs['playedN_class']+'" hash="'+song['hash']+'">'+cs['playedN']+'</td>'
+		tr='<tr>'
+		tr+='<td class="level leftborder">%s</td>'%(str(cnt))
+		tr+='<td class="title"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5=%s">%s</a></td>'%(song['hash'],GlobalTools.convertHTMLEntities(song['title']))
+		tr+='<td class="lamp leftborder%s"><span style="display:none">%s</span></td>'%(cs['lamp_class'],cs['lamp'])
+		tr+='<td class="bp%s%s">%s</td>'%(cs['bp_class'],cs['lamp_class'],cs['bp'])
+		tr+='<td class="score%s"><div class="%s" style="width:%s">&nbsp;%s%s</div></td>'%(cs['lamp_class'],cs['score_class'],cs['score_rate'],cs['score_rate'],cs['score'])
+		tr+='<td class="ranking rightborder%s%s">%s</td>'%(cs['ranking_class'],cs['lamp_class'],cs['ranking'])
+		tr+='<td class="playedN rightborder%s" hash="%s">%s</td>'%(cs['playedN_class'],song['hash'],cs['playedN'])
 		tr+='</tr>'
 		trs.append(tr)
 	if cnt==0: table='<div class="small-title">No recent records.</div>'
@@ -121,8 +120,7 @@ def handleRecentPage(headers):
 	pre_def='''
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/js/jquery.tablesorter.min.js"></script>
-		<style>'''+GlobalTools.webstyle+'''</style>
-	'''
+		<style>%s</style>'''%(GlobalTools.webstyle)
 	title=u'<div class="big-title">最近の遊び記録</div>'
 	loading='<div class="small-title" id="loading">Loading...</div>'
 	post_def='<script>var mode="recent";'+GlobalTools.webscript+'</script>'

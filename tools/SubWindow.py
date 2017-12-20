@@ -33,18 +33,18 @@ class AboutWindow(QtGui.QDialog):
 		self.setFixedSize(310,190)
 		self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint)
 		
-		str=''
-		str+='Thank you for using LR2 Rival Ranking!<br>'
-		str+='Current version: <font style="color:Gainsboro">'+GlobalTools.misc['version']+'</font><br>'
-		str+='<br>'
-		str+='Author: <font style="color:Gainsboro">Leo Shen</font><br>'
-		str+=u'LR2IR: <font style="color:Gainsboro">うまい焼鴨 (<a href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168" style="color:Khaki">121168</a>)</font><br>'
-		str+='Homepage: <a href="https://github.com/leoshen999/LR2RivalRanking" style="color:Khaki">GitHub</a><br>'
-		str+='<br>'
-		str+='Please contact us if having any question.'
+		aboutme=u'''
+		Thank you for using LR2 Rival Ranking!<br>
+		Current version: <font style="color:Gainsboro">%s</font><br>
+		<br>
+		Author: <font style="color:Gainsboro">Leo Shen</font><br>
+		LR2IR: <font style="color:Gainsboro">うまい焼鴨 (<a href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=121168" style="color:Khaki">121168</a>)</font><br>
+		Homepage: <a href="https://github.com/leoshen999/LR2RivalRanking" style="color:Khaki">GitHub</a><br>
+		<br>
+		Please contact us if having any question.'''%(GlobalTools.misc['version'])
 		
 		
-		self.label=QtGui.QLabel(str,self)
+		self.label=QtGui.QLabel(aboutme,self)
 		self.label.setOpenExternalLinks(True)
 		self.label.setGeometry(10,10,290,170)
 	def closeEvent(self, event):

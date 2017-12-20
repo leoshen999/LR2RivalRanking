@@ -48,9 +48,9 @@ def generateRankingXML(hash,toPrint=False):
 		title,artist=WebpageParser.getTitleAndArtist(hash)
 		with GlobalTools.logLock:
 			if title:
-				GlobalTools.logger.write('<div class="one-row"><span class="title"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5='+hash+'">'+GlobalTools.convertHTMLEntities(title)+'</a></span></div>')
+				GlobalTools.logger.write('<div class="one-row"><span class="title"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5=%s">%s</a></span></div>'%(hash,GlobalTools.convertHTMLEntities(title)))
 			if artist:
-				GlobalTools.logger.write('<div class="one-row"><span class="title"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5='+hash+'">'+GlobalTools.convertHTMLEntities(artist)+'</a></span></div>')
+				GlobalTools.logger.write('<div class="one-row"><span class="title"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&amp;bmsmd5=%s">%s</a></span></div>'%(hash,GlobalTools.convertHTMLEntities(artist)))
 			cnt=0
 			prev_ex=99999999
 			prev_num=0
@@ -60,7 +60,7 @@ def generateRankingXML(hash,toPrint=False):
 				temp=''
 				if score['active'] == 2:
 					temp=' pid'
-				rank_name='<span class="rank-name'+temp+'"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&amp;playerid='+str(score['id'])+'">'+GlobalTools.convertHTMLEntities(score['name'])+'</a></span>'
+				rank_name='<span class="rank-name%s"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&amp;playerid=%s">%s</a></span>'%(temp,str(score['id']),GlobalTools.convertHTMLEntities(score['name']))
 				
 				
 				ex=score['pg']*2+score['gr']
@@ -74,7 +74,7 @@ def generateRankingXML(hash,toPrint=False):
 				else:
 					temp=''
 					if prev_num == 1: temp=' TOP1'
-					rank_num = '<span class="rank-num'+temp+'">'+str(prev_num)+'</span>'
+					rank_num = '<span class="rank-num%s">%s</span>'%(temp,str(prev_num))
 					
 					temp=''
 					if score['clear'] == 1: temp=' FA'
@@ -82,7 +82,7 @@ def generateRankingXML(hash,toPrint=False):
 					elif score['clear'] == 3: temp=' CL'
 					elif score['clear'] == 4: temp=' HC'
 					elif score['clear'] == 5: temp=' FC'
-					rank_clear = '<span class="rank-clear'+temp+'">'+temp+'</span>'
+					rank_clear = '<span class="rank-clear%s">%s</span>'%(temp,temp)
 					
 					total=score['notes']*2
 					temp=''
@@ -93,7 +93,7 @@ def generateRankingXML(hash,toPrint=False):
 					else: temp='BF'
 					
 					ex_rate='%.2f%%'%(float(ex)/float(total)*100.0)
-					rank_score = '<span class="rank-score"><div class="'+temp+'" style="width:'+ex_rate+'">&nbsp;'+ex_rate+'&nbsp;('+str(ex)+')</div></span>'
+					rank_score = '<span class="rank-score"><div class="%s" style="width:%s">&nbsp;%s&nbsp;(%s)</div></span>'%(temp,ex_rate,ex_rate,str(ex))
 					
 				GlobalTools.logger.write('<div class="one-row">'+rank_num+rank_name+rank_clear+rank_score+'</div>')
 			GlobalTools.logger.write('<div class="one-row"><hr></div>')

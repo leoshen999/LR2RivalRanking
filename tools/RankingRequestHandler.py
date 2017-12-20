@@ -142,13 +142,13 @@ def handleRankingRequest(q_dict):
 			rr+='<tbody>'
 			for s in scores:
 				rr+='<tr>'
-				rr+='<td class="ranking leftborder'+s['ranking_class']+'">'+s['ranking']+'</td>'
-				rr+='<td class="name'+s['name_class']+'"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid='+s['id']+'">'+s['name']+'</a></td>'
-				rr+='<td class="lamp leftborder'+s['lamp_class']+'"><span style="display:none">'+s['lamp']+'</span></td>'
-				rr+='<td class="bp'+s['bp_class']+s['lamp_class']+'">'+s['bp']+'</td>'
-				rr+='<td class="bpdiff'+s['bpdiff_class']+s['lamp_class']+'">'+s['bpdiff']+'</td>'
-				rr+='<td class="score'+s['lamp_class']+'"><div class="'+s['score_class']+'" style="width:'+s['score_rate']+'">&nbsp;'+s['score_rate']+s['score']+'</div></td>'
-				rr+='<td class="scorediff rightborder'+s['scorediff_class']+s['lamp_class']+'">'+s['scorediff']+'</td>'
+				rr+='<td class="ranking leftborder%s">%s</td>'%(s['ranking_class'],s['ranking'])
+				rr+='<td class="name%s"><a target="_blank" href="http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=mypage&playerid=%s">%s</a></td>'%(s['name_class'],s['id'],s['name'])
+				rr+='<td class="lamp leftborder%s"><span style="display:none">%s</span></td>'%(s['lamp_class'],s['lamp'])
+				rr+='<td class="bp%s%s">%s</td>'%(s['bp_class'],s['lamp_class'],s['bp'])
+				rr+='<td class="bpdiff%s%s">%s</td>'%(s['bpdiff_class'],s['lamp_class'],s['bpdiff'])
+				rr+='<td class="score%s"><div class="%s" style="width:%s">&nbsp;%s%s</div></td>'%(s['lamp_class'],s['score_class'],s['score_rate'],s['score_rate'],s['score'])
+				rr+='<td class="scorediff rightborder%s%s">%s</td>'%(s['scorediff_class'],s['lamp_class'],s['scorediff'])
 				rr+='</tr>'
 			rr+='</tbody></table>'
 		except Exception as e: rr='<div class="small-title">Failed to load data.</div>'
